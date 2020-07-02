@@ -1,13 +1,13 @@
 <template>
   <div class="container-fluid mt-3">    
-    <md-table v-model="buscados" md-sort="name" md-sort-order="asc" md-card md-fixed-header>
+    <md-table v-model="buscados" md-sort="name" md-sort-order="asc" md-card md-fixed-header @md-selected="onSelect">
       <md-table-toolbar>
         <div class="md-toolbar-section-start">
-          <h1 class="md-title">Estados</h1>
+          <h1 class="md-title text-primary">Estados</h1>
         </div>
 
         <md-field md-clearable class="md-toolbar-section-end">
-          <md-input placeholder="Search by name..." v-model="busqueda" @input="buscarEnTabla" />
+          <md-input class = "text-primary" placeholder="Buscar Estado..." v-model="busqueda" @input="buscarEnTabla" />
         </md-field>
       </md-table-toolbar>
 
@@ -15,18 +15,24 @@
         md-label="No hay Estados" >        
       </md-table-empty-state>
 
-      <md-table-row slot="md-table-row" slot-scope="{ item }">
-        <md-table-cell md-label="Id Estado" md-sort-by="id_estado">{{ item.ID_ESTADO }}</md-table-cell>
-        <md-table-cell md-label="Descripcion" md-sort-by="descripcion">{{ item.DESCRIPCION }}</md-table-cell>
+      <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single" class="md-primary">
+        <md-table-cell  md-label="Id Estado" md-sort-by="ID_ESTADO">{{ item.ID_ESTADO }}</md-table-cell>
+        <md-table-cell  md-label="Descripcion" md-sort-by="DESCRIPCION">{{ item.DESCRIPCION | primeraMayuscula}}</md-table-cell>
       </md-table-row>      
     </md-table>
-    <div class="mt-3">
-      <md-button class="md-fab md-primary md-mini">
+    <div class="mt-3 d-flex justify-content-center">
+      <md-button class="md-fab md-primary md-mini" @click="nuevoEstado()">
         <md-icon>add</md-icon>
       </md-button>
-    </div>  
+    </div> 
+    <div class="mt-3 d-flex justify-content-center">
+      <p>Selected:</p>
+      {{ selected }} 
+    </div>
 
   </div>
+
+
 </template>
 
 <script lang="js">
@@ -57,7 +63,8 @@
       return {        
         busqueda: null,
         buscados: [],
-        estados: []       
+        estados: [],
+        selected: {}       
 
       }
     },
@@ -80,6 +87,9 @@
       nuevoEstado () {
         window.alert('Noop')
       },
+      onSelect (item) {
+        this.selected = item
+      }
 
 
     },
@@ -92,7 +102,5 @@
 </script>
 
 <style scoped lang="css">
-  .src-components-estados {
 
-  }
 </style>

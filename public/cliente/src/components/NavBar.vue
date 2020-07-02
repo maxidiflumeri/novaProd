@@ -13,7 +13,7 @@
           <a class="text-white" href="#">Productos</a>
         </router-link>       
       </md-button>
-      <md-menu mdCloseOnClick="true" md-size="medium" md-align-trigger>
+      <md-menu :mdCloseOnClick="click" md-size="medium" md-align-trigger>
         <md-button md-menu-trigger>Administracion</md-button>
         <md-menu-content>
           <router-link to="/Estados">
@@ -79,6 +79,7 @@
       return {
         productoSeleccionado: null,
         productos: [],
+        click: true
 
       }
     },
