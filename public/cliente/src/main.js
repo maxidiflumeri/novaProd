@@ -6,7 +6,7 @@ import './httpClient'
 import './forms'
 import './filters'
 import './vueMaterials'
-import router from './routers'
+import{router} from './routers'
 import store from './store'
 
 
