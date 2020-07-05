@@ -13,7 +13,7 @@
           <a class="text-white" href="#">Productos</a>
         </router-link>       
       </md-button>
-      <md-menu :mdCloseOnClick="click" md-size="medium" md-align-trigger>
+      <md-menu v-if="this.$store.state.perfil" :mdCloseOnClick="click" md-size="medium" md-align-trigger>
         <md-button md-menu-trigger>Administracion</md-button>
         <md-menu-content>
           <router-link to="/Estados">
@@ -47,24 +47,32 @@
       >        
         <label>Buscar Producto...</label>
       </md-autocomplete>
-      <md-button>        
+      <md-button v-if="!this.$store.state.token">        
         <router-link to="/Login">
           <a class="text-white" href="#">Login</a>
         </router-link>       
       </md-button>
+      <md-menu v-else :mdCloseOnClick="click" md-size="medium" md-align-trigger>
+        <md-button md-menu-trigger>Mi Cuenta</md-button>
+        <md-menu-content>
+          <router-link to="/miPerfil">
+            <a class="text-white" href="#"><md-menu-item>Mi Perfil</md-menu-item></a>
+          </router-link>  
+          <router-link to="/misPedidos">
+            <a class="text-white" href="#"><md-menu-item>Mis Pedidos</md-menu-item></a>
+          </router-link>  
+          <router-link to="/">
+            <a class="text-white" href="#"><md-menu-item @click="logout">Logout</md-menu-item></a>
+          </router-link>                           
+        </md-menu-content>
+      </md-menu>
       <md-button>  
         <router-link to="/MiCarrito">
           <a class="text-white" href="#"><md-icon>add_shopping_cart</md-icon></a>
-        </router-link>       
-        
+        </router-link>            
       </md-button>
-      
-
     </md-toolbar>
-
-
   </section>
-
 </template>
 
 <script lang="js">
@@ -73,18 +81,21 @@
     name: 'src-components-nav-bar',
     props: [],
     mounted () {
-
+      
     },
     data () {
       return {
         productoSeleccionado: null,
         productos: [],
         click: true
-
       }
     },
     methods: {
-
+      logout(){
+        localStorage.removeItem('token')
+        localStorage.removeItem('perfil')
+        this.$store.dispatch('logout')
+      }
     },
     computed: {
 

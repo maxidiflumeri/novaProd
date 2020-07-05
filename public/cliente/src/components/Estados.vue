@@ -55,23 +55,31 @@
   export default  {
     name: 'src-components-estados',
     props: [],
-    created () {
-      this.getEstados() 
-
+    mounted () {
+      if(this.$store.state.token){
+        this.getEstados()
+      }
+      else{
+        this.$router.push({path: '/login'})
+      }
     },
     data () {
       return {        
         busqueda: null,
         buscados: [],
         estados: [],
-        selected: {}       
+        selected: {}     
 
       }
     },
     methods: {
       getEstados() {
-        this.axios.get(url.url + url.urlEstados)
-        .then( res => {         
+        this.axios.get(url.url + url.urlEstados, {
+          headers:
+            {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}
+          
+          })
+          .then( res => {         
           this.buscados = res.data 
           this.estados = res.data
           console.log(this.buscados)  

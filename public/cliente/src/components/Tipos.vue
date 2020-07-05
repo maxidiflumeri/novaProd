@@ -56,21 +56,29 @@
     name: 'src-components-tipos',
     props: [],
     mounted () {
-      this.getTipos()
+      if(this.$store.state.token){
+        this.getTipos()
+      }
+      else{
+        this.$router.push({path: '/login'})
+      }
     },
     data () {
       return {
         busqueda: null,
         buscados: [],
         tipos: [],
-        selected: {}   
+        selected: {}  
 
       }
     },
     methods: {
       getTipos() {
-        this.axios.get(url.url + url.urlTipos)
-        .then( res => {         
+        this.axios.get(url.url + url.urlTipos, {
+          headers:
+            {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}
+          })
+          .then( res => {         
           this.buscados = res.data 
           this.tipos = res.data
           console.log(this.buscados)  

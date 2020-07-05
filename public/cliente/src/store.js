@@ -5,23 +5,26 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state : {
-        estaLogueado: 0      
+        token: null,
+        perfil: null
     },
     actions : {
-        login({commit}, estado) {
-            commit('login', estado)
+        login({commit}, data) {
+            commit('login', data)
         },
-        logout({commit}, estado) {
-            commit('logout', estado)
+        logout({commit}) {
+            commit('logout')
         },
 
     },
     mutations : {
-        login(state, estado) {
-            state.estaLogueado = estado           
+        login(state, data) {
+            state.token = data.token
+            state.perfil = data.perfil
         },
-        logout(state, estado){
-            state.estaLogueado = estado 
+        logout(state){
+            state.token = null
+            state.perfil = null
         }
     }
 })

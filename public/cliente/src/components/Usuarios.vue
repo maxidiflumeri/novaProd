@@ -59,26 +59,28 @@
     name: 'src-components-usuarios',
     props: [],
     mounted () {
-      this.getUsuarios()
-      localStorage.setItem('persona',JSON.stringify(this.objeto))
-      console.log(JSON.parse(localStorage.getItem('persona')))
+      if(this.$store.state.token){
+        this.getUsuarios()
+      }
+      else{
+        this.$router.push({path: '/login'})
+      }
+      
     },
     data () {
       return {
         busqueda: null,
         buscados: [],
         usuarios: [],
-        selected: {},   
-        objeto: {
-          'nombre' : 'Maxi',
-          'apellido' : 'Di Flumeri'
-        }
-
+        selected: {}
       }
     },
     methods: {
       getUsuarios() {
-        this.axios.get(url.url + url.urlUsuarios)
+        this.axios.get(url.url + url.urlUsuarios, {
+          headers:
+            {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}
+          })
         .then( res => {         
           this.buscados = res.data 
           this.usuarios = res.data

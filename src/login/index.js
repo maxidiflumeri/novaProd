@@ -11,7 +11,8 @@ router.post("/", (req, res) => {
             jwt.sign({user}, 'claveSecreta', (err, token) =>{
                 res.send({
                     token ,
-                    id_usuario: user[0].ID_USUARIO               
+                    id_usuario: user[0].ID_USUARIO,
+                    perfil: user[0].ADMINISTRADOR       
                 })
             })       
         }else{

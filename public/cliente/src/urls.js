@@ -6,7 +6,8 @@ const urlUsuarios = '/api/usuarios'
 const urlProductos = '/api/productos'
 const urlDirecciones = '/api/direcciones'
 const urlTelefonos = '/api/telefonos'
-const url = process.env.NODE_ENV === 'production'? '': 'http://localhost:3000'
+const urlLogin = '/api/login'
+const url = process.env.NODE_ENV === 'production'? '': 'http://localhost:5000'
 
 export default{
     urlEstados,
@@ -17,5 +18,6 @@ export default{
     urlProductos,
     urlDirecciones,
     urlTelefonos,
+    urlLogin,
     url
 }

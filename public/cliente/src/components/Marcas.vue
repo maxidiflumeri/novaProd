@@ -55,21 +55,29 @@
     name: 'src-components-marcas',
     props: [],
     mounted () {
-      this.getMarcas()
-
+      if(this.$store.state.token){
+        this.getMarcas()
+      }
+      else{
+        this.$router.push({path: '/login'})
+      }
+      
     },
     data () {
       return {
         busqueda: null,
         buscados: [],
         marcas: [],
-        selected: {}   
+        selected: {}
 
       }
     },
     methods: {
       getMarcas() {
-        this.axios.get(url.url + url.urlMarcas)
+        this.axios.get(url.url + url.urlMarcas, {
+          headers:
+            {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}
+          })
         .then( res => {         
           this.buscados = res.data 
           this.marcas = res.data
