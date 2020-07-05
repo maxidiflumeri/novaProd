@@ -54,12 +54,43 @@ function mensajeSinResultados(){
     }
 }
 
+function mensajeFallaLogin(){
+    return{
+        "estado": 200,
+        "mensaje": "Usuario o clave incorrecta."
+    }
+}
+
+function mensajeRutaNoAutorizada(authData) {
+    return{
+        "estado": 403,
+        "mensaje": "Usuario no autorizado para acceder a esta ruta",
+        "authData": authData
+    }    
+}
+
+function tokenInexistente(){
+    return{
+        "estado": 403,
+        "mensaje": "Token Inexistente."
+    }
+}
+
+function tokenInvalido(){
+    return{
+        "estado": 403,
+        "mensaje": "Token inválido."
+    }
+}
+
 function mensajeCustom(estado, mensaje){
     return{
         "estado": estado,
         "mensaje": mensaje
     }
 }
+
+
 
 export default {    
     errorBody,
@@ -70,5 +101,9 @@ export default {
     mensajePut,
     mensajeDelete,
     mensajeSinResultados,
-    mensajeCustom
+    mensajeCustom,
+    mensajeFallaLogin,
+    mensajeRutaNoAutorizada,
+    tokenInvalido,
+    tokenInexistente    
 }
