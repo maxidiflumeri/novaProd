@@ -25,6 +25,6 @@ export default {
   color: #2c3e50;
 }
 body{
-  background: #181c20 !important;
+  background: #222831 !important;
 }
 </style>

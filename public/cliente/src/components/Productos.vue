@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid mt-3">    
-    <md-table v-model="buscados" md-sort="name" md-sort-order="asc" md-card md-fixed-header @md-selected="onSelect">
+    <md-table class="eze" v-model="buscados" md-sort="name" md-sort-order="asc" md-card md-fixed-header @md-selected="onSelect">
       <md-table-toolbar>
         <div class="md-toolbar-section-start">
           <h1 class="md-title text-primary">Productos</h1>
@@ -15,7 +15,7 @@
         md-label="No hay Estados" >        
       </md-table-empty-state>
 
-      <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single" class="md-primary">
+      <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single" class="eze">
         <md-table-cell  md-label="Id Producto" md-sort-by="ID_PRODUCTO">{{ item.ID_PRODUCTO }}</md-table-cell>
         <md-table-cell  md-label="Modelo" md-sort-by="MODELO">{{ item.MODELO | primeraMayuscula}}</md-table-cell>
         <md-table-cell  md-label="Descripcion" md-sort-by="DESCRIPCION">{{ item.DESCRIPCION | primeraMayuscula}}</md-table-cell>        
@@ -104,5 +104,11 @@
 <style scoped lang="css">
   .src-components-productos {
 
+  }
+  .eze{
+    background: darkgray;
+  }
+  md-table-row md-table-cell{
+    color:white !important;
   }
 </style>

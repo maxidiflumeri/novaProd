@@ -56,7 +56,7 @@ function mensajeSinResultados(){
 
 function mensajeFallaLogin(){
     return{
-        "estado": 200,
+        "estado": 400,
         "mensaje": "Usuario o clave incorrecta."
     }
 }
