@@ -1,7 +1,7 @@
 <template >
   <section class="src-components-nav-bar">
     <md-toolbar class="md-primary" md-elevation="1">
-      <h3 class="md-title">NOVA Suplies</h3>
+      <h3 class="md-title">NovaGaming</h3>
       <md-button>
         <router-link to="/Inicio">
           <a class="text-white" href="#">Inicio</a>
@@ -60,7 +60,7 @@
         md-layout="box"
         style="width: 30%"
       >
-        <label>Buscar Producto...</label>
+        <label class="">Buscar Producto...</label>
       </md-autocomplete>
       <md-button v-if="!this.$store.state.token">
         <router-link to="/Login">
@@ -131,4 +131,5 @@
 <style scoped lang="css">
 .src-components-nav-bar {
 }
+
 </style>

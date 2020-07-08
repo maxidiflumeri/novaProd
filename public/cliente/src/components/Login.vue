@@ -4,7 +4,7 @@
       <vue-form :state="formState" @submit.prevent="enviar()">
         <md-card class="md-layout-item md-elevation-12 eze">
           <md-card-header>
-            <div class="md-title">NovaGaming</div>
+            <div class="md-title d-flex justify-content-center">NovaGaming</div>
             <div class="md-body-1">Para que comprar mañana lo que puedes comprar hoy.</div>
           </md-card-header>
 
@@ -38,9 +38,9 @@
 
           <div v-if="error" class="alert alert-danger">Usuario o clave incorrecta</div>
 
-          <md-card-actions class="d-flex justify-content-center">
-            <md-button type="submit" class="max">Login</md-button>
-          </md-card-actions>
+          <div class="d-flex justify-content-center">
+            <md-button type="submit" class="md-raised">LOGIN</md-button>
+          </div>
 
           <md-card-actions class="d-flex justify-content-center">
             ¿Aún no tenés cuenta?
