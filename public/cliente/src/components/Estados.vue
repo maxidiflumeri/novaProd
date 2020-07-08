@@ -55,7 +55,7 @@
                   <md-button class="md-fab md-mini bg-warning" @click="editar()">
                     <md-icon>edit</md-icon>                    
                   </md-button>
-                  <md-button class="md-fab md-mini md-plain" @click="eliminarEstado(seleccionadoTemp)" >
+                  <md-button class="md-fab md-mini md-plain" @click="ventanaModal()" >
                     <md-icon>delete</md-icon>                    
                   </md-button>
                 </div>
@@ -73,6 +73,14 @@
         </md-card>
       </form>
     </div>
+    <md-dialog-confirm
+      :md-active.sync="activo"
+      md-title="Atencion"
+      md-content="¿Esta Seguro que desea eliminar el Estado?"
+      md-confirm-text="Aceptar"
+      md-cancel-text="Cancelar"
+      @md-cancel="onCancel"
+      @md-confirm="onConfirm(seleccionadoTemp)" />
   </div>
 
 
@@ -117,7 +125,8 @@
         estaSeleccionado: false,
         claseCard: 'md-layout-item md-size-100 md-small-size-100 color',
         estaEditando: false,
-        seleccionadoTemp: {}     
+        seleccionadoTemp: {},
+        activo: false     
 
       }
     },
@@ -208,6 +217,17 @@
           console.log('ERROR GET HTTP', error)
         })
 
+      },
+
+      onConfirm (estadoDel) {
+        this.eliminarEstado(estadoDel)        
+      },
+      onCancel () {
+        this.activo = false
+      },
+
+      ventanaModal(){
+        this.activo = true
       }
 
 
