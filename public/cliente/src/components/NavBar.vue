@@ -1,15 +1,15 @@
 <template >
   <section class="src-components-nav-bar">
-    <md-toolbar class="md-primary" md-elevation="1">
-      <h3 class="md-title">NovaGaming</h3>
+    <md-toolbar class="fondo" md-elevation="1">
+      <h3 class="colorLetrasNav" md-title>NovaGaming</h3>
       <md-button>
         <router-link to="/Inicio">
-          <a class="text-white" href="#">Inicio</a>
+          <a class="colorLetrasNav" href="#">Inicio</a>
         </router-link>
       </md-button>
       <md-button>
         <router-link to="/Productos">
-          <a class="text-white" href="#">Productos</a>
+          <a class="colorLetrasNav" href="#">Productos</a>
         </router-link>
       </md-button>
       <md-menu
@@ -18,7 +18,7 @@
         md-size="medium"
         md-align-trigger
       >
-        <md-button md-menu-trigger>Administracion</md-button>
+        <md-button class="colorLetrasNav" md-menu-trigger>Administracion</md-button>
         <md-menu-content>
           <router-link to="/Estados">
             <a class="text-white" href="#">
@@ -64,11 +64,11 @@
       </md-autocomplete>
       <md-button v-if="!this.$store.state.token">
         <router-link to="/Login">
-          <p class="text-white">Login</p>
+          <p class="colorLetrasNav">Login</p>
         </router-link>
       </md-button>
       <md-menu v-else :mdCloseOnClick="click" md-size="medium" md-align-trigger>
-        <md-button md-menu-trigger>Mi Cuenta</md-button>
+        <md-button class="colorLetrasNav" md-menu-trigger>Mi Cuenta</md-button>
         <md-menu-content>
           <router-link to="/miPerfil">
             <a class="text-white" href="#">
@@ -90,7 +90,7 @@
       <md-button>
         <router-link to="/MiCarrito">
           <md-badge md-content="0" md-dense>
-            <md-icon>add_shopping_cart</md-icon>
+            <md-icon  class="colorLetrasNav">add_shopping_cart</md-icon>
           </md-badge>
         </router-link>
       </md-button>
@@ -130,6 +130,14 @@
 
 <style scoped lang="css">
 .src-components-nav-bar {
+}
+
+.fondo{
+  background: #1D1B38 !important;
+}
+
+.colorLetrasNav{
+  color: white !important;
 }
 
 </style>
