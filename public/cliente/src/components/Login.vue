@@ -1,11 +1,15 @@
 <template>
-  <div class="container mt-3">
+  <div class="container mt-3" style="width: 35%">
     <div class="d-flex justify-content-center">
       <vue-form :state="formState" @submit.prevent="enviar()">
         <md-card class="md-layout-item md-elevation-12 eze">
           <md-card-header>
-            <div class="md-title d-flex justify-content-center">NovaGaming</div>
-            <div class="md-body-1">Para que comprar mañana lo que puedes comprar hoy.</div>
+            <div>
+              <img src="../assets/Nova.png" alt="logo" width="30%" class="mx-auto d-block md-title mb-3">   
+            </div>      
+            <div class="md-body-1 d-flex justify-content-center">
+              <h6 class="colorLetra"><strong>Para que comprar mañana lo que puedes comprar hoy.</strong></h6>
+            </div>
           </md-card-header>
 
           <md-card-content>
@@ -126,7 +130,7 @@
   color: white !important;
 }
 
-.colorSpinner{
+.colorLetra{
   color: #1D1B38 !important;
 }
 </style>

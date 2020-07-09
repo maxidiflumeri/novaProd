@@ -3,37 +3,42 @@
     <!-- -------------------------------------------------------------------------------------------------------------------- -->    
     <!------------------------- Creacion de la tabla que muestra los resultados ------------------------------------------------>
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
-    <md-table class="color" v-model="buscados" md-sort="name" md-sort-order="asc" md-card md-fixed-header @md-selected="onSelect">
-      <md-table-toolbar>
-        <div class="md-toolbar-section-start">
-          <h1 class="md-title colorTitulo">Estados</h1>
-        </div>
+    <div v-if="cargando" class="loading-overlay d-flex justify-content-center">
+      <md-progress-spinner class="colorSpinner" md-mode="indeterminate" :md-diameter="50" :md-stroke="5"></md-progress-spinner>
+    </div>
+    <div v-else>
+      <md-table class="color" v-model="buscados" md-sort="name" md-sort-order="asc" md-card md-fixed-header @md-selected="onSelect">
+        <md-table-toolbar>
+          <div class="md-toolbar-section-start">
+            <h1 class="md-title colorTitulo">Estados</h1>
+          </div>
 
-        <md-field md-clearable class="md-toolbar-section-end">
-          <md-input class = "text-primary" placeholder="Buscar Estado..." v-model="busqueda" @input="buscarEnTabla" />
-        </md-field>
-      </md-table-toolbar>
+          <md-field md-clearable class="md-toolbar-section-end">
+            <md-input class = "text-primary" placeholder="Buscar Estado..." v-model="busqueda" @input="buscarEnTabla" />
+          </md-field>
+        </md-table-toolbar>
 
-      <md-table-empty-state
-        md-label="No hay Estados" >        
-      </md-table-empty-state>
+        <md-table-empty-state
+          md-label="No hay estados" >        
+        </md-table-empty-state>
 
-      <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single" class="color">
-        <md-table-cell  md-label="Id Estado" md-sort-by="ID_ESTADO">{{ item.ID_ESTADO }}</md-table-cell>
-        <md-table-cell  md-label="Descripcion" md-sort-by="DESCRIPCION">{{ item.DESCRIPCION | primeraMayuscula}}</md-table-cell>
-      </md-table-row>      
-    </md-table>
-    <!-- -------------------------------------------------------------------------------------------------------------------- -->    
-    <!-------------------------------- Botones de creacion y actualizacion ----------------------------------------------------->
-    <!-- -------------------------------------------------------------------------------------------------------------------- -->
-    <div class="mt-3 d-flex justify-content-center">
-      <md-button class="md-fab bg-success md-mini" @click="getEstados()">
-        <md-icon>refresh</md-icon>
-      </md-button>
-      <md-button class="md-fab md-primary md-mini" @click="mostrarNuevo()">
-        <md-icon>add</md-icon>
-      </md-button>
-    </div> 
+        <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single" class="color">
+          <md-table-cell  md-label="Id Estado" md-sort-by="ID_ESTADO">{{ item.ID_ESTADO }}</md-table-cell>
+          <md-table-cell  md-label="Descripcion" md-sort-by="DESCRIPCION">{{ item.DESCRIPCION | primeraMayuscula}}</md-table-cell>
+        </md-table-row>      
+      </md-table>
+      <!-- -------------------------------------------------------------------------------------------------------------------- -->    
+      <!-------------------------------- Botones de creacion y actualizacion ----------------------------------------------------->
+      <!-- -------------------------------------------------------------------------------------------------------------------- -->
+      <div class="mt-3 d-flex justify-content-center">
+        <md-button class="md-fab bg-success md-mini" @click="getEstados()">
+          <md-icon>refresh</md-icon>
+        </md-button>
+        <md-button class="md-fab md-primary md-mini" @click="mostrarNuevo()">
+          <md-icon>add</md-icon>
+        </md-button>
+      </div> 
+    </div>
     <!-- -------------------------------------------------------------------------------------------------------------------- -->    
     <!-------------------------------- Card que muestra el detalle del elemento ------------------------------------------------>
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
@@ -187,7 +192,8 @@
         formState: {},
         formData: this.getDatosIniciales(),
         hayError: false,
-        mensajeError: ''          
+        mensajeError: '',
+        cargando: true            
 
       }
     },
@@ -217,6 +223,7 @@
           .then( res => {         
           this.buscados = res.data 
           this.estados = res.data
+          this.cargando = false
           console.log(this.buscados)  
         
         })
