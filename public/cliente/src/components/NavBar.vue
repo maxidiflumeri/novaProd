@@ -2,11 +2,9 @@
   <section class="src-components-nav-bar">
     <md-toolbar class="fondo" md-elevation="4" >
         <img src="../assets/Nova.png" alt="logo" width="5%" class=" mb-3">
-      <md-button>
-        <router-link to="/Inicio">
-          <a class="colorLetrasNav" href="#">Inicio</a>
-        </router-link>
-      </md-button>
+      <router-link to="/Inicio">
+          <md-button>Inicio</md-button>
+      </router-link>
       <router-link to="/Productos">
         <md-button class="colorLetrasNav">Productos</md-button>
       </router-link>

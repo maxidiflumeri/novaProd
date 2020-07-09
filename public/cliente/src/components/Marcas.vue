@@ -7,10 +7,10 @@
       <md-progress-spinner class="colorSpinner" md-mode="indeterminate" :md-diameter="50" :md-stroke="5"></md-progress-spinner>
     </div>    
     <div v-else>
-      <md-table  class="color" v-model="buscados" md-sort="name" md-sort-order="asc" md-card md-fixed-header @md-selected="onSelect">
+      <md-table v-model="buscados" md-sort="name" md-sort-order="asc" md-card md-fixed-header @md-selected="onSelect">
         <md-table-toolbar>
           <div class="md-toolbar-section-start">
-            <h1 class="md-title colorTitulo">Marcas</h1>
+            <h1 class="md-title">Marcas</h1>
           </div>
 
           <md-field md-clearable class="md-toolbar-section-end">
@@ -22,7 +22,7 @@
           md-label="No hay marcas" >        
         </md-table-empty-state>
 
-        <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single" class="color">
+        <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
           <md-table-cell  md-label="Id Marca" md-sort-by="ID_MARCA">{{ item.ID_MARCA }}</md-table-cell>
           <md-table-cell  md-label="Descripcion" md-sort-by="DESCRIPCION">{{ item.DESCRIPCION | primeraMayuscula}}</md-table-cell>      
 
@@ -178,7 +178,7 @@
         marcas: [],
         seleccionado: {},
         estaSeleccionado: false,
-        claseCard: 'md-layout-item md-size-100 md-small-size-100 color',
+        claseCard: 'md-layout-item md-size-100 md-small-size-100',
         estaEditando: false,
         seleccionadoTemp: {},
         activo: false,
@@ -241,7 +241,7 @@
           console.log("onselect "+this.estaSeleccionado)        
 
           this.estaEditando = false
-          this.claseCard = 'md-layout-item md-size-100 md-small-size-100 color' 
+          this.claseCard = 'md-layout-item md-size-100 md-small-size-100' 
         }else{
           this.estaSeleccionado = false
           this.estaEditando = false              
@@ -253,14 +253,14 @@
 
       // habilita el card para la edición del elemento
       habilitarEdicion(){        
-        this.claseCard = 'md-layout-item md-size-100 md-small-size-100' 
+        this.claseCard = 'md-layout-item md-size-100 md-small-size-100 color' 
         this.estaEditando = true
       },
 
       // cancela la edición del elemento
       cancelarEdicion(){
         this.estaEditando = false
-        this.claseCard = 'md-layout-item md-size-100 md-small-size-100 color' 
+        this.claseCard = 'md-layout-item md-size-100 md-small-size-100' 
         this.seleccionadoTemp = this.seleccionado   
         this.estaSeleccionado = false      
       },
@@ -345,7 +345,7 @@
 
 <style scoped lang="css">
   .color{
-    background: darkgray;
+    background: gray;
   }
 
   .colorTitulo{

@@ -10,7 +10,7 @@
       <md-table v-model="buscados" md-sort="name" md-sort-order="asc" md-card md-fixed-header @md-selected="onSelect">
         <md-table-toolbar>
           <div class="md-toolbar-section-start">
-            <h1 class="md-title colorTitulo">Estados</h1>
+            <h1 class="md-title">Estados</h1>
           </div>
 
           <md-field md-clearable class="md-toolbar-section-end">
@@ -225,8 +225,6 @@
           this.buscados = res.data 
           this.estados = res.data
           this.cargando = false
-          console.log(this.buscados)  
-        
         })
         .catch(error => {
           console.log('ERROR GET HTTP', error)
@@ -353,10 +351,4 @@
   background: grey;;
  
 }
-
-
-.colorTitulo{
-  color: #1D1B38 !important;
-}
-
 </style>
