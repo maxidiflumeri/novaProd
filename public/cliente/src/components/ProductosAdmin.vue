@@ -199,17 +199,41 @@
               <div class="container">
                 <md-field>
                   <validate tag="div">
-                    <label>Id Producto</label>
+                    <label>ID Tipo</label>
                     <md-input
-                      maxlength="1"
-                      name="ID_PRODUCTO"
-                      id="ID_PRODUCTO"
-                      v-model="formData.ID_PRODUCTO"
+                      maxlength="30"
+                      name="ID_TIPO"
+                      id="ID_TIPO"
+                      v-model="formData.ID_TIPO"
                       required
                     />
                   </validate>
                 </md-field>
                 <md-field>
+                  <validate tag="div">
+                    <label>ID Marca</label>
+                    <md-input
+                      maxlength="30"
+                      name="ID_MARCA"
+                      id="ID_MARCA"
+                      v-model="formData.ID_MARCA"
+                      required
+                    />
+                  </validate>
+                </md-field>
+                <md-field>
+                  <validate tag="div">
+                    <label>Modelo</label>
+                    <md-input
+                      maxlength="30"
+                      name="MODELO"
+                      id="MODELO"
+                      v-model="formData.MODELO"
+                      required
+                    />
+                  </validate>
+                </md-field>
+                 <md-field>
                   <validate tag="div">
                     <label>Descripcion</label>
                     <md-input
@@ -221,7 +245,79 @@
                     />
                   </validate>
                 </md-field>
-              </div>
+                 <md-field>
+                  <validate tag="div">
+                    <label>Precio</label>
+                    <md-input
+                      maxlength="30"
+                      name="PRECIO"
+                      id="PRECIO"
+                      v-model="formData.PRECIO"
+                      required
+                    />
+                  </validate>
+                </md-field>
+                 <md-field>
+                  <validate tag="div">
+                    <label>Stock</label>
+                    <md-input
+                      maxlength="30"
+                      name="STOCK"
+                      id="STOCK"
+                      v-model="formData.STOCK"
+                      required
+                    />
+                  </validate>
+                </md-field>
+                 <md-field>
+                  <validate tag="div">
+                    <label>Cantidad de Visitas</label>
+                    <md-input
+                      maxlength="30"
+                      name="CANT_VISITAS"
+                      id="CANT_VISITAS"
+                      v-model="formData.CANT_VISITAS"
+                      required
+                    />
+                  </validate>
+                </md-field>
+                 <md-field>
+                  <validate tag="div">
+                    <label>FOTO 1</label>
+                    <md-input
+                      maxlength="30"
+                      name="FOTO1"
+                      id="FOTO1"
+                      v-model="formData.FOTO1"
+                      required
+                    />
+                  </validate>
+                </md-field>
+                 <md-field>
+                  <validate tag="div">
+                    <label>FOTO 2</label>
+                    <md-input
+                      maxlength="30"
+                      name="FOTO2"
+                      id="FOTO2"
+                      v-model="formData.FOTO2"
+                      required
+                    />
+                  </validate>
+                </md-field>
+                 <md-field>
+                  <validate tag="div">
+                    <label>FOTO 3</label>
+                    <md-input
+                      maxlength="30"
+                      name="FOTO3"
+                      id="FOTO3"
+                      v-model="formData.FOTO3"
+                      required
+                    />
+                  </validate>
+                  </md-field>
+            </div>
             </div>
           </md-card-content>
         </md-card>
