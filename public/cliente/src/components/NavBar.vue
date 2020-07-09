@@ -14,13 +14,13 @@
         v-if="this.$store.state.perfil"
         :mdCloseOnClick="click"
         md-size="medium"
-        md-align-trigger
+        md-align-trigger        
       >
         <md-button class="colorLetrasNav ml-3" md-menu-trigger>Administracion</md-button>
-        <md-menu-content class="fondoItem"> 
+        <md-menu-content> 
           <router-link to="/Estados">
             <a class="text-white" href="#">
-              <md-menu-item>Estados</md-menu-item>
+              <md-menu-item >Estados</md-menu-item>
             </a>
           </router-link>
           <router-link to="/Tipos">
@@ -140,5 +140,7 @@
 
 .fondoItem{
   background: #222831 !important;
+  background-color: #222831 !important;
+  color: #222831 !important;
 }
 </style>
