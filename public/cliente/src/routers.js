@@ -10,6 +10,7 @@ import MiPerfil from './components/MiPerfil.vue'
 import MisPedidos from './components/MisPedidos.vue'
 import Pedidos from './components/Pedidos.vue'
 import Productos from './components/Productos.vue'
+import ProductosAdmin from './components/ProductosAdmin.vue'
 import Tipos from './components/Tipos.vue'
 import Usuarios from './components/Usuarios.vue'
 
@@ -28,6 +29,7 @@ export const router = new VueRouter({
         {path: '/MisPedidos', component: MisPedidos},
         {path: '/Pedidos', component: Pedidos},
         {path: '/Productos', component: Productos},
+        {path: '/ProductosAdmin', component: ProductosAdmin},
         {path: '/Tipos', component: Tipos},
         {path: '/Usuarios', component: Usuarios}
     ]   

@@ -36,7 +36,7 @@
               <md-menu-item>Usuarios</md-menu-item>
             </a>
           </router-link>
-          <router-link to="/Productos">
+          <router-link to="/ProductosAdmin">
             <a class="text-white" href="#">
               <md-menu-item>Productos</md-menu-item>
             </a>

@@ -1,41 +1,53 @@
 <template>
-  <div class="container-fluid mt-3">    
-    <md-table class="eze" v-model="buscados" md-sort="name" md-sort-order="asc" md-card md-fixed-header @md-selected="onSelect">
-      <md-table-toolbar>
-        <div class="md-toolbar-section-start">
-          <h1 class="md-title text-primary">Productos</h1>
-        </div>
-
-        <md-field md-clearable class="md-toolbar-section-end">
-          <md-input class = "text-primary" placeholder="Buscar Producto..." v-model="busqueda" @input="buscarEnTabla" />
-        </md-field>
-      </md-table-toolbar>
-
-      <md-table-empty-state
-        md-label="No hay Estados" >        
-      </md-table-empty-state>
-
-      <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single" class="eze">
-        <md-table-cell  md-label="Id Producto" md-sort-by="ID_PRODUCTO">{{ item.ID_PRODUCTO }}</md-table-cell>
-        <md-table-cell  md-label="Modelo" md-sort-by="MODELO">{{ item.MODELO | primeraMayuscula}}</md-table-cell>
-        <md-table-cell  md-label="Descripcion" md-sort-by="DESCRIPCION">{{ item.DESCRIPCION | primeraMayuscula}}</md-table-cell>        
-        <md-table-cell  md-label="Precio" md-sort-by="PRECIO">{{ item.PRECIO }}</md-table-cell> 
-        <md-table-cell  md-label="Stock" md-sort-by="STOCK">{{ item.STOCK }}</md-table-cell> 
-        <md-table-cell  md-label="Fecha de ingreso" md-sort-by="FECHA_INGRESO">{{ item.FECHA_INGRESO | formatearFecha}}</md-table-cell> 
-      </md-table-row>      
-    </md-table>
-    <div class="mt-3 d-flex justify-content-center">
-      <md-button class="md-fab md-primary md-mini" @click="nuevoEstado()">
-        <md-icon>add</md-icon>
-      </md-button>
-    </div> 
-    <div class="mt-3 d-flex justify-content-center">
-      <p>Selected:</p>
-      {{ selected }} 
+  <div class="container-fluid mt-3">
+    <!-- -------------------------------------------------------------------------------------------------------------------- -->
+    <!------------------------- Creacion de la tabla que muestra los resultados ------------------------------------------------>
+    <!-- -------------------------------------------------------------------------------------------------------------------- -->
+    <div v-if="cargando" class="loading-overlay d-flex justify-content-center">
+      <md-progress-spinner
+        class="colorSpinner"
+        md-mode="indeterminate"
+        :md-diameter="50"
+        :md-stroke="5"
+      ></md-progress-spinner>
     </div>
+    <div v-else>
+      <md-table
+        v-model="buscados"
+        md-sort="name"
+        md-sort-order="asc"
+        md-card
+        md-fixed-header
+        @md-selected="onSelect"
+      >
+        <md-table-toolbar>
+          <div class="md-toolbar-section-start">
+            <h1 class="md-title">Productos</h1>
+          </div>
+          <md-field md-clearable class="md-toolbar-section-end">
+            <md-input
+              class="text-primary"
+              placeholder="Buscar Producto..."
+              v-model="busqueda"
+              @input="buscarEnTabla"
+            />
+          </md-field>
+        </md-table-toolbar>
 
+        <md-table-empty-state md-label="No hay productos"></md-table-empty-state>
+
+        <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
+          <md-table-cell md-label="Id Producto" md-sort-by="ID_PRODUCTO">{{ item.ID_PRODUCTO }}</md-table-cell>
+          <md-table-cell md-label="Modelo" md-sort-by="MODELO">{{ item.MODELO | primeraMayuscula}}</md-table-cell>
+          <md-table-cell
+            md-label="Descripcion"
+            md-sort-by="DESCRIPCION"
+          >{{ item.DESCRIPCION | primeraMayuscula}}</md-table-cell>
+          <md-table-cell md-label="Precio" md-sort-by="PRECIO">{{ item.PRECIO }}</md-table-cell>
+         </md-table-row>
+      </md-table>
+      </div>
   </div>
-
 </template>
 
 <script lang="js">
@@ -58,24 +70,27 @@
     name: 'src-components-productos',
     props: [],
     mounted () {
-      this.getEstados() 
+      this.getProductos() 
     },
     data () {
       return {
         busqueda: null,
         buscados: [],
         productos: [],
-        selected: {}   
+        selected: {},
+        cargando: true
 
       }
     },
     methods: {
-      getEstados() {
+      getProductos() {
+        this.cargando = true
         this.axios.get(url.url + url.urlProductos)
-        .then( res => {         
+        .then( res => {   
           this.buscados = res.data 
           this.productos = res.data
-          console.log(this.buscados)  
+          this.cargando = false
+          
         
         })
         .catch(error => {
@@ -102,13 +117,10 @@
 </script>
 
 <style scoped lang="css">
-  .src-components-productos {
+.src-components-productos {
+}
 
-  }
-  .eze{
-    background: darkgray;
-  }
-  md-table-row md-table-cell{
-    color:white !important;
-  }
+md-table-row md-table-cell {
+  color: white !important;
+}
 </style>
