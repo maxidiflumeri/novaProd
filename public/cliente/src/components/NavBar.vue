@@ -1,24 +1,25 @@
 <template >
   <section class="src-components-nav-bar">
     <md-toolbar class="fondo" md-elevation="4" >
-      <h3 class="colorLetrasNav" md-title>NovaGaming</h3>
+        <!-- <img src="../assets/Nova.png" alt="logo" width="5%" class=" mb-3">
       <md-button>
         <router-link to="/Inicio">
           <a class="colorLetrasNav" href="#">Inicio</a>
         </router-link>
-      </md-button>
-      <md-button>
-        <router-link to="/Productos">
-          <a class="colorLetrasNav" href="#">Productos</a>
-        </router-link>
-      </md-button>
+      </md-button> -->
+      <router-link to="/Inicio">
+        <md-button class="colorLetrasNav"><img src="../assets/Nova.png" alt="logo" width="5%"></md-button>
+      </router-link>
+      <router-link to="/Productos">
+        <md-button class="colorLetrasNav">Productos</md-button>
+      </router-link>
       <md-menu
         v-if="this.$store.state.perfil"
         :mdCloseOnClick="click"
         md-size="medium"
         md-align-trigger
       >
-        <md-button class="colorLetrasNav" md-menu-trigger>Administracion</md-button>
+        <md-button class="colorLetrasNav ml-3" md-menu-trigger>Administracion</md-button>
         <md-menu-content class="fondoItem"> 
           <router-link to="/Estados">
             <a class="text-white" href="#">
