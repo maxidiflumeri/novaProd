@@ -32,14 +32,14 @@
             </md-field>
           </md-card-content>
 
-          <div class="loading-overlay" v-if="cargando">
-            <md-progress-spinner md-mode="indeterminate" :md-stroke="2"></md-progress-spinner>
+          <div class="loading-overlay d-flex justify-content-center" v-if="cargando">
+            <md-progress-spinner class="colorSpinner" md-mode="indeterminate" :md-diameter="30" :md-stroke="5"></md-progress-spinner>
           </div>
 
           <div v-if="error" class="alert alert-danger">Usuario o clave incorrecta</div>
 
           <div class="d-flex justify-content-center">
-            <md-button type="submit" class="md-raised">LOGIN</md-button>
+            <md-button type="submit" class="md-raised colorBoton">LOGIN</md-button>
           </div>
 
           <md-card-actions class="d-flex justify-content-center">
@@ -119,5 +119,14 @@
 }
 .eze {
   background: darkgray;
+}
+
+.colorBoton{
+  background: #1D1B38 !important;
+  color: white !important;
+}
+
+.colorSpinner{
+  color: #1D1B38 !important;
 }
 </style>

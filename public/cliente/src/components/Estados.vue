@@ -6,7 +6,7 @@
     <md-table class="color" v-model="buscados" md-sort="name" md-sort-order="asc" md-card md-fixed-header @md-selected="onSelect">
       <md-table-toolbar>
         <div class="md-toolbar-section-start">
-          <h1 class="md-title text-primary">Estados</h1>
+          <h1 class="md-title colorTitulo">Estados</h1>
         </div>
 
         <md-field md-clearable class="md-toolbar-section-end">
@@ -343,6 +343,10 @@
 <style scoped lang="css">
 .color{
   background: darkgray;
+}
+
+.colorTitulo{
+  color: #1D1B38 !important;
 }
 
 </style>

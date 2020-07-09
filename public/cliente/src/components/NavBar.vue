@@ -1,6 +1,6 @@
 <template >
   <section class="src-components-nav-bar">
-    <md-toolbar class="fondo" md-elevation="1">
+    <md-toolbar class="fondo" md-elevation="4" >
       <h3 class="colorLetrasNav" md-title>NovaGaming</h3>
       <md-button>
         <router-link to="/Inicio">
@@ -19,7 +19,7 @@
         md-align-trigger
       >
         <md-button class="colorLetrasNav" md-menu-trigger>Administracion</md-button>
-        <md-menu-content>
+        <md-menu-content class="fondoItem"> 
           <router-link to="/Estados">
             <a class="text-white" href="#">
               <md-menu-item>Estados</md-menu-item>
@@ -64,11 +64,11 @@
       </md-autocomplete>
       <md-button v-if="!this.$store.state.token">
         <router-link to="/Login">
-          <p class="colorLetrasNav">Login</p>
+          <md-button class="colorLetrasNav">Login</md-button>
         </router-link>
       </md-button>
       <md-menu v-else :mdCloseOnClick="click" md-size="medium" md-align-trigger>
-        <md-button class="colorLetrasNav" md-menu-trigger>Mi Cuenta</md-button>
+        <md-button class="colorLetrasNav ml-3" md-menu-trigger>Mi Cuenta</md-button>
         <md-menu-content>
           <router-link to="/miPerfil">
             <a class="text-white" href="#">
@@ -140,4 +140,7 @@
   color: white !important;
 }
 
+.fondoItem{
+  background: #222831 !important;
+}
 </style>
