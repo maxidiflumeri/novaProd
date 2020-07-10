@@ -3,7 +3,7 @@
     <!-- -------------------------------------------------------------------------------------------------------------------- -->    
     <!------------------------- Creacion de la tabla que muestra los resultados ------------------------------------------------>
     <!-- -------------------------------------------------------------------------------------------------------------------- -->  
-    <div v-if="cargando" class="loading-overlay d-flex justify-content-center">
+    <div v-if="this.$store.state.cargandoTipos" class="loading-overlay d-flex justify-content-center">
       <md-progress-spinner class="colorSpinner" md-mode="indeterminate" :md-diameter="50" :md-stroke="5"></md-progress-spinner>
     </div>
     <div v-else>  
@@ -152,8 +152,6 @@
     if (valor) {
       return lista.filter(item => toLower(item.DESCRIPCION).includes(toLower(valor)))
     }
-    console.log(valor)
-
     return lista
   }
 
@@ -161,15 +159,17 @@
   export default  {
     name: 'src-components-tipos',
     props: [],
+
     mounted () {
+      
       this.estaSeleccionado = false
       this.estaEditando = false 
       if(this.$store.state.token){
-        this.getTipos()
+        this.getTipos()        
+      }else{     
+        this.$router.push({path: '/login'})          
       }
-      else{
-        this.$router.push({path: '/login'})
-      }
+
     },
     data () {
       return {
@@ -186,8 +186,7 @@
         formState: {},
         formData: this.getDatosIniciales(),
         hayError: false,
-        mensajeError: '',
-        cargando: true          
+        mensajeError: ''        
 
       }
     },
@@ -206,28 +205,15 @@
         }
       },
 
-      // metodo que trae todos los elementos
-      getTipos() {
-        this.axios.get(url.url + url.urlTipos, {
-          headers:
-            {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}
-          })
-          .then( res => {         
-          this.buscados = res.data 
-          this.tipos = res.data
-          this.$store.dispatch('actualizaTipos', res.data)
-          console.log(this.buscados) 
-          this.cargando = false 
-        
-        })
-        .catch(error => {
-          console.log('ERROR GET HTTP', error)
-        })
+      // metodo que trae todos los elementos 
+      async getTipos() {          
+        await this.$store.dispatch('actualizarTipos')
+        this.buscados = this.$store.state.listaTipos
+        // this.tipos = this.$store.state.listaTipos
       },
-
       // buscador de elemento en la tabla
       buscarEnTabla () {
-        this.buscados = buscarPorNombre(this.tipos, this.busqueda)
+        this.buscados = buscarPorNombre(this.$store.state.listaTipos, this.busqueda)
       },
 
       // seleccion de un elemento de la tabla que muestra el card con el detalle del elemento
@@ -238,18 +224,14 @@
             descripcion: item.DESCRIPCION            
           } 
           this.seleccionado = item          
-          this.estaSeleccionado = true          
-          console.log("onselect "+this.estaSeleccionado)        
-
+          this.estaSeleccionado = true  
           this.estaEditando = false
           this.claseCard = 'md-layout-item md-size-100 md-small-size-100' 
         }else{
           this.estaSeleccionado = false
           this.estaEditando = false              
             
-        }    
-        console.log(this.seleccionado) 
-         
+        }              
       },
 
       // habilita el card para la edición del elemento
@@ -273,12 +255,9 @@
             {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}          
           })
           .then( res => {  
-            console.log("respuesta: " + res.data)
             if(res.data.estado == 200){
-              console.log(res.data)
               this.getTipos()
             }else{
-              console.log(res.data)
               this.hayError = true
               this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
             }      
@@ -287,7 +266,7 @@
           console.log('ERROR GET HTTP', error)
         })
         this.estaEditando = false
-        this.claseCard = 'md-layout-item md-size-100 md-small-size-100 color' 
+        this.claseCard = 'md-layout-item md-size-100 md-small-size-100' 
       },
 
       // metodo que agrega el elemento
@@ -302,14 +281,12 @@
             }else{
               this.hayError = true
               this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
-            }   
-                                  
+            }                                     
         })
         .catch(error => {
           console.log('ERROR GET HTTP', error)
         })
         this.estaCreando = false
-
       },
 
       // metodo que elimina el elemento
@@ -322,7 +299,6 @@
             if(res.data.estado == 200){
               this.getTipos()
             }else{
-              console.log(res.data)
               this.hayError = true
               this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
             }                      

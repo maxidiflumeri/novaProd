@@ -3,7 +3,7 @@
     <!-- -------------------------------------------------------------------------------------------------------------------- -->    
     <!------------------------- Creacion de la tabla que muestra los resultados ------------------------------------------------>
     <!-- -------------------------------------------------------------------------------------------------------------------- -->  
-    <div v-if="cargando" class="loading-overlay d-flex justify-content-center">
+    <div v-if="this.$store.state.cargandoMarcas" class="loading-overlay d-flex justify-content-center">
       <md-progress-spinner class="colorSpinner" md-mode="indeterminate" :md-diameter="50" :md-stroke="5"></md-progress-spinner>
     </div>    
     <div v-else>
@@ -152,8 +152,6 @@
     if (valor) {
       return lista.filter(item => toLower(item.DESCRIPCION).includes(toLower(valor)))
     }
-    console.log(valor)
-
     return lista
   }
 
@@ -186,8 +184,8 @@
         formState: {},
         formData: this.getDatosIniciales(),
         hayError: false,
-        mensajeError: '',
-        cargando: true  
+        mensajeError: ''
+
 
       }
     },
@@ -207,22 +205,12 @@
       },  
 
       // metodo que trae todos los elementos    
-      getMarcas() {
-        this.axios.get(url.url + url.urlMarcas, {
-          headers:
-            {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}
-          })
-        .then( res => {         
-          this.buscados = res.data 
-          this.marcas = res.data
-          console.log(this.buscados)  
-          this.cargando = false        
-        })
-        .catch(error => {
-          console.log('ERROR GET HTTP', error)
-        })
-      },
+      async getMarcas() {      
+        await this.$store.dispatch('actualizarMarcas')
+        this.buscados = this.$store.state.listaMarcas
+        this.marcas = this.$store.state.listaMarcas
 
+      },
 
       // buscador de elemento en la tabla
       buscarEnTabla () {
@@ -237,18 +225,15 @@
             descripcion: item.DESCRIPCION            
           } 
           this.seleccionado = item          
-          this.estaSeleccionado = true          
-          console.log("onselect "+this.estaSeleccionado)        
-
+          this.estaSeleccionado = true   
           this.estaEditando = false
           this.claseCard = 'md-layout-item md-size-100 md-small-size-100' 
         }else{
           this.estaSeleccionado = false
           this.estaEditando = false              
             
-        }    
-        console.log(this.seleccionado) 
-         
+        }  
+
       },
 
       // habilita el card para la edición del elemento
@@ -272,12 +257,9 @@
             {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}          
           })
           .then( res => {  
-            console.log("respuesta: " + res.data)
             if(res.data.estado == 200){
-              console.log(res.data)
               this.getMarcas()
             }else{
-              console.log(res.data)
               this.hayError = true
               this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
             }      
@@ -286,7 +268,7 @@
           console.log('ERROR GET HTTP', error)
         })
         this.estaEditando = false
-        this.claseCard = 'md-layout-item md-size-100 md-small-size-100 color' 
+        this.claseCard = 'md-layout-item md-size-100 md-small-size-100' 
       },
 
       // metodo que agrega el elemento
@@ -321,7 +303,6 @@
             if(res.data.estado == 200){
               this.getMarcas()
             }else{
-              console.log(res.data)
               this.hayError = true
               this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
             }                      
@@ -331,8 +312,6 @@
         })
 
       },
-   
-
 
     },
     computed: {

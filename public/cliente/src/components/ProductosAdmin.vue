@@ -3,63 +3,210 @@
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
     <!------------------------- Creacion de la tabla que muestra los resultados ------------------------------------------------>
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
-    <div v-if="cargando" class="loading-overlay d-flex justify-content-center">
-      <md-progress-spinner
-        class="colorSpinner"
-        md-mode="indeterminate"
-        :md-diameter="50"
-        :md-stroke="5"
-      ></md-progress-spinner>
-    </div>
-    <div v-else>
-      <md-table
-        v-model="buscados"
-        md-sort="name"
-        md-sort-order="asc"
-        md-card
-        md-fixed-header
-        @md-selected="onSelect"
-      >
-        <md-table-toolbar>
-          <div class="md-toolbar-section-start">
-            <h1 class="md-title">Administracion de productos</h1>
-          </div>
-          <md-field md-clearable class="md-toolbar-section-end">
-            <md-input
-              class="text-primary"
-              placeholder="Buscar Producto..."
-              v-model="busqueda"
-              @input="buscarEnTabla"
-            />
-          </md-field>
-        </md-table-toolbar>
-        <md-table-empty-state md-label="No hay productos"></md-table-empty-state>
-        <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
-          <md-table-cell md-label="Id Producto" md-sort-by="ID_PRODUCTO">{{ item.ID_PRODUCTO }}</md-table-cell>
-          <md-table-cell md-label="Modelo" md-sort-by="MODELO">{{ item.MODELO | primeraMayuscula}}</md-table-cell>
-          <md-table-cell
-            md-label="Descripcion"
-            md-sort-by="DESCRIPCION"
-          >{{ item.DESCRIPCION | primeraMayuscula}}</md-table-cell>
-          <md-table-cell md-label="Precio" md-sort-by="PRECIO">{{ item.PRECIO }}</md-table-cell>
-          <md-table-cell md-label="Stock" md-sort-by="STOCK">{{ item.STOCK }}</md-table-cell>
-          <md-table-cell
-            md-label="Fecha de ingreso"
-            md-sort-by="FECHA_INGRESO"
-          >{{ item.FECHA_INGRESO | formatearFecha}}</md-table-cell>
-        </md-table-row>
-      </md-table>
-      <!-- -------------------------------------------------------------------------------------------------------------------- -->
-      <!-------------------------------- Botones de creacion y actualizacion ----------------------------------------------------->
-      <!-- -------------------------------------------------------------------------------------------------------------------- -->
-      <div class="mt-3 d-flex justify-content-center">
-        <md-button class="md-fab bg-success md-mini" @click="getProductos()">
-          <md-icon>refresh</md-icon>
-        </md-button>
-        <md-button class="md-fab md-primary md-mini" @click="nuevoProducto()">
-          <md-icon>add</md-icon>
-        </md-button>
+    <div v-if="!estaCreando">
+      <div v-if="cargando" class="loading-overlay d-flex justify-content-center">
+        <md-progress-spinner
+          class="colorSpinner"
+          md-mode="indeterminate"
+          :md-diameter="50"
+          :md-stroke="5"
+        ></md-progress-spinner>
       </div>
+      <div v-else>
+        <md-table
+          v-model="buscados"
+          md-sort="name"
+          md-sort-order="asc"
+          md-card
+          md-fixed-header
+          @md-selected="onSelect"
+        >
+          <md-table-toolbar>
+            <div class="md-toolbar-section-start">
+              <h1 class="md-title">Administracion de productos</h1>
+            </div>
+            <md-field md-clearable class="md-toolbar-section-end">
+              <md-input
+                class="text-primary"
+                placeholder="Buscar Producto..."
+                v-model="busqueda"
+                @input="buscarEnTabla"
+              />
+            </md-field>
+          </md-table-toolbar>
+          <md-table-empty-state md-label="No hay productos"></md-table-empty-state>
+          <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
+            <md-table-cell md-label="Id Producto" md-sort-by="ID_PRODUCTO">{{ item.ID_PRODUCTO }}</md-table-cell>
+            <md-table-cell md-label="Modelo" md-sort-by="MODELO">{{ item.MODELO | primeraMayuscula}}</md-table-cell>
+            <md-table-cell
+              md-label="Descripcion"
+              md-sort-by="DESCRIPCION"
+            >{{ item.DESCRIPCION | primeraMayuscula}}</md-table-cell>
+            <md-table-cell md-label="Precio" md-sort-by="PRECIO">{{ item.PRECIO }}</md-table-cell>
+            <md-table-cell md-label="Stock" md-sort-by="STOCK">{{ item.STOCK }}</md-table-cell>
+            <md-table-cell
+              md-label="Fecha de ingreso"
+              md-sort-by="FECHA_INGRESO"
+            >{{ item.FECHA_INGRESO | formatearFecha}}</md-table-cell>
+          </md-table-row>
+        </md-table>
+        <!-- -------------------------------------------------------------------------------------------------------------------- -->
+        <!-------------------------------- Botones de creacion y actualizacion ----------------------------------------------------->
+        <!-- -------------------------------------------------------------------------------------------------------------------- -->
+        <div class="mt-3 d-flex justify-content-center">
+          <md-button class="md-fab bg-success md-mini" @click="getProductos()">
+            <md-icon>refresh</md-icon>
+          </md-button>
+          <md-button class="md-fab md-primary md-mini" @click="nuevoProducto()">
+            <md-icon>add</md-icon>
+          </md-button>
+        </div>
+      </div>
+    </div>
+        <!-- -------------------------------------------------------------------------------------------------------------------- -->
+    <!----------------------------- Modal de formulario de creacion de elemento ------------------------------------------------>
+    <!-- -------------------------------------------------------------------------------------------------------------------- -->
+    <div v-else class="container">     
+      <vue-form :state="formState" @submit.prevent="confirmarAgregar()" >
+        <md-card class="pepe md-layout-item md-size-100 md-small-size-100">          
+          <md-card-content>
+            <h5 class="mt-3">Nuevo registro</h5>
+            <div class="md-layout md-gutter">
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-4">                   
+                    <md-autocomplete v-model="tipo" :md-options="tipos" @md-changed="getTipos" @md-opened="getTipos">
+                      <label>Tipo</label>
+                      <template slot="md-autocomplete-item" slot-scope="{ item }">{{ item.DESCRIPCION }}</template>
+                    </md-autocomplete>
+                  </div>
+                  <div class="col-lg-4">
+                    <md-autocomplete v-model="marca" :md-options="marcas" @md-changed="getMarcas" @md-opened="getMarcas">
+                      <label>Marca</label>
+                      <template slot="md-autocomplete-item" slot-scope="{ item }">{{ item.DESCRIPCION }}</template>
+                    </md-autocomplete>
+                  </div>
+                  <div class="col-lg-4">
+                    <md-field>
+                      <validate tag="div">
+                        <label>Modelo</label>
+                        <md-input
+                          maxlength="50"
+                          name="MODELO"
+                          id="MODELO"
+                          v-model="formData.MODELO"
+                          required
+                        />
+                      </validate>
+                    </md-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <validate tag="div">
+                      <md-field>
+                        <label>Descripcion</label>
+                        <md-textarea v-model="formData.DESCRIPCION" required></md-textarea>
+                      </md-field>
+                    </validate>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4">                                
+                    <md-field>
+                      <validate tag="div">
+                        <label>Precio</label>
+                        <md-input
+                          maxlength="15"
+                          name="PRECIO"
+                          id="PRECIO"
+                          v-model="formData.PRECIO"
+                          required
+                        />
+                      </validate>
+                    </md-field>
+                   </div> 
+                   <div class="col-lg-4">  
+                    <md-field>
+                      <validate tag="div">
+                        <label>Stock</label>
+                        <md-input
+                          maxlength="5"
+                          name="STOCK"
+                          id="STOCK"
+                          v-model="formData.STOCK"
+                          required
+                        />
+                      </validate>
+                    </md-field>
+                   </div>
+                  <div class="col-lg-4"> 
+                    <md-field>
+                      <validate tag="div">
+                        <label>Cantidad de Visitas</label>
+                        <md-input
+                          maxlength="1"
+                          name="CANT_VISITAS"
+                          id="CANT_VISITAS"
+                          v-model="formData.CANT_VISITAS"
+                          required
+                        />
+                      </validate>
+                    </md-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4">
+                    <md-field>
+                      <validate tag="div">
+                        <label>FOTO 1</label>
+                        <md-input
+                          maxlength="50"
+                          name="FOTO1"
+                          id="FOTO1"
+                          v-model="formData.FOTO1"                          
+                        />
+                      </validate>
+                    </md-field>
+                  </div>
+                  <div class="col-lg-4">
+                    <md-field>
+                      <validate tag="div">
+                        <label>FOTO 2</label>
+                        <md-input
+                          maxlength="50"
+                          name="FOTO2"
+                          id="FOTO2"
+                          v-model="formData.FOTO2"                          
+                        />
+                      </validate>
+                    </md-field>
+                  </div>
+                  <div class="col-lg-4">
+                    <md-field>
+                      <validate tag="div">
+                        <label>FOTO 3</label>
+                        <md-input
+                          maxlength="50"
+                          name="FOTO3"
+                          id="FOTO3"
+                          v-model="formData.FOTO3"                          
+                        />
+                      </validate>
+                    </md-field>
+                  </div>
+                </div>
+                <div class="row d-flex justify-content-end mt-3">
+                  <md-button type="submit" class="md-raised md-primary" :disabled="formState.$invalid">Agregar</md-button>
+                  <md-button class="md-primary" @click="estaCreando = false">Cancelar</md-button>
+                </div>
+              </div>
+            </div>
+          </md-card-content>
+        </md-card>
+
+      
+      </vue-form>
     </div>
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
     <!-------------------------------- Card que muestra el detalle del elemento ------------------------------------------------>
@@ -187,169 +334,7 @@
       :md-content="mensajeError"
       md-confirm-text="Ok"
     />
-    <!-- -------------------------------------------------------------------------------------------------------------------- -->
-    <!----------------------------- Modal de formulario de creacion de elemento ------------------------------------------------>
-    <!-- -------------------------------------------------------------------------------------------------------------------- -->
-    <md-dialog :md-active.sync="estaCreando">
-      <md-dialog-title>Nuevo registro</md-dialog-title>
-      <vue-form :state="formState" @submit.prevent="confirmarAgregar()" >
-        <md-card class="md-layout-item md-size-100 md-small-size-100">
-          <md-card-content>
-            <div class="md-layout md-gutter">
-              <div class="container">
-                <div class="row">
-                  <div class="col-lg-4">
-                    <md-field>
-                      <validate tag="div">
-                        <label>ID Tipo</label>
-                        <md-input
-                          maxlength="15"
-                          name="ID_TIPO"
-                          id="ID_TIPO"
-                          v-model="formData.ID_TIPO"
-                          required
-                        />
-                      </validate>
-                    </md-field>
-                  </div>
-                  <div class="col-lg-4">
-                    <md-field>
-                      <validate tag="div">
-                        <label>ID Marca</label>
-                        <md-input
-                          maxlength="15"
-                          name="ID_MARCA"
-                          id="ID_MARCA"
-                          v-model="formData.ID_MARCA"
-                          required
-                        />
-                      </validate>
-                    </md-field>
-                  </div>
-                  <div class="col-lg-4">
-                    <md-field>
-                      <validate tag="div">
-                        <label>Modelo</label>
-                        <md-input
-                          maxlength="50"
-                          name="MODELO"
-                          id="MODELO"
-                          v-model="formData.MODELO"
-                          required
-                        />
-                      </validate>
-                    </md-field>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-12">
-                    <validate tag="div">
-                      <md-field>
-                        <label>Descripcion</label>
-                        <md-textarea v-model="formData.DESCRIPCION" required></md-textarea>
-                      </md-field>
-                    </validate>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-4">                                
-                    <md-field>
-                      <validate tag="div">
-                        <label>Precio</label>
-                        <md-input
-                          maxlength="15"
-                          name="PRECIO"
-                          id="PRECIO"
-                          v-model="formData.PRECIO"
-                          required
-                        />
-                      </validate>
-                    </md-field>
-                   </div> 
-                   <div class="col-lg-4">  
-                    <md-field>
-                      <validate tag="div">
-                        <label>Stock</label>
-                        <md-input
-                          maxlength="5"
-                          name="STOCK"
-                          id="STOCK"
-                          v-model="formData.STOCK"
-                          required
-                        />
-                      </validate>
-                    </md-field>
-                   </div>
-                  <div class="col-lg-4"> 
-                    <md-field>
-                      <validate tag="div">
-                        <label>Cantidad de Visitas</label>
-                        <md-input
-                          maxlength="1"
-                          name="CANT_VISITAS"
-                          id="CANT_VISITAS"
-                          v-model="formData.CANT_VISITAS"
-                          required
-                        />
-                      </validate>
-                    </md-field>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-lg-4">
-                    <md-field>
-                      <validate tag="div">
-                        <label>FOTO 1</label>
-                        <md-input
-                          maxlength="50"
-                          name="FOTO1"
-                          id="FOTO1"
-                          v-model="formData.FOTO1"                          
-                        />
-                      </validate>
-                    </md-field>
-                  </div>
-                  <div class="col-lg-4">
-                    <md-field>
-                      <validate tag="div">
-                        <label>FOTO 2</label>
-                        <md-input
-                          maxlength="50"
-                          name="FOTO2"
-                          id="FOTO2"
-                          v-model="formData.FOTO2"                          
-                        />
-                      </validate>
-                    </md-field>
-                  </div>
-                  <div class="col-lg-4">
-                    <md-field>
-                      <validate tag="div">
-                        <label>FOTO 3</label>
-                        <md-input
-                          maxlength="50"
-                          name="FOTO3"
-                          id="FOTO3"
-                          v-model="formData.FOTO3"                          
-                        />
-                      </validate>
-                    </md-field>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </md-card-content>
-        </md-card>
-        <md-dialog-actions>
-          <md-button
-            type="submit"
-            class="md-raised md-primary"
-            :disabled="formState.$invalid"
-          >Agregar</md-button>
-          <md-button class="md-primary" @click="estaCreando = false">Cancelar</md-button>
-        </md-dialog-actions>
-      </vue-form>
-    </md-dialog>
+
   </div>
 </template>
 
@@ -372,11 +357,13 @@
   export default  {
     name: 'src-components-productos-admin',
     props: [],
-    mounted () {
+    mounted () {   
       this.estaSeleccionado = false
       this.estaEditando = false 
       if(this.$store.state.token){
         this.getProductos()
+        this.$store.dispatch("actualizarTipos")
+        this.$store.dispatch("actualizarMarcas")
       }
       else{
         this.$router.push({path: '/login'})
@@ -398,7 +385,12 @@
         formData: this.getDatosIniciales(),
         hayError: false,
         mensajeError: '',
-        cargando: true
+        cargando: true,
+        tipo: null,
+        tipos: [],
+        marca: null,
+        marcas: []       
+
       }
     },
     methods: {
@@ -448,6 +440,8 @@
       // activa modal de creacion de elemento
       nuevoProducto () {
        this.estaCreando = true
+       this.estaSeleccionado = false
+
        this.formData = this.getDatosIniciales()
       },
 
@@ -512,7 +506,6 @@
             if(res.data.estado == 200){
               this.getProductos()
             }else{
-              console.log(productoPut)
               this.hayError = true
               this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
             }      
@@ -527,7 +520,12 @@
       },
 
        // metodo que agrega el elemento
-      confirmarAgregar(){        
+      confirmarAgregar(){
+        console.log(this.marca)
+        console.log(this.tipo)
+        this.formData.ID_MARCA = this.marca.ID_MARCA  
+        this.formData.ID_TIPO = this.tipo.ID_TIPO
+        console.log(this.formData)
         this.axios.post(url.url + url.urlProductos , this.formData, {
           headers:
             {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}          
@@ -558,17 +556,41 @@
             if(res.data.estado == 200){
               this.getProductos()
             }else{
-              console.log(productoDel)
               this.hayError = true
               this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
             }                      
         })
         .catch(error => {
           console.log('ERROR GET HTTP', error)
-        })
-      
+        })      
       },
 
+      getTipos(valorBuscado){
+        this.tipos = new Promise(resolve =>{
+          window.setTimeout(() => {
+            if(!valorBuscado){
+              resolve(this.$store.state.listaTipos)              
+            }else{
+              const valor = valorBuscado.toLowerCase()
+              resolve(this.$store.state.listaTipos.filter(({DESCRIPCION}) => DESCRIPCION.toLowerCase().includes(valor)))
+            }
+          },500)
+        })
+      },
+
+      
+      getMarcas(valorBuscado){
+        this.marcas = new Promise(resolve =>{
+          window.setTimeout(() => {
+            if(!valorBuscado){
+              resolve(this.$store.state.listaMarcas)              
+            }else{
+              const valor = valorBuscado.toLowerCase()
+              resolve(this.$store.state.listaMarcas.filter(({DESCRIPCION}) => DESCRIPCION.toLowerCase().includes(valor)))
+            }
+          },500)
+        })
+      }
     },
     computed: {
 
@@ -585,5 +607,10 @@
 }
 .colorTitulo{
     color: #1D1B38 !important;
-  }
+}
+
+md-menu-content {  
+  z-index: 99999 !important;
+}
+
 </style>

@@ -13,6 +13,8 @@ import Productos from './components/Productos.vue'
 import ProductosAdmin from './components/ProductosAdmin.vue'
 import Tipos from './components/Tipos.vue'
 import Usuarios from './components/Usuarios.vue'
+import Borrar from './components/Borrar.vue'
+
 
 Vue.use(VueRouter)
 
@@ -31,6 +33,8 @@ export const router = new VueRouter({
         {path: '/Productos', component: Productos},
         {path: '/ProductosAdmin', component: ProductosAdmin},
         {path: '/Tipos', component: Tipos},
-        {path: '/Usuarios', component: Usuarios}
+        {path: '/Usuarios', component: Usuarios},
+        {path: '/Borrar', component: Borrar}
+
     ]   
 })
