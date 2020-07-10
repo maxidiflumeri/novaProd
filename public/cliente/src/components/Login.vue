@@ -2,7 +2,7 @@
   <div class="container mt-3" style="width: 35%">
     <div class="d-flex justify-content-center">
       <vue-form :state="formState" @submit.prevent="enviar()">
-        <md-card class="md-layout-item md-elevation-12 eze">
+        <md-card class="md-layout-item md-elevation-12">
           <md-card-header>
             <div>
               <img src="../assets/Nova.png" alt="logo" width="30%" class="mx-auto d-block md-title mb-3">   

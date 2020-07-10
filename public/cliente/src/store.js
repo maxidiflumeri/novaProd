@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state : {
         token: null,
-        perfil: null
+        perfil: null,
+        tipos: []
     },
     actions : {
         login({commit}, data) {
@@ -15,6 +16,9 @@ export default new Vuex.Store({
         logout({commit}) {
             commit('logout')
         },
+        actualizaTipos({commit}, listaTipos){
+            commit('actualizaTipos', listaTipos)
+        }
 
     },
     mutations : {
@@ -25,6 +29,9 @@ export default new Vuex.Store({
         logout(state){
             state.token = null
             state.perfil = null
+        },
+        actualizaTipos(state, listaTipos){
+            state.tipos = listaTipos
         }
     }
 })

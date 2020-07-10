@@ -215,6 +215,7 @@
           .then( res => {         
           this.buscados = res.data 
           this.tipos = res.data
+          this.$store.dispatch('actualizaTipos', res.data)
           console.log(this.buscados) 
           this.cargando = false 
         
