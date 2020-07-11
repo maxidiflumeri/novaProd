@@ -84,8 +84,8 @@
 
 <style scoped lang="css">
 .carousel {
-  width: 800px;
-  height: 500px;
+  width: 80%;
+  height: 100%;
   background-color: white;
 } 
 .middle {
