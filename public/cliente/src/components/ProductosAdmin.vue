@@ -440,7 +440,7 @@
             STOCK: item.STOCK,
             PRECIO: item.PRECIO,
             CANT_VISITAS: item.CANT_VISITAS,
-            FECHA_INGRESO: this.formatearFecha(item.FECHA_INGRESO)
+            FECHA_INGRESO: item.FECHA_INGRESO
           } 
           this.seleccionado = item          
           this.estaSeleccionado = true

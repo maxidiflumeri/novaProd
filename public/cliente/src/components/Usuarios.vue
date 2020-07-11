@@ -288,7 +288,7 @@
         this.getUsuarios()
       }
       else{
-        this.$router.push({path: '/login'})
+        this.$router.push({path: '/Login'})
       }
       
     },
