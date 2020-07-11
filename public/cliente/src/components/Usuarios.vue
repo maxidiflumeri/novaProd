@@ -367,15 +367,6 @@
         }    
       },
 
-      //Formatea la fecha para mostar en la card
-      formatearFecha(fecha){
-        if(fecha){
-          let fechaOk = fecha.substr(8,2)+"/"+fecha.substr(5,2)+"/"+fecha.substr(0,4)
-          return fechaOk
-        }
-        return fecha
-      },
-
       // habilita el card para la edición del elemento
       habilitarEdicion(){          
         this.claseCard = 'md-layout-item md-size-100 md-small-size-100 color' 

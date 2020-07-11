@@ -105,9 +105,8 @@
     <!----------------------------- Modal de mensaje de error al crear, Editar o eliminar elemento ------------------------------------------------>
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
     <md-dialog-alert
-      :md-active.sync="hayError"
-      md-title="Error"
-      :md-content="mensajeError"
+      :md-active.sync="hayMensaje"      
+      :md-content="mensaje"
       md-confirm-text="Ok" />
     <!-- -------------------------------------------------------------------------------------------------------------------- -->    
     <!----------------------------- Modal de formulario de creacion de elemento ------------------------------------------------>
@@ -185,8 +184,8 @@
         estaCreando: false,
         formState: {},
         formData: this.getDatosIniciales(),
-        hayError: false,
-        mensajeError: ''        
+        hayMensaje: false,
+        mensaje: ''        
 
       }
     },
@@ -256,11 +255,13 @@
           })
           .then( res => {  
             if(res.data.estado == 200){
-              this.getTipos()
+              this.hayMensaje = true
+              this.mensaje = this.$store.state.mensajePutOk               
+              this.getTipos() 
             }else{
-              this.hayError = true
-              this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
-            }      
+              this.hayMensaje = true
+              this.mensaje = res.data.mensaje || 'No se pudo realizar la operación'
+            }   
         })
         .catch(error => {
           console.log('ERROR GET HTTP', error)
@@ -277,11 +278,13 @@
           })
           .then( res => { 
             if(res.data.estado == 200){
-              this.getTipos()
+              this.hayMensaje = true
+              this.mensaje = this.$store.state.mensajePostOk               
+              this.getTipos() 
             }else{
-              this.hayError = true
-              this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
-            }                                     
+              this.hayMensaje = true
+              this.mensaje = res.data.mensaje || 'No se pudo realizar la operación'
+            }                                  
         })
         .catch(error => {
           console.log('ERROR GET HTTP', error)
@@ -297,11 +300,13 @@
           })
           .then( res => {  
             if(res.data.estado == 200){
-              this.getTipos()
+              this.hayMensaje = true
+              this.mensaje = this.$store.state.mensajeDelOk               
+              this.getTipos() 
             }else{
-              this.hayError = true
-              this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
-            }                      
+              this.hayMensaje = true
+              this.mensaje = res.data.mensaje || 'No se pudo realizar la operación'
+            }                  
         })
         .catch(error => {
           console.log('ERROR GET HTTP', error)

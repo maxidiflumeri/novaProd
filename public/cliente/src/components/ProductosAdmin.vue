@@ -329,12 +329,10 @@
     <!----------------------------- Modal de mensaje de error al crear, Editar o eliminar elemento ------------------------------------------------>
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
     <md-dialog-alert
-      :md-active.sync="hayError"
-      md-title="Error"
-      :md-content="mensajeError"
+      :md-active.sync="hayMensaje"
+      :md-content="mensaje"
       md-confirm-text="Ok"
     />
-
   </div>
 </template>
 
@@ -383,8 +381,8 @@
         estaCreando: false,
         formState: {},
         formData: this.getDatosIniciales(),
-        hayError: false,
-        mensajeError: '',
+        hayMensaje: false,
+        mensaje: '',
         cargando: true,
         tipo: null,
         tipos: [],
@@ -457,7 +455,7 @@
             STOCK: item.STOCK,
             PRECIO: item.PRECIO,
             CANT_VISITAS: item.CANT_VISITAS,
-            FECHA_INGRESO: item.FECHA_INGRESO
+            FECHA_INGRESO: this.formatearFecha(item.FECHA_INGRESO)
           } 
           this.seleccionado = item          
           this.estaSeleccionado = true
@@ -504,11 +502,13 @@
           })
           .then( res => {  
             if(res.data.estado == 200){
-              this.getProductos()
+              this.hayMensaje = true
+              this.mensaje = this.$store.state.mensajePutOk               
+              this.getProductos() 
             }else{
-              this.hayError = true
-              this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
-            }      
+              this.hayMensaje = true
+              this.mensaje = res.data.mensaje || 'No se pudo realizar la operación'
+            }     
         })
         .catch(error => {
           console.log('ERROR GET HTTP', error)
@@ -532,12 +532,13 @@
           })
           .then( res => { 
             if(res.data.estado == 200){
-              this.getProductos()
+              this.hayMensaje = true
+              this.mensaje = this.$store.state.mensajePostOk               
+              this.getProductos() 
             }else{
-              this.hayError = true
-              this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
-            }   
-                                  
+              this.hayMensaje = true
+              this.mensaje = res.data.mensaje || 'No se pudo realizar la operación'
+            }                                    
         })
         .catch(error => {
           console.log('ERROR GET HTTP', error)
@@ -554,10 +555,12 @@
           })
           .then( res => {  
             if(res.data.estado == 200){
-              this.getProductos()
+              this.hayMensaje = true
+              this.mensaje = this.$store.state.mensajeDelOk               
+              this.getProductos() 
             }else{
-              this.hayError = true
-              this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
+              this.hayMensaje = true
+              this.mensaje = res.data.mensaje || 'No se pudo realizar la operación'
             }                      
         })
         .catch(error => {

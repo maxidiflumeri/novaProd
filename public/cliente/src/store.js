@@ -12,7 +12,11 @@ export default new Vuex.Store({
         listaTipos: [],
         cargandoTipos: false,
         listaMarcas: [],
-        cargandoMarcas: false
+        cargandoMarcas: false,
+        mensajePutOk: 'Registro modificado exitosamente',
+        mensajePostOk: 'Registro agregado exitosamente', 
+        mensajeDelOk: 'Registro eliminado exitosamente' 
+
     },
     actions : {
         login({commit}, data) {
@@ -29,7 +33,6 @@ export default new Vuex.Store({
                 headers:
                     {'Authorization': `Bearer ${this.state.token.substr(1, this.state.token.length-2)}`}
                 })
-
                 commit('actualizarTipos', data.data)
                 commit('cambiarCargandoTipos', false) 
             }catch(error){
