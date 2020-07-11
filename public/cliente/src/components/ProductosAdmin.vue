@@ -4,7 +4,10 @@
     <!------------------------- Creacion de la tabla que muestra los resultados ------------------------------------------------>
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
     <div v-if="!estaCreando">
-      <div v-if="cargando" class="loading-overlay d-flex justify-content-center">
+      <div
+        v-if="this.$store.state.cargandoProductos"
+        class="loading-overlay d-flex justify-content-center"
+      >
         <md-progress-spinner
           class="colorSpinner"
           md-mode="indeterminate"
@@ -57,33 +60,49 @@
           <md-button class="md-fab bg-success md-mini" @click="getProductos()">
             <md-icon>refresh</md-icon>
           </md-button>
-          <md-button class="md-fab md-primary md-mini" @click="nuevoProducto()">
+          <md-button class="md-fab md-primary md-mini" @click="mostrarNuevo()">
             <md-icon>add</md-icon>
           </md-button>
         </div>
       </div>
     </div>
-        <!-- -------------------------------------------------------------------------------------------------------------------- -->
+    <!-- -------------------------------------------------------------------------------------------------------------------- -->
     <!----------------------------- Modal de formulario de creacion de elemento ------------------------------------------------>
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
-    <div v-else class="container">     
-      <vue-form :state="formState" @submit.prevent="confirmarAgregar()" >
-        <md-card class="pepe md-layout-item md-size-100 md-small-size-100">          
+    <div v-else class="container">
+      <vue-form :state="formState" @submit.prevent="confirmarAgregar()">
+        <md-card class="pepe md-layout-item md-size-100 md-small-size-100">
           <md-card-content>
             <h5 class="mt-3">Nuevo registro</h5>
             <div class="md-layout md-gutter">
               <div class="container">
                 <div class="row">
-                  <div class="col-lg-4">                   
-                    <md-autocomplete v-model="tipo" :md-options="tipos" @md-changed="getTipos" @md-opened="getTipos">
+                  <div class="col-lg-4">
+                    <md-autocomplete
+                      v-model="tipo"
+                      :md-options="tipos"
+                      @md-changed="getTipos"
+                      @md-opened="getTipos"
+                    >
                       <label>Tipo</label>
-                      <template slot="md-autocomplete-item" slot-scope="{ item }">{{ item.DESCRIPCION }}</template>
+                      <template
+                        slot="md-autocomplete-item"
+                        slot-scope="{ item }"
+                      >{{ item.DESCRIPCION }}</template>
                     </md-autocomplete>
                   </div>
                   <div class="col-lg-4">
-                    <md-autocomplete v-model="marca" :md-options="marcas" @md-changed="getMarcas" @md-opened="getMarcas">
+                    <md-autocomplete
+                      v-model="marca"
+                      :md-options="marcas"
+                      @md-changed="getMarcas"
+                      @md-opened="getMarcas"
+                    >
                       <label>Marca</label>
-                      <template slot="md-autocomplete-item" slot-scope="{ item }">{{ item.DESCRIPCION }}</template>
+                      <template
+                        slot="md-autocomplete-item"
+                        slot-scope="{ item }"
+                      >{{ item.DESCRIPCION }}</template>
                     </md-autocomplete>
                   </div>
                   <div class="col-lg-4">
@@ -112,7 +131,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-lg-4">                                
+                  <div class="col-lg-4">
                     <md-field>
                       <validate tag="div">
                         <label>Precio</label>
@@ -125,8 +144,8 @@
                         />
                       </validate>
                     </md-field>
-                   </div> 
-                   <div class="col-lg-4">  
+                  </div>
+                  <div class="col-lg-4">
                     <md-field>
                       <validate tag="div">
                         <label>Stock</label>
@@ -139,8 +158,8 @@
                         />
                       </validate>
                     </md-field>
-                   </div>
-                  <div class="col-lg-4"> 
+                  </div>
+                  <div class="col-lg-4">
                     <md-field>
                       <validate tag="div">
                         <label>Cantidad de Visitas</label>
@@ -160,12 +179,7 @@
                     <md-field>
                       <validate tag="div">
                         <label>FOTO 1</label>
-                        <md-input
-                          maxlength="50"
-                          name="FOTO1"
-                          id="FOTO1"
-                          v-model="formData.FOTO1"                          
-                        />
+                        <md-input maxlength="50" name="FOTO1" id="FOTO1" v-model="formData.FOTO1" />
                       </validate>
                     </md-field>
                   </div>
@@ -173,12 +187,7 @@
                     <md-field>
                       <validate tag="div">
                         <label>FOTO 2</label>
-                        <md-input
-                          maxlength="50"
-                          name="FOTO2"
-                          id="FOTO2"
-                          v-model="formData.FOTO2"                          
-                        />
+                        <md-input maxlength="50" name="FOTO2" id="FOTO2" v-model="formData.FOTO2" />
                       </validate>
                     </md-field>
                   </div>
@@ -186,26 +195,23 @@
                     <md-field>
                       <validate tag="div">
                         <label>FOTO 3</label>
-                        <md-input
-                          maxlength="50"
-                          name="FOTO3"
-                          id="FOTO3"
-                          v-model="formData.FOTO3"                          
-                        />
+                        <md-input maxlength="50" name="FOTO3" id="FOTO3" v-model="formData.FOTO3" />
                       </validate>
                     </md-field>
                   </div>
                 </div>
                 <div class="row d-flex justify-content-end mt-3">
-                  <md-button type="submit" class="md-raised md-primary" :disabled="formState.$invalid">Agregar</md-button>
+                  <md-button
+                    type="submit"
+                    class="md-raised md-primary"
+                    :disabled="formState.$invalid"
+                  >Agregar</md-button>
                   <md-button class="md-primary" @click="estaCreando = false">Cancelar</md-button>
                 </div>
               </div>
             </div>
           </md-card-content>
         </md-card>
-
-      
       </vue-form>
     </div>
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
@@ -328,11 +334,7 @@
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
     <!----------------------------- Modal de mensaje de error al crear, Editar o eliminar elemento ------------------------------------------------>
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
-    <md-dialog-alert
-      :md-active.sync="hayMensaje"
-      :md-content="mensaje"
-      md-confirm-text="Ok"
-    />
+    <md-dialog-alert :md-active.sync="hayMensaje" :md-content="mensaje" md-confirm-text="Ok" />
   </div>
 </template>
 
@@ -347,8 +349,6 @@
     if (valor) {
       return lista.filter(item => toLower(item.DESCRIPCION).includes(toLower(valor)))
     }
-   
-
     return lista
   }
 
@@ -371,7 +371,6 @@
       return {
         busqueda: null,
         buscados: [],
-        productos: [],
         seleccionado: {},
         estaSeleccionado: false,
         claseCard: 'md-layout-item md-size-100 md-small-size-100',
@@ -384,7 +383,9 @@
         hayMensaje: false,
         mensaje: '',
         cargando: true,
-        tipo: null,
+        tipo: {
+          DESCRIPCION : ''
+        },
         tipos: [],
         marca: null,
         marcas: []       
@@ -392,12 +393,6 @@
       }
     },
     methods: {
-
-       // activa modal de creacion de elemento
-      mostrarNuevo(){
-        this.estaCreando = true
-        this.formData = this.getDatosIniciales()
-      },
 
       // incializa datos del objeto de creacion de elemento
       getDatosIniciales(){
@@ -414,32 +409,22 @@
       },
 
       // metodo que trae todos los elementos
-      getProductos() {
-         this.cargando = true
-         this.axios.get(url.url + url.urlProductos, {
-          headers:
-            {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}
-          
-          })
-          .then( res => {         
-          this.buscados = res.data 
-          this.productos = res.data
-          this.cargando = false
-        })
-        .catch(error => {
-          console.log('ERROR GET HTTP', error)
-        })
-        this.estaSeleccionado = false
+      async getProductos() {      
+        await this.$store.dispatch('actualizarProductos')
+        this.buscados = this.$store.state.listaProductos
       },
+
       // buscador de elemento en la tabla
       buscarEnTabla () {
-        this.buscados = buscarPorNombre(this.productos, this.busqueda)
+        this.buscados = buscarPorNombre(this.$store.state.listaProductos, this.busqueda)
       },
+
       // activa modal de creacion de elemento
-      nuevoProducto () {
+      mostrarNuevo () {
        this.estaCreando = true
        this.estaSeleccionado = false
-
+       this.tipo = null
+       this.marca = null
        this.formData = this.getDatosIniciales()
       },
 
@@ -503,7 +488,8 @@
           .then( res => {  
             if(res.data.estado == 200){
               this.hayMensaje = true
-              this.mensaje = this.$store.state.mensajePutOk               
+              this.mensaje = this.$store.state.mensajePutOk
+              this.estaSeleccionado = false
               this.getProductos() 
             }else{
               this.hayMensaje = true
@@ -533,7 +519,8 @@
           .then( res => { 
             if(res.data.estado == 200){
               this.hayMensaje = true
-              this.mensaje = this.$store.state.mensajePostOk               
+              this.mensaje = this.$store.state.mensajePostOk
+              this.estaSeleccionado = false               
               this.getProductos() 
             }else{
               this.hayMensaje = true
@@ -556,7 +543,8 @@
           .then( res => {  
             if(res.data.estado == 200){
               this.hayMensaje = true
-              this.mensaje = this.$store.state.mensajeDelOk               
+              this.mensaje = this.$store.state.mensajeDelOk
+              this.estaSeleccionado = false               
               this.getProductos() 
             }else{
               this.hayMensaje = true
@@ -580,7 +568,6 @@
           },500)
         })
       },
-
       
       getMarcas(valorBuscado){
         this.marcas = new Promise(resolve =>{
@@ -604,16 +591,14 @@
 </script>
 
 <style scoped lang="css">
-
 .color {
   background: grey;
 }
-.colorTitulo{
-    color: #1D1B38 !important;
+.colorTitulo {
+  color: #1d1b38 !important;
 }
 
-md-menu-content {  
+md-menu-content {
   z-index: 99999 !important;
 }
-
 </style>

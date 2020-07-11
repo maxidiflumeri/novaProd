@@ -23,7 +23,7 @@
         </md-table-empty-state>
 
         <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
-          <md-table-cell  md-label="Id Marca" md-sort-by="ID_TIPO">{{ item.ID_TIPO }}</md-table-cell>
+          <md-table-cell  md-label="Id tipo" md-sort-by="ID_TIPO">{{ item.ID_TIPO }}</md-table-cell>
           <md-table-cell  md-label="Descripcion" md-sort-by="DESCRIPCION">{{ item.DESCRIPCION | primeraMayuscula}}</md-table-cell>      
 
         </md-table-row>      
@@ -174,7 +174,6 @@
       return {
         busqueda: null,
         buscados: [],
-        tipos: [],
         seleccionado: {},  
         estaSeleccionado: false,
         claseCard: 'md-layout-item md-size-100 md-small-size-100',
@@ -208,8 +207,8 @@
       async getTipos() {          
         await this.$store.dispatch('actualizarTipos')
         this.buscados = this.$store.state.listaTipos
-        // this.tipos = this.$store.state.listaTipos
       },
+
       // buscador de elemento en la tabla
       buscarEnTabla () {
         this.buscados = buscarPorNombre(this.$store.state.listaTipos, this.busqueda)
@@ -256,7 +255,8 @@
           .then( res => {  
             if(res.data.estado == 200){
               this.hayMensaje = true
-              this.mensaje = this.$store.state.mensajePutOk               
+              this.mensaje = this.$store.state.mensajePutOk
+              this.estaSeleccionado = false             
               this.getTipos() 
             }else{
               this.hayMensaje = true
@@ -279,7 +279,8 @@
           .then( res => { 
             if(res.data.estado == 200){
               this.hayMensaje = true
-              this.mensaje = this.$store.state.mensajePostOk               
+              this.mensaje = this.$store.state.mensajePostOk
+              this.estaSeleccionado = false               
               this.getTipos() 
             }else{
               this.hayMensaje = true
@@ -301,7 +302,8 @@
           .then( res => {  
             if(res.data.estado == 200){
               this.hayMensaje = true
-              this.mensaje = this.$store.state.mensajeDelOk               
+              this.mensaje = this.$store.state.mensajeDelOk
+              this.estaSeleccionado = false               
               this.getTipos() 
             }else{
               this.hayMensaje = true

@@ -3,7 +3,7 @@
     <!-- -------------------------------------------------------------------------------------------------------------------- -->    
     <!------------------------- Creacion de la tabla que muestra los resultados ------------------------------------------------>
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
-    <div v-if="cargando" class="loading-overlay d-flex justify-content-center">
+    <div v-if="this.$store.state.cargandoEstados" class="loading-overlay d-flex justify-content-center">
       <md-progress-spinner class="colorSpinner" md-mode="indeterminate" :md-diameter="50" :md-stroke="5"></md-progress-spinner>
     </div>
     <div v-else>
@@ -180,7 +180,6 @@
       return {        
         busqueda: null,
         buscados: [],
-        estados: [],
         seleccionado: {},
         estaSeleccionado: false,
         claseCard: 'md-layout-item md-size-100 md-small-size-100',
@@ -191,9 +190,7 @@
         formState: {},
         formData: this.getDatosIniciales(),
         hayMensaje: false,
-        mensaje: '',
-        cargando: true       
-
+        mensaje: ''
       }
     },
     methods: {
@@ -213,25 +210,14 @@
       },
 
       // metodo que trae todos los elementos
-      getEstados() {
-        this.axios.get(url.url + url.urlEstados, {
-          headers:
-            {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}
-          
-          })
-          .then( res => {         
-          this.buscados = res.data 
-          this.estados = res.data
-          this.cargando = false
-        })
-        .catch(error => {
-          console.log('ERROR GET HTTP', error)
-        })
+      async getEstados() {      
+        await this.$store.dispatch('actualizarEstados')
+        this.buscados = this.$store.state.listaEstados
       },
 
       // buscador de elemento en la tabla
       buscarEnTabla () {
-        this.buscados = buscarPorNombre(this.estados, this.busqueda)
+        this.buscados = buscarPorNombre(this.$store.state.listaEstados, this.busqueda)
       },
 
       // seleccion de un elemento de la tabla que muestra el card con el detalle del elemento
@@ -279,8 +265,9 @@
           .then( res => {  
             if(res.data.estado == 200){
               this.hayMensaje = true
-              this.mensaje = this.$store.state.mensajePutOk               
-              this.getMarcas() 
+              this.mensaje = this.$store.state.mensajePutOk
+              this.estaSeleccionado = false
+              this.getEstados()
             }else{
               this.hayMensaje = true
               this.mensaje = res.data.mensaje || 'No se pudo realizar la operación'
@@ -290,7 +277,7 @@
           console.log('ERROR GET HTTP', error)
         })
         this.estaEditando = false
-        this.claseCard = 'md-layout-item md-size-100 md-small-size-100 color' 
+        this.claseCard = 'md-layout-item md-size-100 md-small-size-100' 
       },
 
        // metodo que agrega el elemento
@@ -302,8 +289,9 @@
           .then( res => { 
             if(res.data.estado == 200){
               this.hayMensaje = true
-              this.mensaje = this.$store.state.mensajePostOk               
-              this.getMarcas() 
+              this.mensaje = this.$store.state.mensajePostOk
+              this.estaSeleccionado = false
+              this.getEstados() 
             }else{
               this.hayMensaje = true
               this.mensaje = res.data.mensaje || 'No se pudo realizar la operación'
@@ -325,8 +313,9 @@
           .then( res => {  
             if(res.data.estado == 200){
               this.hayMensaje = true
-              this.mensaje = this.$store.state.mensajeDelOk               
-              this.getMarcas() 
+              this.mensaje = this.$store.state.mensajeDelOk
+              this.estaSeleccionado = false
+              this.getEstados() 
             }else{
               this.hayMensaje = true
               this.mensaje = res.data.mensaje || 'No se pudo realizar la operación'

@@ -13,6 +13,10 @@ export default new Vuex.Store({
         cargandoTipos: false,
         listaMarcas: [],
         cargandoMarcas: false,
+        listaEstados: [],
+        cargandoEstados: false,
+        listaProductos: [],
+        cargandoProductos: false,
         mensajePutOk: 'Registro modificado exitosamente',
         mensajePostOk: 'Registro agregado exitosamente', 
         mensajeDelOk: 'Registro eliminado exitosamente' 
@@ -52,7 +56,35 @@ export default new Vuex.Store({
             }catch(error){
                 console.log("Error GET: " + error)
             }
-        }        
+        },
+        
+        async actualizarEstados({commit}){ 
+            try{
+                commit('cambiarCargandoEstados', true)          
+                const data = await axios.get(url.url + url.urlEstados, {            
+                headers:
+                    {'Authorization': `Bearer ${this.state.token.substr(1, this.state.token.length-2)}`}
+                })
+                commit('actualizarEstados', data.data)
+                commit('cambiarCargandoEstados', false) 
+            }catch(error){
+                console.log("Error GET: " + error)
+            }
+        },
+
+        async actualizarProductos({commit}){ 
+            try{
+                commit('cambiarCargandoProductos', true)          
+                const data = await axios.get(url.url + url.urlProductos, {            
+                headers:
+                    {'Authorization': `Bearer ${this.state.token.substr(1, this.state.token.length-2)}`}
+                })
+                commit('actualizarProductos', data.data)
+                commit('cambiarCargandoProductos', false) 
+            }catch(error){
+                console.log("Error GET: " + error)
+            }
+        }
     },
     mutations : {
         login(state, data) {
@@ -74,6 +106,18 @@ export default new Vuex.Store({
         },
         cambiarCargandoMarcas(state, estado){            
             state.cargandoMarcas = estado
+        },
+        actualizarEstados(state, listaEstados){
+            state.listaEstados = listaEstados
+        },
+        cambiarCargandoEstados(state, estado){            
+            state.cargandoEstados = estado
+        },
+        actualizarProductos(state, listaProductos){
+            state.listaProductos = listaProductos
+        },
+        cambiarCargandoProductos(state, estado){            
+            state.cargandoProductos = estado
         }
     }
 })

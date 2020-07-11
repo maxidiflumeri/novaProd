@@ -1,71 +1,45 @@
 <template>
-  <div class="container-fluid mt-3">
+  <div class="container mt-3">
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
     <!------------------------- Creacion de la tabla que muestra los resultados ------------------------------------------------>
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
-    <div v-if="cargando" class="loading-overlay d-flex justify-content-center">
-      <md-progress-spinner
-        class="colorSpinner"
-        md-mode="indeterminate"
-        :md-diameter="50"
-        :md-stroke="5"
-      ></md-progress-spinner>
-    </div>
-    <div v-else>
-      <md-table
-        v-model="buscados"
-        md-sort="name"
-        md-sort-order="asc"
-        md-card
-        md-fixed-header
-        @md-selected="onSelect"
-      >
-        <md-table-toolbar>
-          <div class="md-toolbar-section-start">
-            <h1 class="md-title">Productos</h1>
+    <div class="row">
+      <div class="col-lg-3"><h3 class="text-white">FILTROS</h3></div>
+      <div class="col-lg-9">
+        <div class="row">
+          <div class="col-lg-4" v-for="(producto, index) in this.$store.state.listaProductos" :key="index">
+            <md-card class="mt-3">
+              <md-card-media>
+                <img
+                  src="https://sites.google.com/site/informaticaieensma/_/rsrc/1475587926360/historia-de-los-computadores/que-es-una-computadora/computadora.jpg"
+                  alt="People"
+                  class="mx-auto"
+                  width="10%"
+                  height="10%"
+                />
+              </md-card-media>
+
+              <md-card-header>
+                <div class="md-title">Hola</div>
+                <div class="md-subhead">Subtitle here</div>
+              </md-card-header>
+
+              <md-card-expand>
+                <md-card-actions md-alignment="space-between">
+                  <div>
+                    <md-button>VER</md-button>
+                  </div>
+                </md-card-actions>
+              </md-card-expand>
+            </md-card>
           </div>
-          <md-field md-clearable class="md-toolbar-section-end">
-            <md-input
-              class="text-primary"
-              placeholder="Buscar Producto..."
-              v-model="busqueda"
-              @input="buscarEnTabla"
-            />
-          </md-field>
-        </md-table-toolbar>
-
-        <md-table-empty-state md-label="No hay productos"></md-table-empty-state>
-
-        <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
-          <md-table-cell md-label="Id Producto" md-sort-by="ID_PRODUCTO">{{ item.ID_PRODUCTO }}</md-table-cell>
-          <md-table-cell md-label="Modelo" md-sort-by="MODELO">{{ item.MODELO | primeraMayuscula}}</md-table-cell>
-          <md-table-cell
-            md-label="Descripcion"
-            md-sort-by="DESCRIPCION"
-          >{{ item.DESCRIPCION | primeraMayuscula}}</md-table-cell>
-          <md-table-cell md-label="Precio" md-sort-by="PRECIO">{{ item.PRECIO }}</md-table-cell>
-         </md-table-row>
-      </md-table>
+        </div>
       </div>
+    </div>
   </div>
 </template>
 
 <script lang="js">
-  import url from '../urls.js'  
-
-    const toLower = text => {
-    return text.toString().toLowerCase()
-  }
-
-  const buscarPorNombre = (lista, valor) => {
-    if (valor) {
-      return lista.filter(item => toLower(item.DESCRIPCION).includes(toLower(valor)))
-    }
-    console.log(valor)
-
-    return lista
-  }
-
   export default  {
     name: 'src-components-productos',
     props: [],
@@ -74,39 +48,13 @@
     },
     data () {
       return {
-        busqueda: null,
-        buscados: [],
-        productos: [],
-        selected: {},
-        cargando: true
-
       }
     },
     methods: {
-      getProductos() {
-        this.cargando = true
-        this.axios.get(url.url + url.urlProductos)
-        .then( res => {   
-          this.buscados = res.data 
-          this.productos = res.data
-          this.cargando = false
-          
-        
-        })
-        .catch(error => {
-          console.log('ERROR GET HTTP', error)
-        })
-      },
-      buscarEnTabla () {
-        this.buscados = buscarPorNombre(this.productos, this.busqueda)
-      },
-      nuevoProducto () {
-        window.alert('Noop')
-      },
-      onSelect (item) {
-        this.selected = item
+      // metodo que trae todos los elementos
+      async getProductos() {      
+        await this.$store.dispatch('actualizarProductos')
       }
-
     },
     computed: {
 
@@ -122,5 +70,16 @@
 
 md-table-row md-table-cell {
   color: white !important;
+}
+
+.card-expansion {
+  height: 380px;
+}
+
+.md-card {
+  width: 240px;
+  margin: 4px;
+  display: inline-block;
+  vertical-align: top;
 }
 </style>

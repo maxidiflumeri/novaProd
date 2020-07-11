@@ -172,7 +172,6 @@
       return {
         busqueda: null,
         buscados: [],
-        marcas: [],
         seleccionado: {},
         estaSeleccionado: false,
         claseCard: 'md-layout-item md-size-100 md-small-size-100',
@@ -207,13 +206,11 @@
       async getMarcas() {      
         await this.$store.dispatch('actualizarMarcas')
         this.buscados = this.$store.state.listaMarcas
-        this.marcas = this.$store.state.listaMarcas
-
       },
 
       // buscador de elemento en la tabla
       buscarEnTabla () {
-        this.buscados = buscarPorNombre(this.marcas, this.busqueda)
+        this.buscados = buscarPorNombre(this.$store.state.listaMarcas, this.busqueda)
       },
 
       // seleccion de un elemento de la tabla que muestra el card con el detalle del elemento
@@ -258,7 +255,8 @@
           .then( res => {  
             if(res.data.estado == 200){
               this.hayMensaje = true
-              this.mensaje = this.$store.state.mensajePutOk               
+              this.mensaje = this.$store.state.mensajePutOk
+              this.estaSeleccionado = false               
               this.getMarcas() 
             }else{
               this.hayMensaje = true
@@ -281,7 +279,8 @@
           .then( res => { 
             if(res.data.estado == 200){
               this.hayMensaje = true
-              this.mensaje = this.$store.state.mensajePostOk               
+              this.mensaje = this.$store.state.mensajePostOk
+              this.estaSeleccionado = false               
               this.getMarcas() 
             }else{
               this.hayMensaje = true
@@ -304,7 +303,8 @@
           .then( res => {  
             if(res.data.estado == 200){
               this.hayMensaje = true
-              this.mensaje = this.$store.state.mensajeDelOk               
+              this.mensaje = this.$store.state.mensajeDelOk
+              this.estaSeleccionado = false               
               this.getMarcas() 
             }else{
               this.hayMensaje = true
