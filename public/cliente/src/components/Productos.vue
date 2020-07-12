@@ -3,19 +3,41 @@
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
     <!------------------------- Creacion de la tabla que muestra los resultados ------------------------------------------------>
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
-    <div class="row">
-      <div class="col-lg-2">
-        <h6 class="text-white text-center">Filtrar por:</h6>
-        <div class="text-center" v-for="(tipo, index) in listaTipos" :key="index">
-          <button class="btn btn-outline-info" @click="filtrarTipo(tipo)">{{tipo.DESCRIPCION}}</button>
+    <div v-if="this.$store.state.cargandoProductos" class="loading-overlay d-flex justify-content-center">
+      <md-progress-spinner
+        class="colorSpinner"
+        md-mode="indeterminate"
+        :md-diameter="50"
+        :md-stroke="5">
+      </md-progress-spinner>
+    </div>
+    <div v-else class="row">
+      <div class="col-lg-2 mt-4">
+        <div v-if="orden == 1">
+          <button class="btn btn-sm btn-outline-info" @click="ordenarPorPrecio">Orden por precio<md-icon class="pepe">arrow_upward</md-icon></button>   
         </div>
+        <div v-else>
+          <button class="btn btn-sm btn-outline-info" @click="ordenarPorPrecio">Orden por precio<md-icon>arrow_downward</md-icon></button>
+        </div>
+        <div>
+          <h5 class="text-white mt-3">Marca</h5>
+          <div v-for="(marca, index) in listaMarcas" :key="index">
+            <a class="text-secondary" href="#" @click="filtrarMarca(marca)">{{marca.DESCRIPCION | primeraMayuscula}}</a>
+          </div>
+          </div>
+        <div>
+          <h5 class="text-white mt-3">Tipo</h5>
+          <div v-for="(tipo, index) in listaTipos" :key="index">
+            <a class="text-secondary" href="#" @click="filtrarTipo(tipo)">{{tipo.DESCRIPCION | primeraMayuscula}}</a>
+          </div>   
+        </div>     
       </div>
 
       <div class="col-lg-10">
         <div class="row">
           <div
             class="col-lg-4 col-sm-6"
-            v-for="(producto, index) in listaProductos"
+            v-for="(producto, index) in this.listaProductos"
             :key="index"
           >
             <div class="card m-3 bg-dark text-white" style="width: 18rem;">
@@ -32,7 +54,7 @@
                 <div v-else>
                   <span class="text-danger">Sin Stock</span>
                 </div>
-                <p class="card-text mt-2">{{producto.MODELO}}</p>
+                <p class="card-text mt-2">{{buscarNombreMarca(producto.ID_MARCA)}} {{producto.MODELO}}</p>
                 <button
                   href="#"
                   class="btn btn-outline-info"
@@ -53,38 +75,65 @@
     name: 'src-components-productos',
     props: [],
     mounted () {
-      this.getTipos()
-      this.getProductos()
+      this.get()
     },
     data () {
       return {
+        listaProductos: [],
+        orden: 1
       }
     },
     methods: {
-      // metodo que trae todos los tipos de producto
-      getTipos() {      
-        this.$store.dispatch('actualizarTipos')
-      },
 
       // metodo que trae todos los productos
-      getProductos() {      
-        this.$store.dispatch('actualizarProductos')
+      async get() {      
+        await this.$store.dispatch('actualizarProductos')
+        await this.$store.dispatch('actualizarMarcas')
+        await this.$store.dispatch('actualizarTipos')
+        this.listaProductos = this.$store.state.listaProductos
+        this.listaProductos.sort((a, b) => a.PRECIO - b.PRECIO)
       },
 
       // metodo que me lleva a la vista del detalle de un producto especifico
       detalleProducto(producto){
         let id = producto.ID_PRODUCTO
         this.$router.push({path: `/ProductoDetalle/${id}`})
-      }
+      },
+
+      filtrarTipo(tipo){
+        this.listaProductos = this.$store.state.listaProductos        
+        let productosFiltrados = this.listaProductos.filter(elemento => elemento.ID_TIPO == tipo.ID_TIPO)
+        this.listaProductos = productosFiltrados
+      },
+      
+      filtrarMarca(marca){
+        this.listaProductos = this.$store.state.listaProductos        
+        let productosFiltrados = this.listaProductos.filter(elemento => elemento.ID_MARCA == marca.ID_MARCA)
+        this.listaProductos = productosFiltrados
+      },
+
+      buscarNombreMarca(id){ 
+        const resultado = this.$store.state.listaMarcas.find( elemento => elemento.ID_MARCA == id );        
+        return resultado.DESCRIPCION
+      },
+
+      ordenarPorPrecio(){
+        if(this.orden == 0){
+          this.listaProductos.sort((a, b) => a.PRECIO - b.PRECIO)
+          this.orden = 1
+        }else{
+          this.listaProductos.sort((a, b) => b.PRECIO - a.PRECIO)
+           this.orden = 0
+        }          
+      },
     },
     computed: {
       listaTipos(){
         return this.$store.state.listaTipos
       },
-      listaProductos(){
-        return this.$store.state.listaProductos
-      }
-
+      listaMarcas(){
+        return this.$store.state.listaMarcas
+      },
     }
 }
 

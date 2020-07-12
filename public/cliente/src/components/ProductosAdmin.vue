@@ -293,6 +293,39 @@
                       />
                     </md-field>
                   </div>
+                  <div class="col-lg-6">
+                    <md-field>
+                      <label>FOTO 1</label>
+                      <md-input
+                        name="FECHA_INGRESO"
+                        id="FECHA_INGRESO"
+                        v-model="seleccionadoTemp.FOTO1"
+                        :disabled="!estaEditando"
+                      />
+                    </md-field>
+                  </div>
+                  <div class="col-lg-6">
+                    <md-field>
+                      <label>FOTO 2</label>
+                      <md-input
+                        name="FECHA_INGRESO"
+                        id="FECHA_INGRESO"
+                        v-model="seleccionadoTemp.FOTO2"
+                        :disabled="!estaEditando"
+                      />
+                    </md-field>
+                  </div>
+                  <div class="col-lg-6">
+                    <md-field>
+                      <label>FOTO 3</label>
+                      <md-input
+                        name="FECHA_INGRESO"
+                        id="FECHA_INGRESO"
+                        v-model="seleccionadoTemp.FOTO3"
+                        :disabled="!estaEditando"
+                      />
+                    </md-field>
+                  </div>
                 </div>
                 <div v-if="!estaEditando" class="row d-flex justify-content-center">
                   <md-button class="md-fab md-mini bg-warning" @click="habilitarEdicion()">
@@ -440,7 +473,10 @@
             STOCK: item.STOCK,
             PRECIO: item.PRECIO,
             CANT_VISITAS: item.CANT_VISITAS,
-            FECHA_INGRESO: item.FECHA_INGRESO
+            FECHA_INGRESO: item.FECHA_INGRESO,
+            FOTO1: item.FOTO1,
+            FOTO2: item.FOTO2,
+            FOTO3: item.FOTO3
           } 
           this.seleccionado = item          
           this.estaSeleccionado = true
@@ -479,7 +515,10 @@
             STOCK:productoPut.STOCK,
             PRECIO:productoPut.PRECIO,
             CANT_VISITAS:productoPut.CANT_VISITAS,
-            FECHA_INGRESO:productoPut.FECHA_INGRESO
+            FECHA_INGRESO:productoPut.FECHA_INGRESO,
+            FOTO1: productoPut.FOTO1,
+            FOTO2: productoPut.FOTO2,
+            FOTO3: productoPut.FOTO3
          }     
         this.axios.put(url.url + url.urlProductos + '/'+ this.seleccionado.ID_PRODUCTO, prodNuevo, {
           headers:
