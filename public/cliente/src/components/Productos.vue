@@ -3,34 +3,55 @@
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
     <!------------------------- Creacion de la tabla que muestra los resultados ------------------------------------------------>
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
-    <div v-if="this.$store.state.cargandoProductos" class="loading-overlay d-flex justify-content-center">
+    <div
+      v-if="this.$store.state.cargandoProductos"
+      class="loading-overlay d-flex justify-content-center"
+    >
       <md-progress-spinner
         class="colorSpinner"
         md-mode="indeterminate"
         :md-diameter="50"
-        :md-stroke="5">
-      </md-progress-spinner>
+        :md-stroke="5"
+      ></md-progress-spinner>
     </div>
     <div v-else class="row">
       <div class="col-lg-2 mt-4">
         <div v-if="orden == 1">
-          <button class="btn btn-sm btn-outline-info" @click="ordenarPorPrecio">Orden por precio<md-icon class="pepe">arrow_upward</md-icon></button>   
+          <button class="btn btn-sm btn-outline-info" @click="ordenarPorPrecio">
+            Orden por precio
+            <md-icon class="pepe">arrow_upward</md-icon>
+          </button>
         </div>
         <div v-else>
-          <button class="btn btn-sm btn-outline-info" @click="ordenarPorPrecio">Orden por precio<md-icon>arrow_downward</md-icon></button>
+          <button class="btn btn-sm btn-outline-info" @click="ordenarPorPrecio">
+            Orden por precio
+            <md-icon>arrow_downward</md-icon>
+          </button>
         </div>
+        <div class="mt-2">
+          <a class="text-secondary" href="#" @click="limpiarFiltros()">Limpiar filtros</a>
+        </div>
+
         <div>
           <h5 class="text-white mt-3">Marca</h5>
           <div v-for="(marca, index) in listaMarcas" :key="index">
-            <a class="text-secondary" href="#" @click="filtrarMarca(marca)">{{marca.DESCRIPCION | primeraMayuscula}}</a>
+            <a
+              class="text-secondary"
+              href="#"
+              @click="filtrarMarca(marca)"
+            >{{marca.DESCRIPCION | primeraMayuscula}}({{contadorMarcas[index]}})</a>
           </div>
-          </div>
+        </div>
         <div>
           <h5 class="text-white mt-3">Tipo</h5>
           <div v-for="(tipo, index) in listaTipos" :key="index">
-            <a class="text-secondary" href="#" @click="filtrarTipo(tipo)">{{tipo.DESCRIPCION | primeraMayuscula}}</a>
-          </div>   
-        </div>     
+            <a
+              class="text-secondary"
+              href="#"
+              @click="filtrarTipo(tipo)"
+            >{{tipo.DESCRIPCION | primeraMayuscula}}({{contadorTipos[index]}})</a>
+          </div>
+        </div>
       </div>
 
       <div class="col-lg-10">
@@ -54,7 +75,9 @@
                 <div v-else>
                   <span class="text-danger">Sin Stock</span>
                 </div>
-                <p class="card-text mt-2">{{buscarNombreMarca(producto.ID_MARCA)}} {{producto.MODELO}}</p>
+                <p
+                  class="card-text mt-2"
+                >{{buscarNombreMarca(producto.ID_MARCA)}} {{producto.MODELO}}</p>
                 <button
                   href="#"
                   class="btn btn-outline-info"
@@ -80,7 +103,9 @@
     data () {
       return {
         listaProductos: [],
-        orden: 1
+        orden: 1,
+        contadorMarcas: [],
+        contadorTipos: []
       }
     },
     methods: {
@@ -90,6 +115,8 @@
         await this.$store.dispatch('actualizarProductos')
         await this.$store.dispatch('actualizarMarcas')
         await this.$store.dispatch('actualizarTipos')
+        this.contarMarcas()
+        this.contarTipos()
         this.listaProductos = this.$store.state.listaProductos
         this.listaProductos.sort((a, b) => a.PRECIO - b.PRECIO)
       },
@@ -98,6 +125,9 @@
       detalleProducto(producto){
         let id = producto.ID_PRODUCTO
         this.$router.push({path: `/ProductoDetalle/${id}`})
+      },
+      limpiarFiltros(){
+        this.listaProductos = this.$store.state.listaProductos
       },
 
       filtrarTipo(tipo){
@@ -126,6 +156,18 @@
            this.orden = 0
         }          
       },
+      contarMarcas(){
+        for (let index = 0; index < this.listaMarcas.length; index++) {
+          this.filtrarMarca(this.listaMarcas[index])
+          this.contadorMarcas.push(this.listaProductos.length)
+          }
+        },
+      contarTipos(){
+        for (let index = 0; index < this.listaTipos.length; index++) {
+          this.filtrarTipo(this.listaTipos[index])
+          this.contadorTipos.push(this.listaProductos.length)
+        }
+      }
     },
     computed: {
       listaTipos(){
@@ -133,7 +175,7 @@
       },
       listaMarcas(){
         return this.$store.state.listaMarcas
-      },
+      }
     }
 }
 
