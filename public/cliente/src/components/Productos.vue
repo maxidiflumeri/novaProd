@@ -6,7 +6,7 @@
     <div class="row">
       <div class="col-lg-2">
         <h6 class="text-white text-center">Filtrar por:</h6>
-        <div class="text-center" v-for="(tipo, index) in this.$store.state.listaTipos" :key="index">
+        <div class="text-center" v-for="(tipo, index) in listaTipos" :key="index">
           <button class="btn btn-outline-info" @click="filtrarTipo(tipo)">{{tipo.DESCRIPCION}}</button>
         </div>
       </div>
@@ -15,7 +15,7 @@
         <div class="row">
           <div
             class="col-lg-4 col-sm-6"
-            v-for="(producto, index) in this.$store.state.listaProductos"
+            v-for="(producto, index) in listaProductos"
             :key="index"
           >
             <div class="card m-3 bg-dark text-white" style="width: 18rem;">
@@ -62,13 +62,13 @@
     },
     methods: {
       // metodo que trae todos los tipos de producto
-      async getTipos() {      
-        await this.$store.dispatch('actualizarTipos')
+      getTipos() {      
+        this.$store.dispatch('actualizarTipos')
       },
 
       // metodo que trae todos los productos
-      async getProductos() {      
-        await this.$store.dispatch('actualizarProductos')
+      getProductos() {      
+        this.$store.dispatch('actualizarProductos')
       },
 
       // metodo que me lleva a la vista del detalle de un producto especifico
@@ -78,6 +78,12 @@
       }
     },
     computed: {
+      listaTipos(){
+        return this.$store.state.listaTipos
+      },
+      listaProductos(){
+        return this.$store.state.listaProductos
+      }
 
     }
 }
