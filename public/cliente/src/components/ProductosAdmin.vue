@@ -31,7 +31,7 @@
             <md-field md-clearable class="md-toolbar-section-end">
               <md-input
                 class="text-primary"
-                placeholder="Buscar Producto..."
+                placeholder="Buscar producto..."
                 v-model="busqueda"
                 @input="buscarEnTabla"
               />

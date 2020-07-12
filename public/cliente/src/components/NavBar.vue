@@ -23,7 +23,7 @@
           </router-link>
           <router-link to="/Tipos">
             <a class="text-white" href="#">
-              <md-menu-item>Tipos de Producto</md-menu-item>
+              <md-menu-item>Tipos de producto</md-menu-item>
             </a>
           </router-link>
           <router-link to="/Marcas">
@@ -56,7 +56,7 @@
         md-layout="box"
         style="width: 30%"
       >
-        <label class="">Buscar Producto...</label>
+        <label class="">Buscar producto...</label>
       </md-autocomplete>
       <md-button v-if="!this.$store.state.token">
         <router-link to="/Login">

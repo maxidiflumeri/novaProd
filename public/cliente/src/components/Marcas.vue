@@ -14,7 +14,7 @@
           </div>
 
           <md-field md-clearable class="md-toolbar-section-end">
-            <md-input class = "text-primary" placeholder="Buscar Marca..." v-model="busqueda" @input="buscarEnTabla" />
+            <md-input class = "text-primary" placeholder="Buscar marca..." v-model="busqueda" @input="buscarEnTabla" />
           </md-field>
         </md-table-toolbar>
 
