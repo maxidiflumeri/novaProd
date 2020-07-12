@@ -5,7 +5,7 @@
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
       />
-      <h6>SITIO WEB REALIZADO POR LOS ALUMNOS DE ORT:</h6>
+      <h6 class="mt-3">SITIO WEB REALIZADO POR LOS ALUMNOS DE ORT:</h6>
       <h6>
         <md-icon class="fa fa-home"></md-icon>
          SANTIAGO CASTRO, EZEQUIEL LABORANTI, TOMAS MELENDEZ Y MAXIMILIANO DI FLUMERI

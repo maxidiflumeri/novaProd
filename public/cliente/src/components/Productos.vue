@@ -39,7 +39,7 @@
               class="text-secondary"
               href="#"
               @click="filtrarMarca(marca)"
-            >{{marca.DESCRIPCION | primeraMayuscula}}({{contadorMarcas[index]}})</a>
+            >{{marca.DESCRIPCION | primeraMayuscula}} ({{contadorMarcas[index]}})</a>
           </div>
         </div>
         <div>
@@ -49,7 +49,7 @@
               class="text-secondary"
               href="#"
               @click="filtrarTipo(tipo)"
-            >{{tipo.DESCRIPCION | primeraMayuscula}}({{contadorTipos[index]}})</a>
+            >{{tipo.DESCRIPCION | primeraMayuscula}} ({{contadorTipos[index]}})</a>
           </div>
         </div>
       </div>
@@ -61,14 +61,16 @@
             v-for="(producto, index) in this.listaProductos"
             :key="index"
           >
-            <div class="card m-3 bg-dark text-white" style="width: 18rem;">
-              <img
-                class="card-img-top"
-                src="https://sites.google.com/site/informaticaieensma/_/rsrc/1475587926360/historia-de-los-computadores/que-es-una-computadora/computadora.jpg"
-                alt="Card image cap"
-              />
-              <div class="card-body">
-                <h5 class="card-title">${{producto.PRECIO}}</h5>
+            <div class="card m-3 bg-dark text-white" style="width: 100%;">   
+              <div class="middle">           
+                <img
+                  class="card-img-top"
+                  :src="producto.FOTO1"
+                  alt="Card image cap"
+                />
+              </div>
+              <div class="card-body ">
+                <h5 class="card-title ">${{producto.PRECIO}}</h5>
                 <div v-if="producto.STOCK > 0">
                   <span class="text-success">En Stock</span>
                 </div>
@@ -105,7 +107,8 @@
         listaProductos: [],
         orden: 1,
         contadorMarcas: [],
-        contadorTipos: []
+        contadorTipos: [],
+        imagen: "./img/1-1.jpg"
       }
     },
     methods: {
@@ -224,5 +227,22 @@ md-table-row md-table-cell {
 .btn-outline-info:disabled {
   color: #1d1b38;
   background-color: transparent;
+}
+
+.middle {
+  position: relative;
+  height:300px;
+  background: white;
+}
+
+.middle img {
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 </style>
