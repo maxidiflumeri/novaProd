@@ -5,7 +5,7 @@
         <md-card class="md-layout-item md-elevation-12">
           <md-card-header>
             <div>
-              <img src="../assets/Nova.png" alt="logo" width="30%" class="mx-auto d-block md-title mb-3">   
+              <img src="../assets/logo.png" alt="logo" width="30%" class="mx-auto d-block md-title mb-3">   
             </div>      
             <div class="md-body-1 d-flex justify-content-center">
               <h6 class="colorLetra"><strong>Para que comprar mañana lo que puedes comprar hoy.</strong></h6>

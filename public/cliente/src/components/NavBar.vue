@@ -1,7 +1,7 @@
 <template >
   <section class="src-components-nav-bar">
     <md-toolbar class="fondo" md-elevation="4" >
-        <img src="../assets/Nova.png" alt="logo" width="5%" class=" mb-3">
+        <img src="../assets/logo.png" alt="logo" width="5%">
       <router-link to="/Inicio">
           <md-button>Inicio</md-button>
       </router-link>
