@@ -1,10 +1,12 @@
 import express from 'express'
 import router from './router.js'
 import cors from 'cors'
+import connect from 'connect-history-api-fallback'
 
 const main = () =>{
     const app = express()
 
+    app.use(connect())
     app.use(express.json())
     app.use(cors())
     app.use('/api/estados', router.estado)
