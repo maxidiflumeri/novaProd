@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-dark text-white mt-5 text-center">
+    <div class="footer text-white mt-3 text-center">
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -40,7 +40,13 @@
 </script>
 
 <style scoped lang="css">
-.src-components-footer {
-}
+  .footer {
+    width: 100%;
+    height: 0%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-top: 20px !important;
+  }
 
 </style>

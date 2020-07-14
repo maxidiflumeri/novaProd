@@ -2,7 +2,7 @@
   <div id="app">
     <NavBar />
     <router-view></router-view>
-    <Footer class="mt-5" />
+    <Footer/>
   </div>
 </template>
 
@@ -28,7 +28,9 @@ export default {
   color: #2c3e50;
 }
 body{
-  background: #222831 !important;
+  background: #26303a !important;
 }
+
+
 
 </style>
