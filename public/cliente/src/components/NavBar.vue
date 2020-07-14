@@ -85,7 +85,7 @@
       </md-menu>
       <md-button>
         <router-link to="/MiCarrito">
-          <md-badge md-content="0" md-dense>
+          <md-badge :md-content="cantProductos" md-dense>
             <md-icon  class="colorLetrasNav">add_shopping_cart</md-icon>
           </md-badge>
         </router-link>
@@ -100,7 +100,11 @@
     name: 'src-components-nav-bar',
     props: [],
     mounted () {
-      
+      if(localStorage.getItem('carrito')){
+        this.$store.dispatch('actualizarCarrito', JSON.parse(localStorage.getItem('carrito')))
+        this.$store.dispatch('contarProductos')
+      }
+      console.log(this.$store.state.carrito)
     },
     data () {
       return {
@@ -114,10 +118,12 @@
         localStorage.removeItem('token')
         localStorage.removeItem('perfil')
         this.$store.dispatch('logout')
-      }
+      },
     },
     computed: {
-
+      cantProductos(){
+        return this.$store.state.cantProductos
+      }
     }
 }
 

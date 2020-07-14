@@ -19,7 +19,9 @@ export default new Vuex.Store({
         cargandoProductos: false,
         mensajePutOk: 'Registro modificado exitosamente',
         mensajePostOk: 'Registro agregado exitosamente', 
-        mensajeDelOk: 'Registro eliminado exitosamente' 
+        mensajeDelOk: 'Registro eliminado exitosamente',
+        carrito: [],
+        cantProductos: 0
 
     },
     actions : {
@@ -84,7 +86,29 @@ export default new Vuex.Store({
             }catch(error){
                 console.log("Error GET: " + error)
             }
+        },
+
+        agregarProductoCarrito({commit}, productoCant){
+            commit('agregarProductoCarrito', productoCant)
+        },
+
+        actualizarCarrito({commit}, carritoCompleto){
+            commit('actualizarCarrito', carritoCompleto)
+        },
+
+        eliminarProductoCarrito({commit}, idProducto){
+            commit('eliminarProductoCarrito', idProducto)
+        },
+
+        contarProductos({commit}){
+            let cant = 0
+            this.state.carrito.forEach(prod => {
+                cant = cant + Number(prod.cantidad)
+                console.log(prod.cantidad)
+            });
+            commit('contarProductos', cant)
         }
+        
     },
     mutations : {
         login(state, data) {
@@ -118,6 +142,18 @@ export default new Vuex.Store({
         },
         cambiarCargandoProductos(state, estado){            
             state.cargandoProductos = estado
+        },
+        agregarProductoCarrito(state, productoCant){
+            state.carrito.push(productoCant)
+        },
+        eliminarProductoCarrito(state, idProducto){
+            state.carrito.delete(idProducto)
+        },
+        actualizarCarrito(state, carritoCompleto){
+            state.carrito = carritoCompleto
+        },
+        contarProductos(state, cant){
+            state.cantProductos = cant
         }
     }
 })

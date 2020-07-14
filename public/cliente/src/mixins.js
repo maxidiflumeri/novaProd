@@ -3,8 +3,7 @@ import Vue from "vue"
 var miMixin = {
     
     mounted (){
-        this.$store.dispatch('login', {'token': localStorage.getItem('token'), 'perfil': localStorage.getItem('perfil')})       
-
+        this.$store.dispatch('login', {'token': localStorage.getItem('token'), 'perfil': localStorage.getItem('perfil')})
     },
     methods: {
         //Formatea la fecha para mostar en la card      

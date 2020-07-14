@@ -16,9 +16,9 @@
       <div class="col-lg-6">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
           <ol class="carousel-indicators">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active inactive"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1" class="inactive"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2" class="inactive"></li>
           </ol>
           <div class="carousel-inner">
             <div class="carousel-item active"> 
@@ -51,8 +51,8 @@
         <div class="row">
           <div class="col-lg-12 d-flex justify-content-center">
             <h1 class="text-white">
-              {{buscarNombreTipo(producto.ID_TIPO) | primeraMayuscula}} 
-              {{buscarNombreMarca(producto.ID_MARCA) | primeraMayuscula}} 
+              {{marca | primeraMayuscula}} 
+              {{tipo | primeraMayuscula}} 
               {{producto.MODELO | primeraMayuscula}}
             </h1>
           </div>
@@ -79,8 +79,9 @@
         </div>   
         <div class="row mt-3">
           <div class="col-lg-12 d-flex justify-content-center">
-              <button class="btn btn-lg btn-outline-info">Agregar al carrito</button>
-          </div>        
+              <button class="btn btn-lg btn-outline-info" @click="agregarProductoCarrito()">Agregar al carrito</button>
+              <input type="number" class="form-control text-center cantidad ml-3 mt-1" value="1" v-model="cantidad">
+          </div>
         </div>   
       </div>  
     </div>
@@ -96,40 +97,57 @@
     props:{
       id_prod: String
     },
-   mounted () {
+    mounted () {
       this.getProductoPorId()
     },
     data () {
       return {
         producto: {},
-        cargando: false
+        marca: '',
+        tipo: '',
+        cargando: false,
+        cantidad: 1,
       }
     },
     methods: {
       async getProductoPorId(){ 
-        try{      
-          this.cargando = true   
-            const data = await this.axios.get(url.url + url.urlProductos + '?id_producto=' + this.id_prod)
-            this.producto = data.data[0]
-            console.log(this.producto)
-            this.cargando = false  
+        try{
+          this.cargando = true
+          const data = await this.axios.get(url.url + url.urlProductos + '?id_producto=' + this.id_prod)
+          await this.$store.dispatch('actualizarMarcas')
+          await this.$store.dispatch('actualizarTipos')
+          this.producto = data.data[0]
+          this.buscarNombreMarca(this.producto.ID_MARCA)
+          this.buscarNombreTipo(this.producto.ID_TIPO)
+          console.log(this.producto)
+          this.cargando = false
         }catch(error){
             console.log("Error GET: " + error)
         }
       },
 
-      buscarNombreMarca(id){ 
-        const resultado = this.$store.state.listaMarcas.find( elemento => elemento.ID_MARCA == id );        
-        return resultado.DESCRIPCION
+      buscarNombreMarca(id){
+        const resultado = this.$store.state.listaMarcas.find( elemento => elemento.ID_MARCA == id );
+        this.marca = resultado.DESCRIPCION
       },
 
       buscarNombreTipo(id){ 
-        const resultado = this.$store.state.listaTipos.find( elemento => elemento.ID_TIPO == id );        
-        return resultado.DESCRIPCION
+        const resultado = this.$store.state.listaTipos.find( elemento => elemento.ID_TIPO == id );
+        this.tipo = resultado.DESCRIPCION
       },
+
+      agregarProductoCarrito(){
+        let productoCant = {
+          id_producto: this.id_prod,
+          cantidad: this.cantidad
+        }
+        console.log(productoCant);
+        this.$store.dispatch('agregarProductoCarrito', productoCant)
+        localStorage.setItem('carrito', JSON.stringify(this.$store.state.carrito))
+        this.$store.dispatch('contarProductos')
+      }
     },
     computed: {
-
     }
 }
 
@@ -137,6 +155,17 @@
 </script>
 
 <style scoped lang="css">
+.cantidad{
+  width: 10% !important;
+}
+.carousel-indicators .inactive{
+    background-color: #48448a;
+}
+
+.carousel-indicators .active{
+    background-color: #1D1B38;
+}
+
 .carousel {
   width: 80%;
   height: 100%;
