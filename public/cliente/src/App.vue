@@ -28,7 +28,10 @@ export default {
   color: #2c3e50;
 }
 body{
-  background: #26303a !important;
+  /* background: #26303a !important; */
+  /* background: black !important; */
+  /* background: #181e24 !important; */
+  background: #0f161d !important;
 }
 
 

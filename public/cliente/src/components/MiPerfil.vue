@@ -1,8 +1,9 @@
 <template >
 
-  <section class="src-components-mi-perfil">
-    <h1>src-components-mi-perfil Component</h1>
-  </section>
+<div class="container-fluid">
+
+
+</div>
 
 </template>
 

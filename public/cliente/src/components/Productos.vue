@@ -61,7 +61,7 @@
             v-for="(producto, index) in this.listaProductos"
             :key="index"
           >
-            <div class="card m-3 bg-dark text-white" style="width: 100%;">   
+            <div class="card fondoCard m-3 bg-dark text-white" style="width: 100%;">   
               <div class="middle">           
                 <img
                   class="card-img-top"

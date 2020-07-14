@@ -24,7 +24,7 @@
           <div class="carousel-inner">
             <div class="carousel-item active"> 
               <div class="middle">
-                <img src="../../public/img/banner4.png" alt="First slide" >
+                <img src="../../public/img/banner6.png" alt="First slide" >
               </div>
             </div>
             <div class="carousel-item">
@@ -34,17 +34,17 @@
             </div>
             <div class="carousel-item">
               <div class="middle">
-                <img src="../../public/img/banner4.png" alt="Third slide">
+                <img src="../../public/img/banner1.jpg" alt="Third slide">
               </div>
             </div>
             <div class="carousel-item">
               <div class="middle">
-                <img src="../../public/img/banner4.png" alt="Third slide">
+                <img src="../../public/img/banner2.jpg" alt="Third slide">
               </div>
             </div>
             <div class="carousel-item">
               <div class="middle">
-                <img src="../../public/img/banner4.png" alt="Third slide">
+                <img src="../../public/img/banner3.jpg" alt="Third slide">
               </div>
             </div>
           </div>
@@ -137,7 +137,7 @@
 .carousel {
   width: 100%;
   height: 100%;
-  background-color: white;
+  background-color: dark;
 } 
 .middle {
   position: relative;
