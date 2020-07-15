@@ -77,10 +77,12 @@
               <h5 class="text-white">{{producto.DESCRIPCION}}</h5>
           </div>        
         </div>   
-        <div class="row mt-3">
-          <div class="col-lg-12 d-flex justify-content-center">
+        <div class="row mt-3 d-flex justify-content-center">
+          <div class="col-lg-6 d-flex justify-content-end">
               <button class="btn btn-lg btn-outline-info" @click="agregarProductoCarrito()">Agregar al carrito</button>
-              <input type="number" class="form-control text-center cantidad ml-3 mt-1" value="1" v-model="cantidad">
+              <button class="btn btn-sm btn-outline-info ml-3" @click="restar()">-</button>
+              <input readonly class="form-control text-center cantidad mt-1" style="width: 60px !important" min="1" value="1" v-model="cantidad">
+              <button class="btn btn-sm btn-outline-info" @click="sumar()">+</button>
           </div>
         </div>   
       </div>  
@@ -138,13 +140,22 @@
 
       agregarProductoCarrito(){
         let productoCant = {
-          id_producto: this.id_prod,
+          producto: this.producto,
           cantidad: this.cantidad
         }
         console.log(productoCant);
         this.$store.dispatch('agregarProductoCarrito', productoCant)
         localStorage.setItem('carrito', JSON.stringify(this.$store.state.carrito))
         this.$store.dispatch('contarProductos')
+      },
+
+      sumar(){
+        this.cantidad ++
+      },
+      restar(){
+        if(this.cantidad > 1){
+          this.cantidad --
+        }
       }
     },
     computed: {
@@ -155,6 +166,11 @@
 </script>
 
 <style scoped lang="css">
+.pepe{
+  border:solid;
+  border-color: blue;
+}
+
 .cantidad{
   width: 10% !important;
 }

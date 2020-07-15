@@ -88,8 +88,23 @@ export default new Vuex.Store({
             }
         },
 
-        agregarProductoCarrito({commit}, productoCant){
-            commit('agregarProductoCarrito', productoCant)
+        agregarProductoCarrito({commit}, detalleCarrito){
+            const resultado = this.state.carrito.find( elemento => elemento.producto.ID_PRODUCTO == detalleCarrito.producto.ID_PRODUCTO)
+            const index = this.state.carrito.indexOf(resultado)
+            console.log("RESULTADO: " + index)
+            if(index == -1){
+                commit('agregarProductoCarrito', detalleCarrito)
+            }
+            else{
+
+                commit('sumarCantidad', {index: index, cantidad: detalleCarrito.cantidad})
+            }
+        },
+        restarProductoCarrito({commit}, detalleCarrito){
+            const resultado = this.state.carrito.find( elemento => elemento.producto.ID_PRODUCTO == detalleCarrito.producto.ID_PRODUCTO)
+            const index = this.state.carrito.indexOf(resultado)
+            console.log("RESULTADO: " + index)
+            commit('restarCantidad', {index: index, cantidad: detalleCarrito.cantidad})
         },
 
         actualizarCarrito({commit}, carritoCompleto){
@@ -104,7 +119,6 @@ export default new Vuex.Store({
             let cant = 0
             this.state.carrito.forEach(prod => {
                 cant = cant + Number(prod.cantidad)
-                console.log(prod.cantidad)
             });
             commit('contarProductos', cant)
         }
@@ -154,6 +168,12 @@ export default new Vuex.Store({
         },
         contarProductos(state, cant){
             state.cantProductos = cant
-        }
+        },
+        sumarCantidad(state, obj){
+            state.carrito[obj.index].cantidad = state.carrito[obj.index].cantidad + obj.cantidad
+        },
+        restarCantidad(state, obj){
+            state.carrito[obj.index].cantidad = state.carrito[obj.index].cantidad - obj.cantidad
+        },
     }
 })

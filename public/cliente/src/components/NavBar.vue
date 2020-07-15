@@ -1,12 +1,9 @@
 <template >
   <section class="src-components-nav-bar">
-    <md-toolbar class="fondo" md-elevation="4" >
+    <md-toolbar class="fondo pl-5" md-elevation="4" >
       <img src="../assets/logo.png" alt="logo" width="5%" @click="irInicio()" style="cursor: pointer">
-      <router-link to="/Inicio">
-          <md-button>Inicio</md-button>
-      </router-link>
       <router-link to="/Productos">
-        <md-button class="colorLetrasNav">Productos</md-button>
+        <md-button class="colorLetrasNav ml-3">Productos</md-button>
       </router-link>
       <md-menu
         v-if="this.$store.state.perfil"
@@ -104,7 +101,6 @@
         this.$store.dispatch('actualizarCarrito', JSON.parse(localStorage.getItem('carrito')))
         this.$store.dispatch('contarProductos')
       }
-      console.log(this.$store.state.carrito)
     },
     data () {
       return {

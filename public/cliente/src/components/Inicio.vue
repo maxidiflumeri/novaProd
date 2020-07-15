@@ -185,7 +185,6 @@
   border-top: solid;
   border-bottom: solid;
   border-color: #1D1B38;
-  height: 110px;
   justify-content: center;
   color: white;
   background-image: url("../../public/img/infoBanner.jpg");
