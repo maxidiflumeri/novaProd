@@ -1,29 +1,74 @@
 <template>
-
-  <div class="container">
+  <div v-if="cargando" class="loading-overlay d-flex justify-content-center mt-3">
+    <md-progress-spinner
+      class="colorSpinner"
+      md-mode="indeterminate"
+      :md-diameter="50"
+      :md-stroke="5"
+    ></md-progress-spinner>
+  </div>
+  <div v-else-if="total==0" class="text-white text-center mt-3">
+    <h2>Tu carrito está vacío</h2>
+    <div class="d-flex justify-content-center">
+      <router-link to="/Productos">
+        <md-button class="btn btn-lg btn-outline-info">Ver productos</md-button>
+      </router-link>
+    </div>
+  </div>
+  <div v-else class="container">
     <div v-for="(detalleCarrito,index) in this.$store.state.carrito" :key="index">
-      <div class="row text-white mt-5">
+      <div class="row text-white mt-3">
         <div class="col-lg-2">
-          <img class="imagenCarr" :src="detalleCarrito.producto.FOTO1" alt="foto1">
+          <img class="imagenCarr" :src="detalleCarrito.producto.FOTO1" alt="foto1" />
         </div>
         <div class="col-lg-6">
-          <h4>{{listaTipos[index] | primeraMayuscula}} {{listaMarcas[index] | primeraMayuscula}} {{detalleCarrito.producto.MODELO}}</h4>
+          <h5>{{listaTipos[index] | primeraMayuscula}} {{listaMarcas[index] | primeraMayuscula}} {{detalleCarrito.producto.MODELO}}</h5>
         </div>
         <div class="col-lg-2">
           <div class="row">
             <button class="btn btn-sm btn-outline-info ml-3" @click="restar(detalleCarrito)">-</button>
-            <input readonly class="form-control text-center cantidad mt-1" style="width: 60px !important" min="1" value="1" v-model="detalleCarrito.cantidad">
+            <input
+              readonly
+              class="form-control text-center cantidad"
+              style="width: 60px !important"
+              min="1"
+              value="1"
+              v-model="detalleCarrito.cantidad"
+            />
             <button class="btn btn-sm btn-outline-info" @click="sumar(detalleCarrito)">+</button>
           </div>
         </div>
         <div class="col-lg-2">
-          <h2>${{detalleCarrito.producto.PRECIO * detalleCarrito.cantidad}}</h2>
+          <h4>${{detalleCarrito.producto.PRECIO * detalleCarrito.cantidad}}.-</h4>
         </div>
       </div>
-      <hr class="bg-white mt-5">
+      <hr class="bg-white" />
     </div>
+    <!----------------- Termina el container del listado de productos ----------------->
+    <div class="row">
+      <div class="col-lg-6">
+        <button class="btn btn-outline-secondary" @click="vaciarCarrito()">
+          <md-icon class="fa fa-trash mr-1"></md-icon>Vaciar carrito
+        </button>
+      </div>
+      <div class="col-lg-6 text-right text-white">
+        <h3>Total: ${{total}}.-</h3>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end text-white"></div>
+    <div>
+      <div class="d-flex justify-content-start"></div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-lg btn-outline-info" @click="confirmarPedido()">Confirmar pedido</button>
+    </div>
+    <md-dialog-alert
+      :md-active.sync="confirmaPedido"
+      md-content="Su pedido fue confirmado."
+      md-confirm-text="Ok"
+      @click="vaciarCarrito"
+    />
   </div>
-
 </template>
 
 <script lang="js">
@@ -37,15 +82,20 @@
     data () {
       return {
         listaMarcas: [],
-        listaTipos: []
+        listaTipos: [],
+        total: 0,
+        confirmaPedido: false,
+        cargando: false
       }
     },
     methods: {
       async getProductosMarcasTipos(){
+        this.cargando = true
         await this.$store.dispatch('actualizarMarcas')
         await this.$store.dispatch('actualizarTipos')
         await this.$store.dispatch('actualizarProductos')
         this.completarListas()
+        this.cargando = false
       },
       buscarProductoId(id){ 
         const resultado = this.$store.state.listaProductos.find( elemento => elemento.ID_PRODUCTO == id );    
@@ -63,19 +113,36 @@
         this.$store.state.carrito.forEach(element => {
           this.listaMarcas.push(this.buscarNombreMarca(element.producto.ID_MARCA))
           this.listaTipos.push(this.buscarNombreTipo(element.producto.ID_TIPO))
+          this.calcularTotal()
         });
       },
       sumar(detalleCarrito){
         this.$store.dispatch('agregarProductoCarrito', {producto: detalleCarrito.producto, cantidad: 1})
         localStorage.setItem('carrito', JSON.stringify(this.$store.state.carrito))
         this.$store.dispatch('contarProductos')
+        this.calcularTotal()
       },
       restar(detalleCarrito){
         if(detalleCarrito.cantidad > 1){
           this.$store.dispatch('restarProductoCarrito', {producto: detalleCarrito.producto, cantidad: 1})
           localStorage.setItem('carrito', JSON.stringify(this.$store.state.carrito))
           this.$store.dispatch('contarProductos')
+          this.calcularTotal()
         }
+      },
+      calcularTotal(){
+        this.total = 0
+        this.$store.state.carrito.forEach(element => {
+          this.total += (element.producto.PRECIO * element.cantidad)
+        })
+      },
+      vaciarCarrito(){
+        localStorage.setItem('carrito', [])
+        this.$store.dispatch('vaciarCarrito')
+        this.calcularTotal()
+      },
+      confirmarPedido(){
+        this.confirmaPedido = true
       }
     },
     computed: {
@@ -86,15 +153,14 @@
 </script>
 
 <style scoped lang="css">
-  .src-components-mi-carrito {
+.src-components-mi-carrito {
+}
 
-  }
+.imagenCarr {
+  width: 50%;
+}
 
-  .imagenCarr{
-    width: 50%;
-  }
-
-  .btn-outline-info {
+.btn-outline-info {
   color: white;
   border-color: #1d1b38;
   background-color: #1d1b38;

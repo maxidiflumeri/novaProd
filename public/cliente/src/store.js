@@ -121,8 +121,11 @@ export default new Vuex.Store({
                 cant = cant + Number(prod.cantidad)
             });
             commit('contarProductos', cant)
-        }
-        
+        },
+
+        vaciarCarrito({commit}){
+            commit('vaciarCarrito')
+        }        
     },
     mutations : {
         login(state, data) {
@@ -175,5 +178,8 @@ export default new Vuex.Store({
         restarCantidad(state, obj){
             state.carrito[obj.index].cantidad = state.carrito[obj.index].cantidad - obj.cantidad
         },
+        vaciarCarrito(state){
+            state.carrito = []
+        }
     }
 })

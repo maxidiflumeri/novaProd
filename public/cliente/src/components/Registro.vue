@@ -1,6 +1,6 @@
-<template >
+<template>
 
-  <section class="src-components-mi-perfil text-center mt-3">
+  <section class="src-components-registro text-center mt-3">
     <h1>Proximamente!</h1>
   </section>
 
@@ -9,7 +9,7 @@
 <script lang="js">
 
   export default  {
-    name: 'src-components-mi-perfil',
+    name: 'src-components-registro',
     props: [],
     mounted () {
 
@@ -31,7 +31,7 @@
 </script>
 
 <style scoped lang="css">
-  .src-components-mi-perfil {
+  .src-components-registro {
 
   }
 </style>

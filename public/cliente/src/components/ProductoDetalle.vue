@@ -79,9 +79,9 @@
         </div>   
         <div class="row mt-3 d-flex justify-content-center">
           <div class="col-lg-6 d-flex justify-content-end">
-              <button class="btn btn-lg btn-outline-info" @click="agregarProductoCarrito()">Agregar al carrito</button>
+              <button class="btn btn-sm btn-outline-info" @click="agregarProductoCarrito()">Agregar al carrito</button>
               <button class="btn btn-sm btn-outline-info ml-3" @click="restar()">-</button>
-              <input readonly class="form-control text-center cantidad mt-1" style="width: 60px !important" min="1" value="1" v-model="cantidad">
+              <input readonly class="form-control text-center cantidad" style="width: 60px !important" min="1" value="1" v-model="cantidad">
               <button class="btn btn-sm btn-outline-info" @click="sumar()">+</button>
           </div>
         </div>   
@@ -121,7 +121,6 @@
           this.producto = data.data[0]
           this.buscarNombreMarca(this.producto.ID_MARCA)
           this.buscarNombreTipo(this.producto.ID_TIPO)
-          console.log(this.producto)
           this.cargando = false
         }catch(error){
             console.log("Error GET: " + error)
@@ -143,7 +142,6 @@
           producto: this.producto,
           cantidad: this.cantidad
         }
-        console.log(productoCant);
         this.$store.dispatch('agregarProductoCarrito', productoCant)
         localStorage.setItem('carrito', JSON.stringify(this.$store.state.carrito))
         this.$store.dispatch('contarProductos')

@@ -273,8 +273,6 @@
     if (valor) {
       return lista.filter(item => toLower(item.DESCRIPCION).includes(toLower(valor)))
     }
-    console.log(valor)
-
     return lista
   }
 
@@ -391,7 +389,6 @@
             if(res.data.estado == 200){
               this.getUsuarios()
             }else{
-              console.log(res.data)
               this.hayError = true
               this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
             }      
@@ -413,7 +410,6 @@
             if(res.data.estado == 200){
               this.getEstados()
             }else{
-              console.log(res.data)
               this.hayError = true
               this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
             }                      
@@ -443,7 +439,6 @@
             telefono: res.data[0].TELEFONO,
             descripcion: res.data[0].DESCRIPCION 
           } 
-           console.log(this.telefonos)
         })
         .catch(error => {
           console.log('ERROR GET HTTP', error)
@@ -469,7 +464,6 @@
             if(res.data.estado == 200){
               this.getTelefonos()
             }else{
-              console.log(res.data)
               this.hayError = true
               this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
             }      
@@ -533,7 +527,6 @@
           this.direccionTemp.departamento = ' '
           this.direccionTemp.piso = 0
         }
-       console.log(this.direccionTemp)       
         this.axios.put(url.url + url.urlDirecciones + '/'+ direccionPut.ID_USUARIO + '/' + direccionPut.ID_DIRECCION, this.direccionTemp, {
           headers:
             {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}          
@@ -542,7 +535,6 @@
             if(res.data.estado == 200){
               this.getDirecciones()
             }else{
-              console.log(res.data)
               this.hayError = true
               this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
             }      

@@ -1,7 +1,13 @@
 <template >
   <section class="src-components-nav-bar">
-    <md-toolbar class="fondo pl-5" md-elevation="4" >
-      <img src="../assets/logo.png" alt="logo" width="5%" @click="irInicio()" style="cursor: pointer">
+    <md-toolbar class="fondo pl-5" md-elevation="4">
+      <img
+        src="../assets/logo.png"
+        alt="logo"
+        width="5%"
+        @click="irInicio()"
+        style="cursor: pointer"
+      />
       <router-link to="/Productos">
         <md-button class="colorLetrasNav ml-3">Productos</md-button>
       </router-link>
@@ -9,13 +15,13 @@
         v-if="this.$store.state.perfil"
         :mdCloseOnClick="click"
         md-size="medium"
-        md-align-trigger        
+        md-align-trigger
       >
         <md-button class="colorLetrasNav ml-3" md-menu-trigger>Administracion</md-button>
-        <md-menu-content> 
+        <md-menu-content>
           <router-link to="/Estados">
             <a class="text-white" href="#">
-              <md-menu-item >Estados</md-menu-item>
+              <md-menu-item>Estados</md-menu-item>
             </a>
           </router-link>
           <router-link to="/Tipos">
@@ -53,13 +59,12 @@
         md-layout="box"
         style="width: 30%"
       >
-        <label class="">Buscar producto...</label>
+        <label class>Buscar producto...</label>
       </md-autocomplete>
-      <md-button v-if="!this.$store.state.token">
-        <router-link to="/Login">
-          <md-button class="colorLetrasNav">Login</md-button>
-        </router-link>
-      </md-button>
+      <router-link v-if="!this.$store.state.token" to="/Login">
+        <md-button class="colorLetrasNav ml-3">Login</md-button>
+      </router-link>
+
       <md-menu v-else :mdCloseOnClick="click" md-size="medium" md-align-trigger>
         <md-button class="colorLetrasNav ml-3" md-menu-trigger>Mi Cuenta</md-button>
         <md-menu-content>
@@ -83,7 +88,7 @@
       <md-button>
         <router-link to="/MiCarrito">
           <md-badge :md-content="cantProductos" md-dense>
-            <md-icon  class="colorLetrasNav">add_shopping_cart</md-icon>
+            <md-icon class="colorLetrasNav">add_shopping_cart</md-icon>
           </md-badge>
         </router-link>
       </md-button>
@@ -134,18 +139,17 @@
 .src-components-nav-bar {
 }
 
-.fondo{
-  background: #1D1B38 !important;
+.fondo {
+  background: #1d1b38 !important;
 }
 
-.colorLetrasNav{
+.colorLetrasNav {
   color: white !important;
 }
 
-.fondoItem{
+.fondoItem {
   background: #222831 !important;
   background-color: #222831 !important;
   color: #222831 !important;
 }
-
 </style>

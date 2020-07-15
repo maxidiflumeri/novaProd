@@ -546,11 +546,8 @@
 
        // metodo que agrega el elemento
       confirmarAgregar(){
-        console.log(this.marca)
-        console.log(this.tipo)
         this.formData.ID_MARCA = this.marca.ID_MARCA  
         this.formData.ID_TIPO = this.tipo.ID_TIPO
-        console.log(this.formData)
         this.axios.post(url.url + url.urlProductos , this.formData, {
           headers:
             {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}          

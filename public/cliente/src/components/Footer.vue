@@ -8,7 +8,7 @@
       <h6 class="mt-3">SITIO WEB REALIZADO POR LOS ALUMNOS DE ORT:</h6>
       <h6>
         <md-icon class="fa fa-home"></md-icon>
-         SANTIAGO CASTRO, EZEQUIEL LABORANTI, TOMAS MELENDEZ Y MAXIMILIANO DI FLUMERI
+         SANTIAGO CASTRO, MAXIMILIANO DI FLUMERI, EZEQUIEL LABORANTI Y TOMAS MELENDEZ
         <md-icon class="fa fa-home"></md-icon>
       </h6>
     </div>

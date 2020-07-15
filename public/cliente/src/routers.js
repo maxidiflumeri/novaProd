@@ -14,6 +14,7 @@ import ProductosAdmin from './components/ProductosAdmin.vue'
 import Tipos from './components/Tipos.vue'
 import Usuarios from './components/Usuarios.vue'
 import ProductoDetalle from './components/ProductoDetalle.vue'
+import Registro from './components/Registro.vue'
 
 
 Vue.use(VueRouter)
@@ -34,7 +35,8 @@ export const router = new VueRouter({
         {path: '/ProductosAdmin', component: ProductosAdmin},
         {path: '/Tipos', component: Tipos},
         {path: '/Usuarios', component: Usuarios},
-        {path: '/ProductoDetalle/:id_prod', component: ProductoDetalle, props: true}
+        {path: '/ProductoDetalle/:id_prod', component: ProductoDetalle, props: true},
+        {path: '/Registro', component: Registro}
 
     ]   
 })

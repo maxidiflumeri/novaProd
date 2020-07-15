@@ -157,8 +157,6 @@
     if (valor) {
       return lista.filter(item => toLower(item.DESCRIPCION).includes(toLower(valor)))
     }
-    console.log(valor)
-
     return lista
   }
   
@@ -229,8 +227,6 @@
           } 
           this.seleccionado = item          
           this.estaSeleccionado = true
-          console.log("onselect "+this.estaSeleccionado)        
-
           this.estaEditando = false
           this.claseCard = 'md-layout-item md-size-100 md-small-size-100' 
         }else{
@@ -238,8 +234,6 @@
           this.estaEditando = false              
             
         }    
-        console.log(this.seleccionado) 
-         
       },
 
       // habilita el card para la edición del elemento

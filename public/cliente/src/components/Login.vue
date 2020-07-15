@@ -5,10 +5,17 @@
         <md-card class="md-layout-item md-elevation-12">
           <md-card-header>
             <div>
-              <img src="../assets/logo.png" alt="logo" width="30%" class="mx-auto d-block md-title mb-3">   
-            </div>      
+              <img
+                src="../assets/logo.png"
+                alt="logo"
+                width="30%"
+                class="mx-auto d-block md-title mb-3"
+              />
+            </div>
             <div class="md-body-1 d-flex justify-content-center">
-              <h6 class="colorLetra"><strong>Para que comprar mañana lo que puedes comprar hoy.</strong></h6>
+              <h6 class="colorLetra">
+                <strong>Para que comprar mañana lo que puedes comprar hoy.</strong>
+              </h6>
             </div>
           </md-card-header>
 
@@ -37,7 +44,12 @@
           </md-card-content>
 
           <div class="loading-overlay d-flex justify-content-center" v-if="cargando">
-            <md-progress-spinner class="colorSpinner" md-mode="indeterminate" :md-diameter="30" :md-stroke="5"></md-progress-spinner>
+            <md-progress-spinner
+              class="colorSpinner"
+              md-mode="indeterminate"
+              :md-diameter="30"
+              :md-stroke="5"
+            ></md-progress-spinner>
           </div>
 
           <div v-if="error" class="alert alert-danger">Usuario o clave incorrecta</div>
@@ -48,7 +60,9 @@
 
           <md-card-actions class="d-flex justify-content-center">
             ¿Aún no tenés cuenta?
-            <md-button class="max">Registrarme</md-button>
+            <router-link to="/Registro">
+              <md-button class="btn btn-lg btn-outline-info">Registrarme</md-button>
+            </router-link>
           </md-card-actions>
         </md-card>
       </vue-form>
@@ -125,12 +139,12 @@
   background: darkgray;
 }
 
-.colorBoton{
-  background: #1D1B38 !important;
+.colorBoton {
+  background: #1d1b38 !important;
   color: white !important;
 }
 
-.colorLetra{
-  color: #1D1B38 !important;
+.colorLetra {
+  color: #1d1b38 !important;
 }
 </style>

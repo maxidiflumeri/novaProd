@@ -1,7 +1,7 @@
 <template >
 
-  <section class="src-components-mis-pedidos">
-    <h1>src-components-mis-pedidos Component</h1>
+  <section class="src-components-mis-pedidos text-center mt-3">
+    <h1>Proximamente!</h1>
   </section>
 
 </template>
