@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid mt-3">
+  <div class="container-fluid mt-3 fondo">
     <!-- <div
       v-if="cargando"
       class="loading-overlay d-flex justify-content-center mt-3"
@@ -18,8 +18,8 @@
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active inactive"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="1" class="inactive"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="2" class="inactive"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="3" class="inactive"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="4" class="inactive"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="5" class="inactive"></li>
           </ol>
           <div class="carousel-inner">
             <div class="carousel-item active"> 
@@ -58,7 +58,7 @@
           </a>
         </div>
       </div>
-      <div class="row informacion d-flex justify-content-center text-center">
+      <div class="row informacion combo">
         <div class="col-lg-4 mt-3">
           <div class="row">
             <div class="col-lg-2 mt-2">
@@ -93,6 +93,25 @@
           </div>
         </div>
       </div>
+      <div class="row combo">
+        <div class="col-lg-3">
+          <img src="../../public/img/combo1.png" alt="combo 1 img">
+        </div>
+        <div class="col-lg-6 justify-content-center mt-5 text-white">
+          <h1><b>Arma tu propio combo</b></h1>
+          <h3><b>Agrega productos al carrito y realiza el pedido para comunicarte con nostros.</b></h3>
+          <router-link to="/Productos">
+            <button class="btn btn-sm btn-outline-info mt-2">Productos</button>
+          </router-link>
+        </div>
+        <div class="col-lg-3">
+          <img src="../../public/img/combo2.png" alt="combo 2 img">
+        </div>
+      </div>
+      <hr>
+      <div class="row combo">
+        <h1>HOLA</h1>
+      </div>
     <!-- </div> -->
   </div>
 </template>
@@ -122,8 +141,8 @@
 </script>
 
 <style scoped lang="css">
-  .src-components-inicio {
-
+  .container-fluid.mt-3{
+    margin: 0px !important
   }
 
   .carousel-indicators .inactive{
@@ -190,7 +209,25 @@
   background-image: url("../../public/img/infoBanner.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  text-align: center;
+}
+.fondo{
+  justify-content: center;
+  color: white;
+  background-image: url("../../public/img/fondo10.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  
 }
 
+.combo{
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+hr{
+   background-color:white;
+   width: 80%;
+}
 
 </style>
