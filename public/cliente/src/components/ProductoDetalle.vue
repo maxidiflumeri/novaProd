@@ -71,21 +71,20 @@
           <div class="col-lg-12 d-flex justify-content-center">
               <h1 class="text-white">$ {{producto.PRECIO}}</h1>
           </div>        
-        </div>    
-        <div class="row mt-3">
-          <div class="col-lg-12 d-flex justify-content-center">
-              <h5 class="text-white">{{producto.DESCRIPCION}}</h5>
-          </div>        
-        </div>   
+        </div>
         <div class="row mt-3 d-flex justify-content-center">
-          <div class="col-lg-6 d-flex justify-content-end">
-              <button class="btn btn-sm btn-outline-info" @click="agregarProductoCarrito()">Agregar al carrito</button>
-              <button class="btn btn-sm btn-outline-info ml-3" @click="restar()">-</button>
-              <input readonly class="form-control text-center cantidad" style="width: 60px !important" min="1" value="1" v-model="cantidad">
-              <button class="btn btn-sm btn-outline-info" @click="sumar()">+</button>
-          </div>
+          <button class="btn btn-sm btn-outline-info" @click="agregarProductoCarrito()">Agregar al carrito</button>
+          <button class="btn btn-sm btn-outline-info ml-3" @click="restar()">-</button>
+          <input readonly class="form-control text-center cantidad" style="width: 60px !important" min="1" value="1" v-model="cantidad">
+          <button class="btn btn-sm btn-outline-info" @click="sumar()">+</button>
         </div>   
       </div>  
+    </div>
+    <div class="row text-center justify-content-center mt-5 desc">
+      <h2>Caracteristicas</h2>
+    </div>
+    <div class="row justify-content-center mt-5 desc">
+      <h5 class="text-white">{{producto.DESCRIPCION}}</h5>
     </div>
   </div>
 
@@ -164,11 +163,10 @@
 </script>
 
 <style scoped lang="css">
-.pepe{
-  border:solid;
-  border-color: blue;
-}
 
+.desc{
+  color: white;
+}
 .cantidad{
   width: 10% !important;
 }

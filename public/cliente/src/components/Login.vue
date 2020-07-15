@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-3" style="width: 35%">
+  <div class="container mt-5" style="width: 35%">
     <div class="d-flex justify-content-center">
       <vue-form :state="formState" @submit.prevent="enviar()">
         <md-card class="md-layout-item md-elevation-12 fondo">
@@ -148,7 +148,6 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0px 1000px #424242 inset;
   transition: background-color 5000s ease-in-out 0s;
 }
 

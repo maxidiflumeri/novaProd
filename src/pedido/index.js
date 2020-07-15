@@ -13,7 +13,7 @@ router.get('/', tk.verificarToken, (req, res) => {
     jwt.verify(req.token, 'claveSecreta', (error, authData) => {
         if(!error){
             let resultado = null       
-            if(_.isEmpty(req.query)){           
+            if(_.isEmpty(req.query)){  
                 dao.obtenerTodos().then(lista =>{
                     resultado = lista
                     res.send(resultado)  
@@ -63,7 +63,7 @@ router.post('/', tk.verificarToken, (req, res) => {
     jwt.verify(req.token, 'claveSecreta', (error, authData) => {
         if(!error){
             let resultado = null
-            dao.agregarPedido(req.body).then(pedido =>{
+            dao.agregarPedido(req.body, authData).then(pedido =>{
                 resultado = pedido
                 res.send(resultado)        
             })

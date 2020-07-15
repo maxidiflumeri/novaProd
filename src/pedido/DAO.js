@@ -5,6 +5,7 @@ import Joi from '@hapi/joi'
 import msj from '../mensajes/mensajes.js'
 import prod from '../producto/dao.js'
 import usu from '../usuario/dao.js'
+import dir from '../direccion/dao.js'
 
 
 
@@ -61,13 +62,13 @@ async function obtenerPedidosPorUsuario(id) {
     return lista
 }
 
-async function agregarPedido(pedidoCompleto){
+async function agregarPedido(pedidoCompleto, authData){
 
-    const pedidoCab = separarPedido(pedidoCompleto)
+    const pedidoCab = await separarPedido(pedidoCompleto, authData)
     const listaProductos = await separarListaProductos(pedidoCompleto, pedidoCab)
     
     const conn = getConexion()
-    let resultado = null    
+    let resultado = null
     if(listaProductos.length == 0){        
         resultado = msj.mensajeCustom(404, "Productos inexistentes en la lista")
     }else if((await usu.obtenerUsuarioPorId(pedidoCab.id_usuario)).length == 0){
@@ -95,7 +96,8 @@ async function agregarPedido(pedidoCompleto){
 }
 
 async function modificarPedido(id, pedidoCompleto){
-    const pedidoCab = separarPedido(pedidoCompleto)
+
+    const pedidoCab = await separarPedido(pedidoCompleto)
     const listaProductos = await separarListaProductos(pedidoCompleto, pedidoCab)
     const conn = getConexion()
     let resultado = null
@@ -194,11 +196,11 @@ function validarPedidoDet(productos) {
     return true
 }
 
-function separarPedido(pedidoCompleto){
-
+async function separarPedido(pedidoCompleto, authData){
+    let id_dir = await dir.obtenerDireccionesPorUsuario(authData.user[0].ID_USUARIO)
     let pedidoCab = {
-        "id_usuario": pedidoCompleto.id_usuario,
-        "id_direccion":  pedidoCompleto.id_direccion,
+        "id_usuario": authData.user[0].ID_USUARIO,
+        "id_direccion":  id_dir[0].ID_DIRECCION,
         "fecha": pedidoCompleto.fecha,
         "importe_total": pedidoCompleto.importe_total,
         "id_estado": pedidoCompleto.id_estado
@@ -217,13 +219,13 @@ async function separarListaProductos(pedidoCompleto, pedidoCab){
 
     while(i < pedidoCompleto.productos.length && faltaProducto == 0){
         let impParcial = 0        
-        const producto = pedidoCompleto.productos[i]; 
-        let productoBuscado = await prod.obtenerProductoPorId(producto.id_producto)       
+        const producto = pedidoCompleto.productos[i];
+        let productoBuscado = await prod.obtenerProductoPorId(producto.producto.ID_PRODUCTO)       
         if(productoBuscado.length == 0){
             faltaProducto = 1            
         }else{                
             const pedidoDet = {
-                "id_producto": producto.id_producto,
+                "id_producto": producto.producto.ID_PRODUCTO,
                 "cantidad": producto.cantidad,
                 "importe_unitario": productoBuscado[0].PRECIO
             }

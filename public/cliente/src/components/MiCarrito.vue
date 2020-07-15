@@ -16,12 +16,16 @@
     </div>
   </div>
   <div v-else class="container">
-    <div v-for="(detalleCarrito,index) in this.$store.state.carrito" :key="index">
+    <div class="text-white mt-5 text-center">
+      <h2>Mi Carrito</h2>
+    </div>
+    <div class="mt-5" v-for="(detalleCarrito,index) in this.$store.state.carrito" :key="index">
+      <hr />
       <div class="row text-white mt-3">
         <div class="col-lg-2">
           <img class="imagenCarr" :src="detalleCarrito.producto.FOTO1" alt="foto1" />
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-5">
           <h5>{{listaTipos[index] | primeraMayuscula}} {{listaMarcas[index] | primeraMayuscula}} {{detalleCarrito.producto.MODELO}}</h5>
         </div>
         <div class="col-lg-2">
@@ -39,18 +43,20 @@
           </div>
         </div>
         <div class="col-lg-2">
+          <h5>${{detalleCarrito.producto.PRECIO * detalleCarrito.cantidad}}.-</h5>
+        </div>
+        <div class="col-lg-1">
           <div class="row d-flex align-items-center">
-            <h5>${{detalleCarrito.producto.PRECIO * detalleCarrito.cantidad}}.-</h5>
-            <md-button class="md-fab md-mini md-plain ml-5" @click="borrarProducto(detalleCarrito)" >
-              <md-icon>delete</md-icon>                    
+            <md-button class="md-fab md-mini md-plain ml-5" @click="borrarProducto(detalleCarrito)">
+              <md-icon>delete</md-icon>
             </md-button>
           </div>
         </div>
       </div>
-      <hr class="bg-white" />
     </div>
     <!----------------- Termina el container del listado de productos ----------------->
-    <div class="row">
+    <hr />
+    <div class="row mt-3">
       <div class="col-lg-6">
         <button class="btn btn-outline-secondary" @click="vaciarCarrito()">
           <md-icon class="fa fa-trash mr-1"></md-icon>Vaciar carrito
@@ -69,7 +75,7 @@
     </div>
     <md-dialog-alert
       :md-active.sync="confirmaPedido"
-      md-content="Su pedido fue confirmado."
+      :md-content="mensaje"
       md-confirm-text="Ok"
       @click="vaciarCarrito"
     />
@@ -77,6 +83,7 @@
 </template>
 
 <script lang="js">
+  import url from '../urls.js'  
 
   export default  {
     name: 'src-components-mi-carrito',
@@ -90,7 +97,8 @@
         listaTipos: [],
         total: 0,
         confirmaPedido: false,
-        cargando: false
+        cargando: false,
+        mensaje: ''
       }
     },
     methods: {
@@ -156,7 +164,30 @@
         this.calcularTotal()
       },
       confirmarPedido(){
-        this.confirmaPedido = true
+        let pedido = {
+          importe_total: this.total,
+          fecha: "2020-07-15",
+          id_estado: "I",
+          productos: this.$store.state.carrito
+        }
+
+        this.axios.post(url.url + url.urlPedidos , pedido, {
+          headers:
+            {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}          
+          })
+          .then( res => { 
+            if(res.data.estado == 200){
+              this.confirmaPedido = true
+              this.mensaje = this.$store.state.mensajePostOk
+            }else{
+              this.confirmaPedido = true
+              this.mensaje = res.data.mensaje || 'No se pudo realizar la operación'
+            }                                    
+        })
+        .catch(error => {
+          console.log('ERROR GET HTTP', error)
+        })
+
       }
     },
     computed: {
@@ -173,7 +204,9 @@
 .imagenCarr {
   width: 50%;
 }
-
+hr {
+  background-color: white;
+}
 .btn-outline-info {
   color: white;
   border-color: #1d1b38;
