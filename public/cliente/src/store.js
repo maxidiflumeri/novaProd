@@ -111,8 +111,10 @@ export default new Vuex.Store({
             commit('actualizarCarrito', carritoCompleto)
         },
 
-        eliminarProductoCarrito({commit}, idProducto){
-            commit('eliminarProductoCarrito', idProducto)
+        eliminarProductoCarrito({commit}, detalleCarrito){
+            const resultado = this.state.carrito.find( elemento => elemento.producto.ID_PRODUCTO == detalleCarrito.producto.ID_PRODUCTO)
+            const index = this.state.carrito.indexOf(resultado)
+            commit('eliminarProductoCarrito', index)
         },
 
         contarProductos({commit}){
@@ -163,8 +165,8 @@ export default new Vuex.Store({
         agregarProductoCarrito(state, productoCant){
             state.carrito.push(productoCant)
         },
-        eliminarProductoCarrito(state, idProducto){
-            state.carrito.delete(idProducto)
+        eliminarProductoCarrito(state, index){
+            state.carrito.splice(index-1,1)
         },
         actualizarCarrito(state, carritoCompleto){
             state.carrito = carritoCompleto

@@ -39,7 +39,12 @@
           </div>
         </div>
         <div class="col-lg-2">
-          <h4>${{detalleCarrito.producto.PRECIO * detalleCarrito.cantidad}}.-</h4>
+          <div class="row d-flex align-items-center">
+            <h5>${{detalleCarrito.producto.PRECIO * detalleCarrito.cantidad}}.-</h5>
+            <md-button class="md-fab md-mini md-plain ml-5" @click="borrarProducto(detalleCarrito)" >
+              <md-icon>delete</md-icon>                    
+            </md-button>
+          </div>
         </div>
       </div>
       <hr class="bg-white" />
@@ -130,6 +135,14 @@
           this.calcularTotal()
         }
       },
+
+      borrarProducto(producto){
+        this.$store.dispatch('eliminarProductoCarrito', producto)
+        localStorage.setItem('carrito', JSON.stringify(this.$store.state.carrito))
+        this.$store.dispatch('contarProductos')
+        this.calcularTotal()
+      },
+
       calcularTotal(){
         this.total = 0
         this.$store.state.carrito.forEach(element => {
@@ -139,6 +152,7 @@
       vaciarCarrito(){
         localStorage.setItem('carrito', [])
         this.$store.dispatch('vaciarCarrito')
+        this.$store.dispatch('contarProductos')
         this.calcularTotal()
       },
       confirmarPedido(){
