@@ -24,14 +24,15 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
   color: #2c3e50;
 }
 body{
-  /* background: #26303a !important; */
-  /* background: black !important; */
-  /* background: #181e24 !important; */
   background: #0f161d !important;
+  background-image: url("../public/img/fondo1.jpg") !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-attachment: fixed !important;
+  
 }
 
 

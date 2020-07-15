@@ -59,7 +59,7 @@
         md-layout="box"
         style="width: 30%"
       >
-        <label class>Buscar producto...</label>
+        <label class="buscar">Buscar producto...</label>
       </md-autocomplete>
       <router-link v-if="!this.$store.state.token" to="/Login">
         <md-button class="colorLetrasNav ml-3">Login</md-button>
@@ -140,7 +140,11 @@
 }
 
 .fondo {
-  background: #1d1b38 !important;
+  /* background: #1d1b38 !important; */
+  background-image: url("../../public/img/fondo4.jpg") !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-attachment: fixed !important;
 }
 
 .colorLetrasNav {
@@ -152,4 +156,9 @@
   background-color: #222831 !important;
   color: #222831 !important;
 }
+
+.search{
+  background-color: #1d1b38 !important;
+}
+
 </style>

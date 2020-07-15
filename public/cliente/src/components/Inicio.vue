@@ -214,10 +214,6 @@
 .fondo{
   justify-content: center;
   color: white;
-  background-image: url("../../public/img/fondo10.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  
 }
 
 .combo{

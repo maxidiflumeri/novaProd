@@ -2,7 +2,7 @@
   <div class="container mt-3" style="width: 35%">
     <div class="d-flex justify-content-center">
       <vue-form :state="formState" @submit.prevent="enviar()">
-        <md-card class="md-layout-item md-elevation-12">
+        <md-card class="md-layout-item md-elevation-12 fondo">
           <md-card-header>
             <div>
               <img
@@ -133,18 +133,29 @@
 </script>
 
 <style scoped lang="css">
-.src-components-login {
-}
-.eze {
-  background: darkgray;
-}
 
 .colorBoton {
   background: #1d1b38 !important;
   color: white !important;
 }
 
-.colorLetra {
-  color: #1d1b38 !important;
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #424242 inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.fondo{
+  background-image: url("../../public/img/fondo4.jpg") !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-attachment: fixed !important;
 }
 </style>
