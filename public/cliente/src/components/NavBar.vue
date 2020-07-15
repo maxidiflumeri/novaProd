@@ -122,7 +122,7 @@
       },
 
       irInicio(){
-        this.$router.push({path: '/inicio'})
+          this.$router.push({path: '/inicio'}).catch(error => {error})       
       }
     },
     computed: {
