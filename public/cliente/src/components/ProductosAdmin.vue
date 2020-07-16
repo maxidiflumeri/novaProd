@@ -464,8 +464,8 @@
 
       // seleccion de un elemento de la tabla que muestra el card con el detalle del elemento
       onSelect (item) {
-        this.fechaProducto = item.FECHA_INGRESO
         if(item){
+          this.fechaProducto = item.FECHA_INGRESO
           this.seleccionadoTemp = {
             ID_PRODUCTO: item.ID_PRODUCTO,
             ID_TIPO: item.ID_TIPO,
@@ -536,6 +536,7 @@
             }else{
               this.hayMensaje = true
               this.mensaje = res.data.mensaje || 'No se pudo realizar la operación'
+              this.estaSeleccionado = false
             }     
         })
         .catch(error => {
@@ -588,6 +589,7 @@
             }else{
               this.hayMensaje = true
               this.mensaje = res.data.mensaje || 'No se pudo realizar la operación'
+              this.estaSeleccionado = false
             }                      
         })
         .catch(error => {

@@ -164,10 +164,10 @@
         this.calcularTotal()
       },
       confirmarPedido(){
-        if(this.$store.state.token){
+        if(this.$store.state.token){ //si tiene token OK
           let pedido = {
             importe_total: this.total,
-            fecha: this.obtenerFecha(),
+            fecha: this.obtenerFecha(), //formatea la fecha
             id_estado: "I",
             productos: this.$store.state.carrito
           }
@@ -189,7 +189,7 @@
             console.log('ERROR GET HTTP', error)
           })
         }else{
-          this.$router.push('/login')
+          this.$router.push('/login')//si no tiene token se tiene que loguear
         }
 
       },

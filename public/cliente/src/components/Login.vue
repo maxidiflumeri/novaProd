@@ -2,6 +2,7 @@
   <div class="container mt-5" style="width: 35%">
     <div class="d-flex justify-content-center">
       <vue-form :state="formState" @submit.prevent="enviar()">
+        <!-- -- metodo enviar validacion de login -->
         <md-card class="md-layout-item md-elevation-12 fondo">
           <md-card-header>
             <div>
@@ -51,7 +52,7 @@
               :md-stroke="5"
             ></md-progress-spinner>
           </div>
-
+          <!-- --mensaje de error si las credenciales no coinciden -->
           <div v-if="error" class="alert alert-danger">Usuario o clave incorrecta</div>
 
           <div class="d-flex justify-content-center">
@@ -134,14 +135,13 @@
 </script>
 
 <style scoped lang="css">
-
 .colorBoton {
   background: #1d1b38 !important;
   color: white !important;
 }
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
+input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
@@ -152,7 +152,7 @@ select:-webkit-autofill:focus {
   transition: background-color 5000s ease-in-out 0s;
 }
 
-.fondo{
+.fondo {
   background-image: url("../../public/img/fondo4.jpg") !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;

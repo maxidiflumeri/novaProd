@@ -11,6 +11,7 @@
       <router-link to="/Productos">
         <md-button class="colorLetrasNav ml-3">Productos</md-button>
       </router-link>
+        <!-- -- V-IF Validacion usuario administrador -->
       <md-menu
         v-if="this.$store.state.perfil"
         :mdCloseOnClick="click"
