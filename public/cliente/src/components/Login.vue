@@ -55,7 +55,7 @@
           <div v-if="error" class="alert alert-danger">Usuario o clave incorrecta</div>
 
           <div class="d-flex justify-content-center">
-            <md-button type="submit" class="md-raised colorBoton">LOGIN</md-button>
+            <md-button type="submit" class="md-raised colorBoton">Ingresar</md-button>
           </div>
 
           <md-card-actions class="d-flex justify-content-center">

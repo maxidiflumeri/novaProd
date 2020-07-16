@@ -62,7 +62,7 @@
         <label class="buscar">Buscar producto...</label>
       </md-autocomplete>
       <router-link v-if="!this.$store.state.token" to="/Login">
-        <md-button class="colorLetrasNav ml-3">Login</md-button>
+        <md-button class="colorLetrasNav ml-3">Ingresá</md-button>
       </router-link>
 
       <md-menu v-else :mdCloseOnClick="click" md-size="medium" md-align-trigger>
@@ -80,7 +80,7 @@
           </router-link>
           <router-link to="/">
             <a class="text-white" href="#">
-              <md-menu-item @click="logout">Logout</md-menu-item>
+              <md-menu-item @click="logout">Salir</md-menu-item>
             </a>
           </router-link>
         </md-menu-content>
