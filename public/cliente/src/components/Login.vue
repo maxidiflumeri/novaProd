@@ -111,6 +111,7 @@
           }
           else{
             localStorage.setItem('token', JSON.stringify(res.data.token))
+            localStorage.setItem('asdfghj', JSON.stringify(res.data.id_usuario))
             if(res.data.perfil == 'S'){
               localStorage.setItem('perfil', JSON.stringify(res.data.perfil))
             }

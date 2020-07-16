@@ -166,7 +166,7 @@
       confirmarPedido(){
         let pedido = {
           importe_total: this.total,
-          fecha: "2020-07-15",
+          fecha: this.obtenerFecha(),
           id_estado: "I",
           productos: this.$store.state.carrito
         }
@@ -187,6 +187,17 @@
         .catch(error => {
           console.log('ERROR GET HTTP', error)
         })
+
+      },
+
+      obtenerFecha(){
+        let fecha_ob = new Date();
+        let dia = ("0" + fecha_ob.getDate()).slice(-2);
+        let mes = ("0" + (fecha_ob.getMonth() + 1)).slice(-2);
+        let anio = fecha_ob.getFullYear();
+        let fechaAct = anio + "-" + mes + "-" + dia
+
+        return fechaAct
 
       }
     },

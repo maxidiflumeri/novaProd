@@ -57,7 +57,7 @@
                   <div class="col-lg-3">
                     <md-field>
                       <label>Id Usuario</label>
-                      <md-input name="id_usuario" id="id_usuario" v-model="seleccionadoTemp.id_usuario" :disabled="!estaEditando" />
+                      <md-input name="id_usuario" id="id_usuario" v-model="seleccionadoTemp.id_usuario" disabled />
                     </md-field>
                   </div>
                   <div class="col-lg-5">

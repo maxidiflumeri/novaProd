@@ -421,7 +421,8 @@
         },
         tipos: [],
         marca: null,
-        marcas: []       
+        marcas: [],
+        fechaProducto: ''       
 
       }
     },
@@ -463,6 +464,7 @@
 
       // seleccion de un elemento de la tabla que muestra el card con el detalle del elemento
       onSelect (item) {
+        this.fechaProducto = item.FECHA_INGRESO
         if(item){
           this.seleccionadoTemp = {
             ID_PRODUCTO: item.ID_PRODUCTO,
@@ -473,7 +475,7 @@
             STOCK: item.STOCK,
             PRECIO: item.PRECIO,
             CANT_VISITAS: item.CANT_VISITAS,
-            FECHA_INGRESO: item.FECHA_INGRESO,
+            FECHA_INGRESO: this.formatearFecha(item.FECHA_INGRESO),
             FOTO1: item.FOTO1,
             FOTO2: item.FOTO2,
             FOTO3: item.FOTO3
@@ -505,7 +507,8 @@
       },
 
       // metodo que modifica el elemento
-      confirmarEdicion(productoPut){   
+      confirmarEdicion(productoPut){
+           
         let prodNuevo=
         {
             ID_TIPO:productoPut.ID_TIPO,
@@ -515,7 +518,7 @@
             STOCK:productoPut.STOCK,
             PRECIO:productoPut.PRECIO,
             CANT_VISITAS:productoPut.CANT_VISITAS,
-            FECHA_INGRESO:productoPut.FECHA_INGRESO,
+            FECHA_INGRESO:this.fechaProducto,
             FOTO1: productoPut.FOTO1,
             FOTO2: productoPut.FOTO2,
             FOTO3: productoPut.FOTO3

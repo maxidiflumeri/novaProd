@@ -100,7 +100,13 @@
     name: 'src-components-productos',
     props: [],
     mounted () {
-      this.get()
+      if(this.$store.state.token){
+        this.get()     
+      }
+      else{
+        this.$router.push({path: '/login'})
+      }
+      
     },
     data () {
       return {

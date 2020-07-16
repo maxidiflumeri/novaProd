@@ -40,7 +40,7 @@
         <md-table-row slot="md-table-row" slot-scope="{ item }" md-selectable="single">
           <md-table-cell md-label="Id Pedido" md-sort-by="ID_PEDIDO">{{ item.ID_PEDIDO }}</md-table-cell>
           <md-table-cell md-label="Id Usuario" md-sort-by="ID_USUARIO">{{ item.ID_USUARIO }}</md-table-cell>
-          <md-table-cell md-label="Fecha" md-sort-by="FECHA">{{ item.FECHA }}</md-table-cell>
+          <md-table-cell md-label="Fecha" md-sort-by="FECHA">{{ item.FECHA | formatearFecha}}</md-table-cell>
           <md-table-cell md-label="Importe" md-sort-by="IMPORTE_TOTAL">{{ item.IMPORTE_TOTAL }}</md-table-cell>
           <md-table-cell md-label="Id Estado" md-sort-by="ID_ESTADO">{{ item.ID_ESTADO }}</md-table-cell>
         </md-table-row>
@@ -67,7 +67,42 @@
             <div class="md-layout md-gutter">
               <div class="container">
                 <div class="row">
-                  <div class="col-lg-6">
+                  <div class="col-lg-4">
+                    <md-field>
+                      <label>Id Pedido</label>
+                      <md-input
+                        name="id_pedido"
+                        id="id_pedido"
+                        v-model="seleccionadoTemp.id_pedido"
+                        disabled
+                      />
+                    </md-field>
+                  </div>
+                  <div class="col-lg-4">
+                    <md-field>
+                      <label>Id Direccion</label>
+                      <md-input
+                        name="id_direccion"
+                        id="id_direccion"
+                        v-model="seleccionadoTemp.id_direccion"
+                        disabled
+                      />
+                    </md-field>
+                  </div>
+                  <div class="col-lg-4">
+                    <md-field>
+                      <label>ID Usuario</label>
+                      <md-input
+                        name="id_usuario"
+                        id="id_usuario"
+                        v-model="seleccionadoTemp.id_usuario"
+                        disabled
+                      />
+                    </md-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4">
                     <md-field>
                       <label>Id Estado</label>
                       <md-input
@@ -78,14 +113,73 @@
                       />
                     </md-field>
                   </div>
-                  <div class="col-lg-6">
+                  <div class="col-lg-4">
                     <md-field>
-                      <label>Descripcion</label>
+                      <label>Fecha del Pedido</label>
                       <md-input
-                        name="descripcion"
-                        id="descripcion"
-                        v-model="seleccionadoTemp.descripcion"
-                        :disabled="!estaEditando"
+                        name="fecha"
+                        id="fecha"
+                        v-model="seleccionadoTemp.fecha"
+                        disabled
+                      />
+                    </md-field>
+                  </div>
+                  <div class="col-lg-4">
+                    <md-field>
+                      <label>Importe Total</label>
+                      <md-input
+                        name="importe_total"
+                        id="importe_total"
+                        v-model="seleccionadoTemp.importe_total"
+                        disabled
+                      />
+                    </md-field>
+                  </div>
+                </div>
+                <hr>
+                <h4>Detalle de productos</h4>
+                <div class="row" v-for="(producto, index) in this.detallePedido" :key="index">
+                  <div class="col-lg-3">
+                    <md-field>
+                      <label>Id Producto</label>
+                      <md-input
+                        name="ID_PRODUCTO"
+                        id="ID_PRODUCTO"
+                        v-model="producto.ID_PRODUCTO"
+                        disabled
+                      />
+                    </md-field>
+                  </div>
+                  <div class="col-lg-3">
+                    <md-field>
+                      <label>Cantidad</label>
+                      <md-input
+                        name="CANTIDAD"
+                        id="CANTIDAD"
+                        v-model="producto.CANTIDAD"
+                        disabled
+                      />
+                    </md-field>
+                  </div>
+                  <div class="col-lg-3">
+                    <md-field>
+                      <label>Importe Unitario</label>
+                      <md-input
+                        name="IMPORTE_UNITARIO"
+                        id="IMPORTE_UNITARIO"
+                        v-model="producto.IMPORTE_UNITARIO"  
+                        disabled                
+                      />
+                    </md-field>
+                  </div>
+                  <div class="col-lg-3">
+                    <md-field>
+                      <label>Subtotal</label>
+                      <md-input
+                        name="IMPORTE_UNITARIO"
+                        id="IMPORTE_UNITARIO"
+                        :value  = "producto.IMPORTE_UNITARIO * producto.CANTIDAD"  
+                        disabled                      
                       />
                     </md-field>
                   </div>
@@ -116,69 +210,9 @@
       </form>
     </div>
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
-    <!---------------------------- Modal de confirmacion para eliminar elemento ------------------------------------------------>
-    <!-- -------------------------------------------------------------------------------------------------------------------- -->
-    <md-dialog-confirm
-      :md-active.sync="activo"
-      md-title="Atencion"
-      md-content="¿Esta seguro que desea eliminar el registro?"
-      md-cancel-text="Cancelar"
-      md-confirm-text="Aceptar"
-      @md-cancel="activo = false"
-      @md-confirm="confirmarEliminar(seleccionadoTemp)"
-    />
-    <!-- -------------------------------------------------------------------------------------------------------------------- -->
-    <!----------------------------- Modal de mensaje de error al crear, Editar o eliminar elemento ------------------------------------------------>
+    <!----------------------------- Modal de mensaje de error al crear, Editar o eliminar elemento ----------------------------->
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
     <md-dialog-alert :md-active.sync="hayMensaje" :md-content="mensaje" md-confirm-text="Ok" />
-    <!-- -------------------------------------------------------------------------------------------------------------------- -->
-    <!----------------------------- Modal de formulario de creacion de elemento ------------------------------------------------>
-    <!-- -------------------------------------------------------------------------------------------------------------------- -->
-    <md-dialog :md-active.sync="estaCreando">
-      <md-dialog-title>Nuevo registro</md-dialog-title>
-      <vue-form :state="formState" @submit.prevent="confirmarAgregar()">
-        <md-card class="md-layout-item md-size-100 md-small-size-100">
-          <md-card-content>
-            <div class="md-layout md-gutter">
-              <div class="container">
-                <md-field>
-                  <validate tag="div">
-                    <label>Id Estado</label>
-                    <md-input
-                      maxlength="1"
-                      name="id_estado"
-                      id="id_estado"
-                      v-model="formData.id_estado"
-                      required
-                    />
-                  </validate>
-                </md-field>
-                <md-field>
-                  <validate tag="div">
-                    <label>Descripcion</label>
-                    <md-input
-                      maxlength="30"
-                      name="descripcion"
-                      id="descripcion"
-                      v-model="formData.descripcion"
-                      required
-                    />
-                  </validate>
-                </md-field>
-              </div>
-            </div>
-          </md-card-content>
-        </md-card>
-        <md-dialog-actions>
-          <md-button
-            type="submit"
-            class="md-raised md-primary"
-            :disabled="formState.$invalid"
-          >Agregar</md-button>
-          <md-button class="md-primary" @click="estaCreando = false">Cancelar</md-button>
-        </md-dialog-actions>
-      </vue-form>
-    </md-dialog>
   </div>
 </template>
 
@@ -204,6 +238,7 @@
     },
     data () {
       return {
+        busqueda: null,
         pedidos: [],
         cargandoPedidos: false,
         buscados: [],
@@ -215,7 +250,9 @@
         activo: false,
         estaCreando: false,
         hayMensaje: false,
-        mensaje: ''
+        mensaje: '',
+        detallePedido: [],
+        fechaPedido: ''
       }
     },
     methods: {
@@ -229,7 +266,18 @@
           this.pedidos = data.data
           this.buscados = data.data
           this.cargandoPedidos = false
-          console.log(this.pedidos);
+        }catch(error){
+            console.log("Error GET: " + error)
+        }
+      },
+
+      async getPedidosDetalle(){ 
+        try{          
+          const data = await this.axios.get(url.url + url.urlPedidos + '?idDetalle='+this.seleccionadoTemp.id_pedido, {            
+            headers:
+                {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}
+            })
+            this.detallePedido = data.data  
         }catch(error){
             console.log("Error GET: " + error)
         }
@@ -238,17 +286,20 @@
       // seleccion de un elemento de la tabla que muestra el card con el detalle del elemento
       onSelect (item) {
         if(item){
+          this.fechaPedido = item.FECHA
           this.seleccionadoTemp = {
+            id_pedido: item.ID_PEDIDO,
             id_usuario: item.ID_USUARIO,
             id_direccion: item.ID_DIRECCION,
             importe_total: item.IMPORTE_TOTAL,
-            fecha: item.FECHA,
+            fecha: this.formatearFecha(item.FECHA),
             id_estado: item.ID_ESTADO,       
           } 
           this.seleccionado = item          
           this.estaSeleccionado = true
           this.estaEditando = false
           this.claseCard = 'md-layout-item md-size-100 md-small-size-100' 
+          this.getPedidosDetalle()
         }else{
           this.estaSeleccionado = false
           this.estaEditando = false              
@@ -271,17 +322,28 @@
       },
 
       // metodo que modifica el elemento
-      confirmarEdicion(pedidoPut){        
-        this.axios.put(url.url + url.urlEstados + '/'+ this.seleccionado.ID_ESTADO, pedidoPut, {
+      confirmarEdicion(pedidoPut){
+        console.log("entre al confirmar")
+        let pedidoPutOk = {
+          id_usuario: pedidoPut.id_usuario,
+          id_direccion: pedidoPut.id_direccion,
+          importe_total: pedidoPut.importe_total,
+          fecha: this.fechaPedido,
+          id_estado: pedidoPut.id_estado,
+          productos: this.detallePedido
+        }  
+        console.log(pedidoPutOk)      
+        this.axios.put(url.url + url.urlPedidos + '/'+ this.seleccionado.ID_PEDIDO, pedidoPutOk, {
           headers:
             {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}          
           })
           .then( res => {  
+            console.log("entre al Axios")
             if(res.data.estado == 200){
               this.hayMensaje = true
               this.mensaje = this.$store.state.mensajePutOk
               this.estaSeleccionado = false
-              this.getEstados()
+              this.getPedidos()
             }else{
               this.hayMensaje = true
               this.mensaje = res.data.mensaje || 'No se pudo realizar la operación'
@@ -308,6 +370,8 @@
 </script>
 
 <style scoped lang="css">
-.src-components-pedidos {
+.color{
+  background: grey;;
+ 
 }
 </style>
