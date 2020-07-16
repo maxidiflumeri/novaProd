@@ -160,11 +160,11 @@
     mounted () {
       this.estaSeleccionado = false
       this.estaEditando = false 
-      if(this.$store.state.token){
+      if(this.$store.state.token && localStorage.getItem('perfil')){
         this.getMarcas()               
       }
       else{
-        this.$router.push({path: '/login'})
+        this.$router.push({path: '/productos'})
       }
       
     },

@@ -35,10 +35,7 @@ export default new Vuex.Store({
         async actualizarTipos({commit}){ 
             try{
                 commit('cambiarCargandoTipos', true)          
-                const data = await axios.get(url.url + url.urlTipos, {            
-                headers:
-                    {'Authorization': `Bearer ${this.state.token.substr(1, this.state.token.length-2)}`}
-                })
+                const data = await axios.get(url.url + url.urlTipos) 
                 commit('actualizarTipos', data.data)
                 commit('cambiarCargandoTipos', false) 
             }catch(error){
@@ -49,10 +46,7 @@ export default new Vuex.Store({
         async actualizarMarcas({commit}){ 
             try{
                 commit('cambiarCargandoMarcas', true)          
-                const data = await axios.get(url.url + url.urlMarcas, {            
-                headers:
-                    {'Authorization': `Bearer ${this.state.token.substr(1, this.state.token.length-2)}`}
-                })
+                const data = await axios.get(url.url + url.urlMarcas)
                 commit('actualizarMarcas', data.data)              
                 commit('cambiarCargandoMarcas', false) 
             }catch(error){
@@ -63,10 +57,7 @@ export default new Vuex.Store({
         async actualizarEstados({commit}){ 
             try{
                 commit('cambiarCargandoEstados', true)          
-                const data = await axios.get(url.url + url.urlEstados, {            
-                headers:
-                    {'Authorization': `Bearer ${this.state.token.substr(1, this.state.token.length-2)}`}
-                })
+                const data = await axios.get(url.url + url.urlEstados)
                 commit('actualizarEstados', data.data)
                 commit('cambiarCargandoEstados', false) 
             }catch(error){
@@ -77,10 +68,7 @@ export default new Vuex.Store({
         async actualizarProductos({commit}){ 
             try{
                 commit('cambiarCargandoProductos', true)          
-                const data = await axios.get(url.url + url.urlProductos, {            
-                headers:
-                    {'Authorization': `Bearer ${this.state.token.substr(1, this.state.token.length-2)}`}
-                })
+                const data = await axios.get(url.url + url.urlProductos)
                 commit('actualizarProductos', data.data)
                 commit('cambiarCargandoProductos', false) 
             }catch(error){

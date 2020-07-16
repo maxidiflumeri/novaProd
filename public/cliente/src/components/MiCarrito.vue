@@ -164,29 +164,33 @@
         this.calcularTotal()
       },
       confirmarPedido(){
-        let pedido = {
-          importe_total: this.total,
-          fecha: this.obtenerFecha(),
-          id_estado: "I",
-          productos: this.$store.state.carrito
-        }
+        if(this.$store.state.token){
+          let pedido = {
+            importe_total: this.total,
+            fecha: this.obtenerFecha(),
+            id_estado: "I",
+            productos: this.$store.state.carrito
+          }
 
-        this.axios.post(url.url + url.urlPedidos , pedido, {
-          headers:
-            {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}          
+          this.axios.post(url.url + url.urlPedidos , pedido, {
+            headers:
+              {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}          
+            })
+            .then( res => { 
+              if(res.data.estado == 200){
+                this.confirmaPedido = true
+                this.mensaje = this.$store.state.mensajePostOk
+              }else{
+                this.confirmaPedido = true
+                this.mensaje = res.data.mensaje || 'No se pudo realizar la operación'
+              }                                    
           })
-          .then( res => { 
-            if(res.data.estado == 200){
-              this.confirmaPedido = true
-              this.mensaje = this.$store.state.mensajePostOk
-            }else{
-              this.confirmaPedido = true
-              this.mensaje = res.data.mensaje || 'No se pudo realizar la operación'
-            }                                    
-        })
-        .catch(error => {
-          console.log('ERROR GET HTTP', error)
-        })
+          .catch(error => {
+            console.log('ERROR GET HTTP', error)
+          })
+        }else{
+          this.$router.push('/login')
+        }
 
       },
 

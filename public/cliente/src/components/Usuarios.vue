@@ -105,9 +105,6 @@
                   <md-button class="md-fab md-mini bg-warning" @click="habilitarEdicion()">
                     <md-icon>edit</md-icon>                    
                   </md-button>
-                  <md-button class="md-fab md-mini md-plain" @click="activo = true" >
-                    <md-icon>delete</md-icon>                    
-                  </md-button>
                 </div>
                 <div v-else class="row d-flex justify-content-center">
                   <md-button class="md-fab md-mini md-primary" @click="confirmarEdicion(seleccionadoTemp)">
@@ -238,24 +235,13 @@
         </md-card>
       </form>      
     </div>
-    <!-- -------------------------------------------------------------------------------------------------------------------- -->    
-    <!---------------------------- Modal de confirmacion para eliminar elemento ------------------------------------------------>
-    <!-- -------------------------------------------------------------------------------------------------------------------- -->
-    <md-dialog-confirm
-      :md-active.sync="activo"
-      md-title="Atencion"
-      md-content="¿Esta seguro que desea eliminar el registro?"
-      md-cancel-text="Cancelar"
-      md-confirm-text="Aceptar"
-      @md-cancel="activo = false"
-      @md-confirm="confirmarEliminar(seleccionadoTemp)" />
+
     <!-- -------------------------------------------------------------------------------------------------------------------- -->    
     <!----------------------------- Modal de mensaje de error al crear, Editar o eliminar elemento ------------------------------------------------>
     <!-- -------------------------------------------------------------------------------------------------------------------- -->
     <md-dialog-alert
-      :md-active.sync="hayError"
-      md-title="Error"
-      :md-content="mensajeError"
+      :md-active.sync="hayMensaje"
+      :md-content="mensaje"
       md-confirm-text="Ok" />
 
   </div>
@@ -302,8 +288,8 @@
         seleccionadoTemp: {},
         activo: false,
         estaCreando: false,
-        hayError: false,
-        mensajeError: '',
+        hayMensaje: false,
+        mensaje: '',
         cargando: true,
         habilitarTelefono: false,
         estaEditandoTelefono: false,
@@ -312,7 +298,8 @@
         habilitarDireccion: false,
         telefonoTemp: {},
         direccionTemp: {},
-        estaEditandoDireccion: false
+        estaEditandoDireccion: false,
+        fechaNacimiento: ''
       }
     },
     methods: {
@@ -346,12 +333,14 @@
       // seleccion de un elemento de la tabla que muestra el card con el detalle del elemento
       onSelect (item) {
         if(item){
+          this.fechaNacimiento = item.FECHA_NACIMIENTO
           this.seleccionadoTemp = {
             id_usuario: item.ID_USUARIO,
             nombre: item.NOMBRE,
             apellido: item.APELLIDO,
             fecha_nacimiento: this.formatearFecha(item.FECHA_NACIMIENTO),
             correo: item.CORREO,
+            clave: item.CLAVE,
             sexo: item.SEXO,
             administrador: item.ADMINISTRADOR
           } 
@@ -380,17 +369,20 @@
       },
 
       // metodo que modifica el elemento
-      confirmarEdicion(usuarioPut){        
+      confirmarEdicion(usuarioPut){  
+        usuarioPut.fecha_nacimiento = this.fechaNacimiento  
         this.axios.put(url.url + url.urlUsuarios + '/'+ this.seleccionado.ID_USUARIO, usuarioPut, {
           headers:
             {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}          
           })
           .then( res => {  
             if(res.data.estado == 200){
+              this.hayMensaje = true
+              this.mensaje = this.$store.state.mensajePutOk
               this.getUsuarios()
             }else{
-              this.hayError = true
-              this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
+              this.hayMensaje = true
+              this.mensaje = res.data.mensaje || 'No se pudo realizar la operación'
             }      
         })
         .catch(error => {
@@ -398,26 +390,6 @@
         })
         this.estaEditando = false
         this.claseCard = 'md-layout-item md-size-100 md-small-size-100 color' 
-      },
-
-      // metodo que elimina el elemento
-      confirmarEliminar(usuarioDel){
-        this.axios.delete(url.url + url.urlUsuarios + '/'+ usuarioDel.id_usuario, {
-          headers:
-            {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}          
-          })
-          .then( res => {  
-            if(res.data.estado == 200){
-              this.getEstados()
-            }else{
-              this.hayError = true
-              this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
-            }                      
-        })
-        .catch(error => {
-          console.log('ERROR GET HTTP', error)
-        })
-
       },
 
       //habilita la vista de telefonos
@@ -462,10 +434,12 @@
           })
           .then( res => {  
             if(res.data.estado == 200){
+              this.hayMensaje = true
+              this.mensaje = this.$store.state.mensajePutOk
               this.getTelefonos()
             }else{
-              this.hayError = true
-              this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
+              this.hayMensaje = true
+              this.mensaje = res.data.mensaje || 'No se pudo realizar la operación'
             }      
         })
         .catch(error => {
@@ -476,8 +450,8 @@
       },
 
       deleteTelefono(){
-        this.hayError = true
-        this.mensajeError = 'No se puede eliminar el unico telefono de la cuenta.'
+        this.hayMensaje = true
+        this.mensaje = 'No se puede eliminar el unico telefono de la cuenta.'
       },
 
       //habilita la vista de direcciones
@@ -533,10 +507,12 @@
           })
           .then( res => {  
             if(res.data.estado == 200){
+              this.hayMensaje = true
+              this.mensaje = this.$store.state.mensajePutOk
               this.getDirecciones()
             }else{
-              this.hayError = true
-              this.mensajeError = res.data.mensaje || 'No se pudo realizar la operación'
+              this.hayMensaje = true
+              this.mensaje = res.data.mensaje || 'No se pudo realizar la operación'
             }      
         })
         .catch(error => {
@@ -547,8 +523,8 @@
       },
 
       eliminarDireccion(){
-        this.hayError = true
-        this.mensajeError = 'No se puede eliminar la unica direccion de la cuenta.'
+        this.hayMensaje = true
+        this.mensaje = 'No se puede eliminar la unica direccion de la cuenta.'
       },
     },
     computed: {

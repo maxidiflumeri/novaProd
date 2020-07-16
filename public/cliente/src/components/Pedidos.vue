@@ -188,9 +188,6 @@
                   <md-button class="md-fab md-mini bg-warning" @click="habilitarEdicion()">
                     <md-icon>edit</md-icon>
                   </md-button>
-                  <md-button class="md-fab md-mini md-plain" @click="activo = true">
-                    <md-icon>delete</md-icon>
-                  </md-button>
                 </div>
                 <div v-else class="row d-flex justify-content-center">
                   <md-button

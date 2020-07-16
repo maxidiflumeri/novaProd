@@ -167,11 +167,11 @@
     mounted () {
       this.estaSeleccionado = false
       this.estaEditando = false 
-      if(this.$store.state.token){
+      if(this.$store.state.token && localStorage.getItem('perfil')){
         this.getEstados()
       }
       else{
-        this.$router.push({path: '/login'})
+        this.$router.push({path: '/productos'})
       }
     },
     data () {
