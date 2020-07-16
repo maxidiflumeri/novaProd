@@ -320,7 +320,6 @@
 
       // metodo que modifica el elemento
       confirmarEdicion(pedidoPut){
-        console.log("entre al confirmar")
         let pedidoPutOk = {
           id_usuario: pedidoPut.id_usuario,
           id_direccion: pedidoPut.id_direccion,
@@ -329,13 +328,11 @@
           id_estado: pedidoPut.id_estado,
           productos: this.detallePedido
         }  
-        console.log(pedidoPutOk)      
         this.axios.put(url.url + url.urlPedidos + '/'+ this.seleccionado.ID_PEDIDO, pedidoPutOk, {
           headers:
             {'Authorization': `Bearer ${this.$store.state.token.substr(1, this.$store.state.token.length-2)}`}          
           })
           .then( res => {  
-            console.log("entre al Axios")
             if(res.data.estado == 200){
               this.hayMensaje = true
               this.mensaje = this.$store.state.mensajePutOk

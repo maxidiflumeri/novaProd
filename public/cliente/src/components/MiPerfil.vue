@@ -245,7 +245,6 @@
           this.usuario = usuario.data[0]
           this.fechaNacimiento = this.usuario.FECHA_NACIMIENTO
           this.usuario.FECHA_NACIMIENTO = this.formatearFecha(this.usuario.FECHA_NACIMIENTO)
-          console.log(this.usuario)
         }catch(error){
             console.log("Error GET: " + error)
         }
