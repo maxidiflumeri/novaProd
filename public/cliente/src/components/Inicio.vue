@@ -118,10 +118,6 @@
         </div>
       </div>
       <hr>
-      <div class="row combo">
-        <h1>HOLA</h1>
-      </div>
-    <!-- </div> -->
   </div>
 </template>
 

@@ -79,7 +79,6 @@ export default new Vuex.Store({
         agregarProductoCarrito({commit}, detalleCarrito){
             const resultado = this.state.carrito.find( elemento => elemento.producto.ID_PRODUCTO == detalleCarrito.producto.ID_PRODUCTO)
             const index = this.state.carrito.indexOf(resultado)
-            console.log("RESULTADO: " + index)
             if(index == -1){
                 commit('agregarProductoCarrito', detalleCarrito)
             }
@@ -91,7 +90,6 @@ export default new Vuex.Store({
         restarProductoCarrito({commit}, detalleCarrito){
             const resultado = this.state.carrito.find( elemento => elemento.producto.ID_PRODUCTO == detalleCarrito.producto.ID_PRODUCTO)
             const index = this.state.carrito.indexOf(resultado)
-            console.log("RESULTADO: " + index)
             commit('restarCantidad', {index: index, cantidad: detalleCarrito.cantidad})
         },
 

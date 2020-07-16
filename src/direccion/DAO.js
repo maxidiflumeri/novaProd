@@ -119,7 +119,6 @@ function validarDireccion(direccion){
     
     const { error } = Joi.validate(direccion, direccionSchema)
     if (error) {
-        console.log('error al validar direccion')
         return false        
     } 
     
