@@ -21,27 +21,42 @@
           </md-card-header>
 
           <md-card-content>
-            <md-field>
-              <label for="usuario">Email</label>
-              <md-input
-                type="email"
-                name="usuario"
-                id="usuario"
-                v-model="formData.usuario"
-                @click="limpiarMensaje"
-              />
-            </md-field>
+            <validate tag="div">
+              <md-field>
+                <label for="usuario">Email</label>
+                <md-input
+                  type="email"
+                  name="email"
+                  id="email"
+                  v-model="formData.usuario"
+                  @click="limpiarMensaje"
+                  required
+                />
+              </md-field>
+              <field-messages name="email" show="$dirty">
+                <div slot="required" class="alert alert-danger my-1 d-flex justify-content-center">Campo correo electrónico requerido</div>
+                <div slot="email" class="alert alert-danger my-1 d-flex justify-content-center">Correo electrónico no válido</div>
+              </field-messages>
+            </validate>
 
-            <md-field>
-              <label for="password">Password</label>
-              <md-input
-                type="password"
-                name="password"
-                id="password"
-                v-model="formData.password"
-                @click="limpiarMensaje"
-              />
-            </md-field>
+
+
+            <validate tag="div">
+              <md-field>
+                <label for="password">Password</label>
+                <md-input
+                  type="password"
+                  name="password"
+                  id="password"
+                  v-model="formData.password"
+                  @click="limpiarMensaje"
+                  required
+                />
+              </md-field>
+            </validate>
+
+            <!-- --mensaje de error si las credenciales no coinciden -->
+            <div v-if="error" class="alert alert-danger my-1 d-flex justify-content-center">Usuario o clave incorrecta</div>
           </md-card-content>
 
           <div class="loading-overlay d-flex justify-content-center" v-if="cargando">
@@ -52,11 +67,10 @@
               :md-stroke="5"
             ></md-progress-spinner>
           </div>
-          <!-- --mensaje de error si las credenciales no coinciden -->
-          <div v-if="error" class="alert alert-danger">Usuario o clave incorrecta</div>
+
 
           <div class="d-flex justify-content-center">
-            <md-button type="submit" class="md-raised colorBoton">Ingresar</md-button>
+            <md-button type="submit" class="md-raised colorBoton" :disabled="formState.$invalid">Ingresar</md-button>
           </div>
 
           <md-card-actions class="d-flex justify-content-center">
@@ -98,6 +112,7 @@
       },
       limpiarMensaje(){
         this.error = false
+        console.log(this.formState.$invalid)
       },
 
       enviar() {
