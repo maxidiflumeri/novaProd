@@ -196,6 +196,7 @@ function separarDireccion(usuario){
 ------------------------------- */
 
 function validarUsuario(usuario) {
+    console.log(usuario)
     const usuarioSchema = {
         id_usuario: Joi.number().required(),
         nombre: Joi.string().required(),         

@@ -65,7 +65,7 @@ async function obtenerPedidosPorUsuario(id) {
 async function agregarPedido(pedidoCompleto, authData){
 
     const pedidoCab = await separarPedido(pedidoCompleto, authData)
-    const listaProductos = await separarListaProductos(pedidoCompleto, pedidoCab)
+    const listaProductos = await separarListaProductosPost(pedidoCompleto, pedidoCab)
     
     const conn = getConexion()
     let resultado = null
@@ -95,10 +95,10 @@ async function agregarPedido(pedidoCompleto, authData){
     return resultado
 }
 
-async function modificarPedido(id, pedidoCompleto){
+async function modificarPedido(id, pedidoCompleto, authData){
 
-    const pedidoCab = await separarPedido(pedidoCompleto)
-    const listaProductos = await separarListaProductos(pedidoCompleto, pedidoCab)
+    const pedidoCab = await separarPedido(pedidoCompleto, authData)
+    const listaProductos = await separarListaProductosPut(pedidoCompleto, pedidoCab)
     const conn = getConexion()
     let resultado = null
     if(listaProductos.length == 0){        
@@ -210,23 +210,24 @@ async function separarPedido(pedidoCompleto, authData){
 
 }
 
-async function separarListaProductos(pedidoCompleto, pedidoCab){
-
+async function separarListaProductosPut(pedidoCompleto, pedidoCab){
+    console.log(pedidoCompleto)
     let impTotal = 0
     let listaProductos = []
     let i = 0
     let faltaProducto = 0
-
+    
     while(i < pedidoCompleto.productos.length && faltaProducto == 0){
         let impParcial = 0        
         const producto = pedidoCompleto.productos[i];
-        let productoBuscado = await prod.obtenerProductoPorId(producto.producto.ID_PRODUCTO)       
+        console.log("PRODUCTO ES: " + producto.ID_PRODUCTO + " " +producto.ID_PEDIDO )
+        let productoBuscado = await prod.obtenerProductoPorId(producto.ID_PRODUCTO)       
         if(productoBuscado.length == 0){
             faltaProducto = 1            
         }else{                
             const pedidoDet = {
-                "id_producto": producto.producto.ID_PRODUCTO,
-                "cantidad": producto.cantidad,
+                "id_producto": producto.ID_PRODUCTO,
+                "cantidad": producto.CANTIDAD,
                 "importe_unitario": productoBuscado[0].PRECIO
             }
             impParcial = pedidoDet.cantidad * pedidoDet.importe_unitario
@@ -237,6 +238,38 @@ async function separarListaProductos(pedidoCompleto, pedidoCab){
     }
     pedidoCab.importe_total = impTotal        
     if(faltaProducto == 1){        
+        listaProductos = []
+    }
+    return listaProductos
+}
+
+async function separarListaProductosPost(pedidoCompleto, pedidoCab){
+
+    let impTotal = 0
+    let listaProductos = []
+    let i = 0
+    let faltaProducto = 0
+
+    while(i < pedidoCompleto.productos.length && faltaProducto == 0){
+        let impParcial = 0
+        const producto = pedidoCompleto.productos[i];
+        let productoBuscado = await prod.obtenerProductoPorId(producto.producto.ID_PRODUCTO)
+        if(productoBuscado.length == 0){
+            faltaProducto = 1
+        }else{
+            const pedidoDet = {
+                "id_producto": producto.producto.ID_PRODUCTO,
+                "cantidad": producto.cantidad,
+                "importe_unitario": productoBuscado[0].PRECIO
+            }
+            impParcial = pedidoDet.cantidad * pedidoDet.importe_unitario
+            impTotal = impTotal + impParcial
+            listaProductos.push(pedidoDet) 
+        }
+        i++
+    }
+    pedidoCab.importe_total = impTotal
+    if(faltaProducto == 1){
         listaProductos = []
     }
     return listaProductos

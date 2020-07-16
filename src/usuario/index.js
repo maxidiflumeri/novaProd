@@ -88,7 +88,12 @@ router.delete('/:id_usuario', tk.verificarToken, (req, res) => {
 router.put('/:idUsuario', tk.verificarToken, (req, res) => {
     jwt.verify(req.token, 'claveSecreta', (error, authData) => {        
         if(!error){
-            if(authData.user[0].ID_USUARIO == req.params.idUsuario){
+            console.log(authData.user[0])
+            if(!error && authData.user[0].ADMINISTRADOR == 'S'){
+                dao.modificarUsuario(req.params.idUsuario, req.body).then(usuario => {
+                    res.send(usuario)
+                })
+            }else if(!error && authData.user[0].ID_USUARIO == req.params.idUsuario){
                 dao.modificarUsuario(req.params.idUsuario, req.body).then(usuario => {
                     res.send(usuario)
                 })

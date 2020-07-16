@@ -76,7 +76,7 @@ router.post('/', tk.verificarToken, (req, res) => {
 router.put('/:id', tk.verificarToken, (req, res) =>{
     jwt.verify(req.token, 'claveSecreta', (error, authData) => {
         if(!error){
-            dao.modificarPedido(req.params.id, req.body).then(pedido => {
+            dao.modificarPedido(req.params.id, req.body, authData).then(pedido => {
                 res.send(pedido)            
             })
         }else{
