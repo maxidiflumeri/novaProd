@@ -289,7 +289,7 @@
                         name="FECHA_INGRESO"
                         id="FECHA_INGRESO"
                         v-model="seleccionadoTemp.FECHA_INGRESO"
-                        :disabled="!estaEditando"
+                        disabled
                       />
                     </md-field>
                   </div>

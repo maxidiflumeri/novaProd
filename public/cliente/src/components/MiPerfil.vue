@@ -40,7 +40,7 @@
                   <div class="col-lg-4">
                     <md-field>
                       <label>Fecha Nacimiento</label>
-                      <md-input name="fecha_nacimiento" id="fecha_nacimiento" v-model="usuario.FECHA_NACIMIENTO" :disabled="!estaEditando" />
+                      <md-input name="fecha_nacimiento" id="fecha_nacimiento" v-model="usuario.FECHA_NACIMIENTO" disabled/>
                     </md-field>
                   </div>
                   <div class="col-lg-6">
