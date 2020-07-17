@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-5">
     <vue-form :state="formState" @submit.prevent="registroDeUsuario()">
-      <md-steppers :md-active-step.sync="activo" md-linear>
+      <md-steppers :md-active-step.sync="activo" md-linear class="fondo">
         <md-step id="primero" md-label="Datos Personales" :md-done.sync="primero">
           <md-card class="md-layout-item md-size-100 md-small-size-100 mt-3">
             <md-card-content>
@@ -78,14 +78,14 @@
               </div>
             </md-card-content>
           </md-card>
-          <div class="row d-flex justify-content-end mt-3">
+          <div class="row d-flex justify-content-end mt-3 ">
             <md-button class="md-raised md-primary" @click="siguiente('primero', 'segundo')">Siguiente</md-button>
           </div>          
         </md-step>
         <md-step id="segundo" md-label="Telefono" :md-done.sync="segundo">
           <md-card class="md-layout-item md-size-100 md-small-size-100 mt-3">
             <md-card-content>
-              <div class="md-layout md-gutter">
+              <div class="">
                 <div class="container">
                   <div class="row">
                     <div class="col-lg-6">
@@ -118,10 +118,10 @@
             </div>
           </div>      
         </md-step>
-        <md-step id="tercero" md-label="Direccion" :md-done.sync="tercero">
-          <md-card class="md-layout-item md-size-100 md-small-size-100 mt-3">
+        <md-step id="tercero" md-label="Direccion" :md-done.sync="tercero" class="fondo">
+          <md-card class="md-layout-item md-size-100 md-small-size-100 mt-3 fondo">
             <md-card-content>
-              <div class="md-layout md-gutter">
+              <div class="">
                 <div class="container">
                   <div class="row">
                     <div class="col-lg-5">
@@ -301,7 +301,10 @@
 </script>
 
 <style scoped lang="css">
-  .src-components-registro {
-
+  .fondo {
+    background-image: url("../../public/img/fondo4.jpg") !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    background-attachment: fixed !important;
   }
 </style>
