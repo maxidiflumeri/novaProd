@@ -164,6 +164,7 @@ function separarUsuario(usuario) {
 }
 
 function separarTelefonos(usuario) {
+    console.log(usuario)
     const listaTelefonos = []
     for (let i = 0; i < usuario.telefonos.length; i++) { 
         const nroTel = {
