@@ -192,7 +192,15 @@
                 <md-button class="md-raised md-primary" @click="siguiente('tercero', 'segundo')">Anterior</md-button> 
             </div>
             <div class="col-lg-6 d-flex justify-content-end">
-               <md-button class="md-raised md-primary" type="submit" :disabled="formState.$invalid">Registrarse</md-button>
+              <md-button class="md-raised md-primary" type="submit" :disabled="formState.$invalid">Registrarse</md-button>  
+              <div v-if="cargando" class="loading-overlay d-flex justify-content-center">
+                <md-progress-spinner
+                  class="colorSpinner"
+                  md-mode="indeterminate"
+                  :md-diameter="20"
+                  :md-stroke="2"
+                ></md-progress-spinner>
+              </div>
             </div>
           </div>     
         </md-step>
@@ -200,14 +208,7 @@
     </vue-form>
      <md-dialog-alert :md-active.sync="hayMensaje" :md-content="mensaje" md-confirm-text="Ok" />
 
-    <div v-if="cargando" class="loading-overlay d-flex justify-content-center">
-      <md-progress-spinner
-        class="colorSpinner"
-        md-mode="indeterminate"
-        :md-diameter="50"
-        :md-stroke="5"
-      ></md-progress-spinner>
-    </div>
+
   </div>
 </template>
 
